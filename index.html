@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="data:,">
+    <title>방탈출 게임</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #1a1a1a;
+            display: none;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 75%;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            background-color: #000;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .text-container {
+            width: 100%;
+            height: 15%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+        .text-container::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+        .text-container::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        .text-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        .text-container::-webkit-scrollbar-button {
+            display: none;
+            background: transparent;
+        }
+
+        .item-container {
+            width: 100%;
+            height: 10%;
+            background-color: rgba(40, 40, 40, 0.9);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+
+        .item {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .start-button {
+            position: absolute;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s, box-shadow 0.4s, opacity 0.4s;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 500%);
+            min-width: 200px;
+            width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button:hover {
+            background-color: #fff;
+            transform: translate(-50%, 500%) scale(1.05);
+        }
+
+        .start-button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+
+        .start-button.fade-click {
+            animation: buttonFade 0.5s;
+        }
+
+        @keyframes buttonFade {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+            100% { box-shadow: 0 0 0 24px rgba(255,255,255,0); }
+        }
+
+        #openingContainer {
+            transition: opacity 5s cubic-bezier(.4,0,.2,1);
+        }
+
+        #openingContainer.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (orientation: landscape) {
+            .title-image {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .button-container button {
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .button-container button:hover {
+            background-color: #fff;
+            transform: scale(1.02);
+        }
+
+        .button-container button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+
+        .subjective-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .subjective-container input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .subjective-container button {
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subjective-container button:hover {
+            background-color: #fff;
+            transform: scale(1.05);
+        }
+
+        .fade-out {
+            animation: fadeOut 10s forwards;
+        }
+        .fade-out img {
+            animation: fadeOut 15s forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
+    <audio id="bgm" src="sound/opening.mp3" loop autoplay></audio>
+    <audio id="bgm0" src="sound/bgm0.mp3" preload="auto"></audio>
+    <div class="container" id="openingContainer" style="width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#000;flex-direction:column;">
+        <img src="image/title.png" alt="방탈출 게임" style="max-width:80vw;max-height:60vh;cursor:pointer;" onclick="startGame()">
+    </div>
+    <div class="container" id="gameContainer" style="width:100vw;height:100vh;display:none;align-items:center;justify-content:center;background:#000;">
+        <iframe id="gameFrame" src="" style="width:100vw;height:100vh;border:none;"></iframe>
+    </div>
+    <script>
+    // 주소창, 뒤로가기 방지
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+        history.go(1);
+    };
+    // 배경음악 자동재생 시도 및 크롬 제한 우회
+    window.onload = function() {
+        var bgm = document.getElementById('bgm');
+        var played = false;
+        function tryPlayBGM() {
+            if (!played) {
+                played = true;
+                bgm.volume = 1;
+                var playPromise = bgm.play();
+                if (playPromise) {
+                    playPromise.catch(function() {
+                        document.body.addEventListener('click', function onceClick() {
+                            bgm.play();
+                            document.body.removeEventListener('click', onceClick);
+                        });
+                    });
+                }
+            }
+        }
+        tryPlayBGM();
+    };
+    function playClickSound() {
+        var snd = document.getElementById('clickSound');
+        snd.currentTime = 0;
+        try { snd.play(); } catch(e){}
+    }
+    function startGame() {
+        var bgm = document.getElementById('bgm');
+        var openingContainer = document.getElementById('openingContainer');
+        
+        // 페이지와 이미지 페이드아웃 시작
+        openingContainer.classList.add('fade-out');
+        
+        // 3초 동안 배경음악 재생
+        setTimeout(function() {
+            // 10초 동안 배경음악 페이드아웃
+            var fadeOutInterval = setInterval(function() {
+                if (bgm.volume > 0.01) {
+                    bgm.volume -= 0.01;
+                } else {
+                    clearInterval(fadeOutInterval);
+                    // stage0.html 로드
+                    openingContainer.style.display = 'none';
+                    document.getElementById('gameContainer').style.display = 'flex';
+                    document.getElementById('gameFrame').src = 'stage0.html';
+                    // stage0.html 로드 후 배경음악 중단
+                    setTimeout(function() {
+                        bgm.pause();
+                        bgm.volume = 1;
+                    }, 1000);
+                }
+            }, 100);
+        }, 3000);
+    }
+    // bgm0 재생 함수
+    let bgm0Played = false;
+    function playBgm0() {
+        if (bgm0Played) return; // 이미 재생됐으면 무시
+        var bgm0 = document.getElementById('bgm0');
+        if (bgm0) {
+            bgm0.currentTime = 0;
+            bgm0.volume = 1;
+            bgm0.play().catch(function(){});
+            bgm0Played = true;
+        }
+    }
+    // iframe에서 메시지 수신 시 bgm0 재생
+    window.addEventListener('message', function(event) {
+        if (event.data === 'playBgm0') {
+            playBgm0();
+        }
+    });
+    function loadStage(num) {
+        document.getElementById('gameFrame').src = `stage${num}.html`;
+    }
+    function fadeOutBGM() {
+        var bgm = document.getElementById('bgm0');
+        var fadeOutInterval = setInterval(function() {
+            if (bgm.volume > 0.01) {
+                bgm.volume -= 0.01;
+            } else {
+                bgm.pause();
+                bgm.volume = 0.5;
+                clearInterval(fadeOutInterval);
+            }
+        }, 50);
+    }
+    </script>
+</body>
+</html>
