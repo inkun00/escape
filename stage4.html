@@ -110,11 +110,11 @@
 </head>
 <body>
     <div class="container">
-        <div id="blackScreen" class="image-container" style="background: #000; opacity: 1;">
+        <div id="blackScreen" class="image-container" style="background: #000;">
             <img src="image/stage4.png" class="game-image" alt="scene image" style="opacity: 0;">
         </div>
-        <div id="textContainer" class="text-container" style="opacity: 1;">
-            <div id="stage4Text" style="opacity: 0;">눈을 뜨니 어두운 방 안에 있었다. 할아버지의 방이 아니다. 이건 어디지? 갑자기 불안감이 몰려온다.</div>
+        <div id="textContainer" class="text-container">
+            <div id="stage4Text" style="opacity: 0;">으음.. 무슨 소리지? 왜 이렇게 시끄러워. 뭐라고 하는 것 같은데... 독..재.. 타 도?</div>
         </div>
         <div id="initialButton" class="button-container">
             <button onclick="openEyes()">눈을 뜬다.</button>
@@ -158,9 +158,12 @@
             // 1. 버튼 사라짐
             document.getElementById('initialButton').style.display = 'none';
             
-            // 2. 이미지 페이드인
-            const gameImage = document.querySelector('.game-image');
-            gameImage.style.opacity = '1';
+            // 2. 검은 화면 페이드아웃
+            const blackScreen = document.getElementById('blackScreen');
+            blackScreen.style.opacity = '0';
+            setTimeout(() => {
+                blackScreen.style.display = 'none';
+            }, 1000);
             
             // 3. people.mp3 페이드인
             const bgm = document.getElementById('bgm');
