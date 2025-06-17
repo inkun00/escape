@@ -134,8 +134,10 @@
         <button onclick="closeItemPopup()" style="position:absolute; top:10px; right:10px; background:#fff; color:#222; border:none; border-radius:6px; padding:0.3em 0.8em; cursor:pointer;">닫기</button>
       </div>
     </div>
-    <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
-    <audio id="bgm" src="sound/bgm0.mp3" loop></audio>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="bgm0" loop>
+        <source src="./bgm0.mp3" type="audio/mpeg">
+    </audio>
     <script>
         // 주소창, 뒤로가기 방지
         history.pushState(null, null, location.href);
@@ -143,19 +145,7 @@
             history.go(1);
         };
 
-        // 페이지 로드 시 배경음악 재생
-        window.addEventListener('load', function() {
-            var bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.volume = 0.5;
-                var playPromise = bgm.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(function(error) {
-                        console.log("배경음악 재생 실패:", error);
-                    });
-                }
-            }
-        });
+        
 
         // URL 파라미터에서 이전 선택 가져오기
         const urlParams = new URLSearchParams(window.location.search);
