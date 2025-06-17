@@ -110,7 +110,7 @@
 </head>
 <body>
     <div class="container">
-        <div id="blackScreen" class="image-container" style="background: #000;">
+        <div id="blackScreen" class="image-container" style="background: #000; transition: opacity 2s;">
             <img src="image/stage4.png" class="game-image" alt="scene image" style="opacity: 0; transition: opacity 2s;">
         </div>
         <div id="textContainer" class="text-container" style="opacity: 0; transition: opacity 2s;">
@@ -168,9 +168,18 @@
                 });
 
                 // 배경음악과 함께 이미지와 텍스트 페이드인
-                document.querySelector('.game-image').style.opacity = '1';
-                document.getElementById('textContainer').style.opacity = '1';
-                document.getElementById('stage4Text').style.opacity = '1';
+                const blackScreen = document.getElementById('blackScreen');
+                const gameImage = document.querySelector('.game-image');
+                const textContainer = document.getElementById('textContainer');
+                const stage4Text = document.getElementById('stage4Text');
+
+                // 검은 화면 페이드아웃
+                blackScreen.style.opacity = '0';
+                // 이미지 페이드인
+                gameImage.style.opacity = '1';
+                // 텍스트 페이드인
+                textContainer.style.opacity = '1';
+                stage4Text.style.opacity = '1';
 
                 const fadeInInterval = setInterval(function() {
                     if (bgm.volume < 0.5) {
