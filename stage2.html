@@ -113,8 +113,8 @@
             <div id="stage2Text"></div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage3.html?from=stage2-1', 300)">태극기를 가까이서 쳐다본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage3.html?from=stage2-2', 300)">태극기 냄새를 맡는다.</button>
+            <button onclick="navigateToStage('stage3.html?from=stage2-1')">태극기를 가까이서 쳐다본다.</button>
+            <button onclick="navigateToStage('stage3.html?from=stage2-2')">태극기 냄새를 맡는다.</button>
         </div>
         <div class="item-container">
             <button class="item" onclick="showItemPopup(0)"></button>
@@ -158,20 +158,6 @@
             stage2Text.innerHTML = '할아버지한테 허락을 받고 열어야 하지만 점점 열고 싶은 마음을 참을 수가 없다. 결국 나는 상자를 열었다. 상자 안에는 낡은 태극기가 접혀있었다.';
         }
 
-        // 페이지 로드 시 배경음악 재생
-        window.addEventListener('load', function() {
-            var bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.volume = 0.5;
-                var playPromise = bgm.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(function(error) {
-                        console.log("배경음악 재생 실패:", error);
-                    });
-                }
-            }
-        });
-
         function playClickSound() {
             var snd = document.getElementById('clickSound');
             if (snd) {
@@ -182,6 +168,16 @@
                         console.log("클릭음 재생 실패:", error);
                     });
                 }
+            }
+        }
+
+        function navigateToStage(url) {
+            playClickSound();
+            try {
+                window.location.replace(url);
+            } catch (error) {
+                console.log("페이지 이동 실패:", error);
+                window.location.href = url;
             }
         }
 

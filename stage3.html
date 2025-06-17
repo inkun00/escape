@@ -114,7 +114,7 @@
         </div>
         <div class="button-container">
             <button onclick="playClickSound(); fadeOutAndRedirect('stage4.html?from=stage3-1')">눈이 감긴다.</button>
-       
+  
         </div>
         <div class="item-container">
             <button class="item" onclick="showItemPopup(0)"></button>
@@ -182,7 +182,6 @@
             }
         }
 
-        // 페이드아웃 효과와 리다이렉트 함수
         function fadeOutAndRedirect(url) {
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
@@ -196,27 +195,30 @@
             overlay.style.zIndex = '9999';
             document.body.appendChild(overlay);
 
-            // 배경음악 페이드아웃 시작
-            var bgm = document.getElementById('bgm');
-            var fadeOutInterval = setInterval(function() {
-                if (bgm.volume > 0.01) {
-                    bgm.volume -= 0.01;
-                } else {
-                    bgm.pause();
-                    bgm.volume = 0.5;
-                    clearInterval(fadeOutInterval);
-                }
-            }, 50);
+            // index.html의 bgm0 페이드아웃
+            if (window.parent) {
+                window.parent.postMessage('fadeOutBGM', '*');
+            }
 
             // 페이드아웃 시작
             setTimeout(() => {
                 overlay.style.opacity = '1';
             }, 100);
 
-            // 10초 후 리다이렉트
+            // 5초 후 리다이렉트
             setTimeout(() => {
                 window.location.href = url;
-            }, 10000);
+            }, 5000);
+        }
+
+        function navigateToStage(url) {
+            playClickSound();
+            try {
+                window.location.replace(url);
+            } catch (error) {
+                console.log("페이지 이동 실패:", error);
+                window.location.href = url;
+            }
         }
 
         const itemDescriptions = [

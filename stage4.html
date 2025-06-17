@@ -142,7 +142,7 @@
       </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
-    <audio id="bgm" src="sound/bgm0.mp3" loop></audio>
+    <audio id="bgm" src="sound/people.mp3" preload="auto"></audio>
     <script>
         // 주소창, 뒤로가기 방지
         history.pushState(null, null, location.href);
@@ -166,6 +166,19 @@
                     clearInterval(fadeInInterval);
                 }
             }, 50);
+
+            // 18초 후 배경음악 중지
+            setTimeout(() => {
+                var fadeOutInterval = setInterval(function() {
+                    if (bgm.volume > 0.01) {
+                        bgm.volume -= 0.01;
+                    } else {
+                        bgm.pause();
+                        bgm.volume = 0.5;
+                        clearInterval(fadeOutInterval);
+                    }
+                }, 50);
+            }, 18000);
 
             // 3초 후 텍스트 표시
             setTimeout(() => {
