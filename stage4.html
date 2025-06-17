@@ -154,39 +154,55 @@
 
         function openEyes() {
             playClickSound();
-            document.getElementById('blackScreen').style.display = 'none';
-            document.getElementById('stage4Text').style.opacity = '1';
+            const button = document.querySelector('.button-container');
+            const blackScreen = document.getElementById('blackScreen');
+            const textContainer = document.getElementById('textContainer');
+            const bgm = document.getElementById('bgm');
             
-            // people.mp3 페이드인
-            var bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.volume = 0;
-                bgm.currentTime = 0;  // 처음부터 재생
-                bgm.play().catch(function(error) {
-                    console.log("배경음악 재생 실패:", error);
-                });
-
-                var fadeInInterval = setInterval(function() {
-                    if (bgm.volume < 0.5) {
-                        bgm.volume += 0.01;
+            // 1. 버튼 사라짐
+            button.style.display = 'none';
+            
+            // 2. 이미지 페이드인
+            blackScreen.style.opacity = '0';
+            setTimeout(() => {
+                blackScreen.style.display = 'none';
+            }, 1000);
+            
+            // 3. people 페이드인하면서 재생
+            bgm.volume = 0;
+            bgm.currentTime = 0;
+            bgm.play();
+            
+            let volume = 0;
+            const fadeInInterval = setInterval(() => {
+                if (volume < 0.5) {
+                    volume += 0.01;
+                    bgm.volume = volume;
+                } else {
+                    clearInterval(fadeInInterval);
+                }
+            }, 50);
+            
+            // 4. 18초 후 페이드아웃
+            setTimeout(() => {
+                const fadeOutInterval = setInterval(() => {
+                    if (bgm.volume > 0.01) {
+                        bgm.volume -= 0.01;
                     } else {
-                        clearInterval(fadeInInterval);
+                        clearInterval(fadeOutInterval);
+                        bgm.pause();
                     }
                 }, 50);
-
-                // 18초 후 배경음악 중지
+            }, 18000);
+            
+            // 5. 텍스트 상자와 텍스트 등장
+            setTimeout(() => {
+                textContainer.style.display = 'block';
+                textContainer.style.opacity = '0';
                 setTimeout(() => {
-                    var fadeOutInterval = setInterval(function() {
-                        if (bgm.volume > 0.01) {
-                            bgm.volume -= 0.01;
-                        } else {
-                            bgm.pause();
-                            bgm.volume = 0.5;
-                            clearInterval(fadeOutInterval);
-                        }
-                    }, 50);
-                }, 18000);
-            }
+                    textContainer.style.opacity = '1';
+                }, 100);
+            }, 1000);
         }
 
         function playClickSound() {
