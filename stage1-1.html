@@ -143,19 +143,7 @@
             history.go(1);
         };
 
-        // 페이지 로드 시 배경음악 재생
-        window.addEventListener('load', function() {
-            var bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.volume = 0.5;
-                var playPromise = bgm.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(function(error) {
-                        console.log("배경음악 재생 실패:", error);
-                    });
-                }
-            }
-        });
+       
 
         function playClickSound() {
             var snd = document.getElementById('clickSound');
