@@ -110,10 +110,10 @@
 </head>
 <body>
     <div class="container">
-        <div class="image-container">
+        <div id="blackScreen" class="image-container" style="background: #000;">
             <img src="image/stage4.png" class="game-image" alt="scene image">
         </div>
-        <div class="text-container">
+        <div id="textContainer" class="text-container">
             <div id="stage4Text" style="opacity: 0; transition: opacity 1s;">눈을 뜨니 어두운 방 안에 있었다. 할아버지의 방이 아니다. 이건 어디지? 갑자기 불안감이 몰려온다.</div>
         </div>
         <div class="button-container" id="initialButton">
@@ -154,9 +154,10 @@
 
         function openEyes() {
             playClickSound();
-            const button = document.querySelector('.button-container');
+            const button = document.getElementById('initialButton');
             const blackScreen = document.getElementById('blackScreen');
             const textContainer = document.getElementById('textContainer');
+            const stage4Text = document.getElementById('stage4Text');
             const bgm = document.getElementById('bgm');
             
             // 1. 버튼 사라짐
@@ -197,11 +198,8 @@
             
             // 5. 텍스트 상자와 텍스트 등장
             setTimeout(() => {
-                textContainer.style.display = 'block';
-                textContainer.style.opacity = '0';
-                setTimeout(() => {
-                    textContainer.style.opacity = '1';
-                }, 100);
+                textContainer.style.opacity = '1';
+                stage4Text.style.opacity = '1';
             }, 1000);
         }
 
