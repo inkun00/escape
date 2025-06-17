@@ -111,10 +111,10 @@
 <body>
     <div class="container">
         <div id="blackScreen" class="image-container" style="background: #000;">
-            <img src="image/stage4.png" class="game-image" alt="scene image" style="opacity: 0;">
+            <img src="image/stage4.png" class="game-image" alt="scene image" style="opacity: 0; transition: opacity 2s;">
         </div>
-        <div id="textContainer" class="text-container">
-            <div id="stage4Text" style="opacity: 0;">으음.. 무슨 소리지? 왜 이렇게 시끄러워. 뭐라고 하는 것 같은데... 독..재.. 타 도?</div>
+        <div id="textContainer" class="text-container" style="opacity: 0; transition: opacity 2s;">
+            <div id="stage4Text" style="opacity: 0; transition: opacity 2s;">으음.. 무슨 소리지? 왜 이렇게 시끄러워. 뭐라고 하는 것 같은데... 독..재.. 타 도?</div>
         </div>
         <div id="initialButton" class="button-container">
             <button onclick="openEyes()">눈을 뜬다.</button>
@@ -158,14 +158,7 @@
             // 1. 버튼 사라짐
             document.getElementById('initialButton').style.display = 'none';
             
-            // 2. 검은 화면 페이드아웃
-            const blackScreen = document.getElementById('blackScreen');
-            blackScreen.style.opacity = '0';
-            setTimeout(() => {
-                blackScreen.style.display = 'none';
-            }, 1000);
-            
-            // 3. people.mp3 페이드인
+            // 2. people.mp3 페이드인과 동시에 이미지와 텍스트 페이드인
             const bgm = document.getElementById('bgm');
             if (bgm) {
                 bgm.volume = 0;
@@ -173,6 +166,11 @@
                 bgm.play().catch(function(error) {
                     console.log("배경음악 재생 실패:", error);
                 });
+
+                // 배경음악과 함께 이미지와 텍스트 페이드인
+                document.querySelector('.game-image').style.opacity = '1';
+                document.getElementById('textContainer').style.opacity = '1';
+                document.getElementById('stage4Text').style.opacity = '1';
 
                 const fadeInInterval = setInterval(function() {
                     if (bgm.volume < 0.5) {
@@ -182,7 +180,7 @@
                     }
                 }, 50);
                 
-                // 4. 18초 후 배경음악 페이드아웃
+                // 18초 후 배경음악 페이드아웃
                 setTimeout(() => {
                     const fadeOutInterval = setInterval(function() {
                         if (bgm.volume > 0.01) {
@@ -195,11 +193,6 @@
                     }, 50);
                 }, 18000);
             }
-            
-            // 5. 텍스트 페이드인
-            setTimeout(() => {
-                document.getElementById('stage4Text').style.opacity = '1';
-            }, 1000);
         }
 
         function playClickSound() {
