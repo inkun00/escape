@@ -311,9 +311,8 @@
     }
 
     function startGame() {
-        playClickSound();
-        const openingContainer = document.getElementById('openingContainer');
-        const bgm = document.getElementById('bgm');
+        var bgm = document.getElementById('bgm');
+        var openingContainer = document.getElementById('openingContainer');
         
         // 페이지와 이미지 페이드아웃 시작
         openingContainer.classList.add('fade-out');
