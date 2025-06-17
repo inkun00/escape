@@ -154,13 +154,18 @@
 
         // 페이지 로드 시 배경음악 페이드인 시작
         window.onload = function() {
+            // bgm0 페이드아웃 요청
+            if (window.parent) {
+                window.parent.postMessage('fadeOutBGM', '*');
+            }
+
+            // people.mp3 페이드인
             var bgm = document.getElementById('bgm');
             bgm.volume = 0;
             bgm.play().catch(function(error) {
                 console.log("배경음악 재생 실패:", error);
             });
 
-            // 배경음악 페이드인
             var fadeInInterval = setInterval(function() {
                 if (bgm.volume < 0.5) {
                     bgm.volume += 0.01;

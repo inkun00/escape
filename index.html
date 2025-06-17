@@ -595,64 +595,43 @@
         }
         tryPlayBGM();
     };
+
     function playClickSound() {
         var snd = document.getElementById('clickSound');
-        snd.currentTime = 0;
-        try { snd.play(); } catch(e){}
+        if (snd) {
+            snd.currentTime = 0;
+            var playPromise = snd.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(function(error) {
+                    console.log("클릭음 재생 실패:", error);
+                });
+            }
+        }
     }
+
     function startGame() {
-        var bgm = document.getElementById('bgm');
-        var openingContainer = document.getElementById('openingContainer');
+        playClickSound();
+        document.getElementById('openingContainer').style.display = 'none';
+        document.getElementById('gameContainer').style.display = 'flex';
+        document.getElementById('gameFrame').src = 'stage0.html';
         
-        // 페이지와 이미지 페이드아웃 시작
-        openingContainer.classList.add('fade-out');
-        
-        // 3초 동안 배경음악 재생
-        setTimeout(function() {
-            // 10초 동안 배경음악 페이드아웃
-            var fadeOutInterval = setInterval(function() {
-                if (bgm.volume > 0.01) {
-                    bgm.volume -= 0.01;
-                } else {
-                    clearInterval(fadeOutInterval);
-                    // stage0.html 로드
-                    openingContainer.style.display = 'none';
-                    document.getElementById('gameContainer').style.display = 'flex';
-                    document.getElementById('gameFrame').src = 'stage0.html';
-                    // stage0.html 로드 후 배경음악 중단
-                    setTimeout(function() {
-                        bgm.pause();
-                        bgm.volume = 1;
-                    }, 1000);
-                }
-            }, 100);
-        }, 3000);
-    }
-    // bgm0 재생 함수
-    let bgm0Played = false;
-    function playBgm0() {
-        if (bgm0Played) return; // 이미 재생됐으면 무시
+        // stage0에서 bgm0 재생
         var bgm0 = document.getElementById('bgm0');
         if (bgm0) {
-            bgm0.currentTime = 0;
-            bgm0.volume = 1;
-            bgm0.play().catch(function(){});
-            bgm0Played = true;
+            bgm0.volume = 0.5;
+            bgm0.play().catch(function(error) {
+                console.log("bgm0 재생 실패:", error);
+            });
         }
     }
-    // iframe에서 메시지 수신 시 bgm0 재생
+
+    // iframe에서 메시지 수신 시 bgm0 페이드아웃
     window.addEventListener('message', function(event) {
-        if (event.data === 'playBgm0') {
-            playBgm0();
+        if (event.data === 'fadeOutBGM') {
+            fadeOutBGM();
         }
     });
-    function loadStage(num) {
-        document.getElementById('gameFrame').src = `stage${num}.html`;
-        // stage4가 아닐 때만 bgm0 재생
-        if (num !== 4) {
-            playBgm0();
-        }
-    }
+
     function fadeOutBGM() {
         const bgm = document.getElementById('bgm0');
         if (bgm) {
@@ -666,13 +645,6 @@
             }, 50);  // 50ms 간격으로 0.01씩 감소 = 5초 동안 페이드아웃
         }
     }
-
-    // iframe에서 메시지 수신 시 bgm0 페이드아웃
-    window.addEventListener('message', function(event) {
-        if (event.data === 'fadeOutBGM') {
-            fadeOutBGM();
-        }
-    });
     </script>
 </body>
 </html>
