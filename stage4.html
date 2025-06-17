@@ -142,7 +142,9 @@
       </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
-    <audio id="bgm" src="sound/people.mp3" preload="auto"></audio>
+    <audio id="bgm" loop>
+        <source src="./people.mp3" type="audio/mpeg">
+    </audio>
     <script>
         // 주소창, 뒤로가기 방지
         history.pushState(null, null, location.href);
