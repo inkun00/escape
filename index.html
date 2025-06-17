@@ -614,21 +614,20 @@
         document.getElementById('openingContainer').style.display = 'none';
         document.getElementById('gameContainer').style.display = 'flex';
         document.getElementById('gameFrame').src = 'stage0.html';
-        
-        // stage0에서 bgm0 재생
-        var bgm0 = document.getElementById('bgm0');
-        if (bgm0) {
-            bgm0.volume = 0.5;
-            bgm0.play().catch(function(error) {
-                console.log("bgm0 재생 실패:", error);
-            });
-        }
     }
 
-    // iframe에서 메시지 수신 시 bgm0 페이드아웃
+    // iframe에서 메시지 수신 시 bgm0 재생 또는 페이드아웃
     window.addEventListener('message', function(event) {
         if (event.data === 'fadeOutBGM') {
             fadeOutBGM();
+        } else if (event.data === 'playBgm0') {
+            var bgm0 = document.getElementById('bgm0');
+            if (bgm0) {
+                bgm0.volume = 0.5;
+                bgm0.play().catch(function(error) {
+                    console.log("bgm0 재생 실패:", error);
+                });
+            }
         }
     });
 

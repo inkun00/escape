@@ -152,13 +152,11 @@
             history.go(1);
         };
 
-        // 페이지 로드 시 배경음악 페이드인 시작
-        window.onload = function() {
-            // bgm0 페이드아웃 요청
-            if (window.parent) {
-                window.parent.postMessage('fadeOutBGM', '*');
-            }
-
+        function openEyes() {
+            playClickSound();
+            document.getElementById('blackScreen').style.display = 'none';
+            document.getElementById('stage4Text').style.opacity = '1';
+            
             // people.mp3 페이드인
             var bgm = document.getElementById('bgm');
             bgm.volume = 0;
@@ -186,42 +184,6 @@
                     }
                 }, 50);
             }, 18000);
-
-            // 3초 후 텍스트 표시
-            setTimeout(() => {
-                document.getElementById('stage4Text').style.opacity = '1';
-            }, 3000);
-        };
-
-        function openEyes() {
-            // 초기 버튼 숨기기
-            document.getElementById('initialButton').style.display = 'none';
-
-            // 클릭 사운드 재생
-            playClickSound();
-
-            // 이미지 페이드인
-            const imageContainer = document.querySelector('.image-container');
-            imageContainer.style.opacity = '1';
-
-            // 사운드 재생
-            const peopleSound = document.getElementById('peopleSound');
-            if (peopleSound) {
-                peopleSound.currentTime = 0;
-                peopleSound.play();
-                // 20초 후 사운드 정지 및 새로운 버튼 표시
-                setTimeout(() => {
-                    peopleSound.pause();
-                    document.getElementById('actionButtons').style.display = 'flex';
-                }, 20000);
-            }
-
-            // 이미지 페이드인 완료 후 텍스트 표시
-            setTimeout(() => {
-                const stage4Text = document.getElementById('stage4Text');
-                stage4Text.innerHTML = '"으으.... 여기는 어디지? 뭐가 이렇게 시끄러운거야..."<br><br>주위를 둘러보니 많은 사람이 앞에서 소리를 지르고 있다. 무슨 말인지는 알아들을 수가 없다. 독.. 타도? 호..철폐?';
-                document.querySelector('.text-container').style.opacity = '1';
-            }, 3000); // 이미지 페이드인 시간(3초) 후 텍스트 표시
         }
 
         function playClickSound() {

@@ -133,7 +133,7 @@
             <div style="margin-top:10px;">"할아버지, 여기 계세요? 어… 이상하네, 평소보다 더 조용하네. 할아버지 코 고는 소리도 안들리고"</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage1-1.html', 300)">할아버지 방으로 들어간다.</button>
+            <button onclick="startGame()">할아버지 방으로 들어간다.</button>
             <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage1-2.html', 300)">조용히 문틈으로 방안을 살핀다다.</button>
         </div>
         <div class="item-container">
@@ -222,6 +222,14 @@
             document.addEventListener('click', sendPlayBgm0);
             document.addEventListener('touchstart', sendPlayBgm0);
         });
+        function startGame() {
+            playClickSound();
+            // bgm0 재생 요청
+            if (window.parent) {
+                window.parent.postMessage('playBgm0', '*');
+            }
+            window.location.href = 'stage1-1.html';
+        }
     </script>
 </body>
 </html>
