@@ -158,6 +158,20 @@
             stage2Text.innerHTML = '할아버지한테 허락을 받고 열어야 하지만 점점 열고 싶은 마음을 참을 수가 없다. 결국 나는 상자를 열었다. 상자 안에는 낡은 태극기가 접혀있었다.';
         }
 
+        // 페이지 로드 시 배경음악 재생
+        window.addEventListener('load', function() {
+            var bgm = document.getElementById('bgm');
+            if (bgm) {
+                bgm.volume = 0.5;
+                var playPromise = bgm.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log("배경음악 재생 실패:", error);
+                    });
+                }
+            }
+        });
+
         function playClickSound() {
             var snd = document.getElementById('clickSound');
             if (snd) {

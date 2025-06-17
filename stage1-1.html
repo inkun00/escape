@@ -114,8 +114,8 @@
             <div style="margin-top:10px;">"이건 무슨 상자일까. 한 번 열어볼까?"</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => { window.location.href = 'stage2.html?from=stage1-1-open'; }, 300)">상자를 연다.</button>
-            <button onclick="playClickSound(); setTimeout(() => { window.location.href = 'stage2.html?from=stage1-1-close'; }, 300)">상자를 열지 않는다.</button>
+            <button onclick="navigateToStage('stage2.html?from=stage1-1-open')">상자를 연다.</button>
+            <button onclick="navigateToStage('stage2.html?from=stage1-1-close')">상자를 열지 않는다.</button>
         </div>
         <div class="item-container">
             <button class="item" onclick="showItemPopup(0)"></button>
@@ -143,6 +143,20 @@
             history.go(1);
         };
 
+        // 페이지 로드 시 배경음악 재생
+        window.addEventListener('load', function() {
+            var bgm = document.getElementById('bgm');
+            if (bgm) {
+                bgm.volume = 0.5;
+                var playPromise = bgm.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log("배경음악 재생 실패:", error);
+                    });
+                }
+            }
+        });
+
         function playClickSound() {
             var snd = document.getElementById('clickSound');
             if (snd) {
@@ -153,6 +167,16 @@
                         console.log("클릭음 재생 실패:", error);
                     });
                 }
+            }
+        }
+
+        function navigateToStage(url) {
+            playClickSound();
+            try {
+                window.location.replace(url);
+            } catch (error) {
+                console.log("페이지 이동 실패:", error);
+                window.location.href = url;
             }
         }
 

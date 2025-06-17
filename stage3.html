@@ -144,27 +144,18 @@
         };
 
         // 페이지 로드 시 배경음악 재생
-        window.onload = function() {
+        window.addEventListener('load', function() {
             var bgm = document.getElementById('bgm');
-            bgm.volume = 0.5;
-            bgm.play().catch(function(error) {
-                console.log("배경음악 재생 실패:", error);
-            });
-        };
-
-        // 배경음악 페이드아웃 함수
-        function fadeOutBGM() {
-            var bgm = document.getElementById('bgm');
-            var fadeOutInterval = setInterval(function() {
-                if (bgm.volume > 0.1) {
-                    bgm.volume -= 0.1;
-                } else {
-                    bgm.pause();
-                    bgm.volume = 0.5;
-                    clearInterval(fadeOutInterval);
+            if (bgm) {
+                bgm.volume = 0.5;
+                var playPromise = bgm.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log("배경음악 재생 실패:", error);
+                    });
                 }
-            }, 50);
-        }
+            }
+        });
 
         // URL 파라미터에서 이전 선택 가져오기
         const urlParams = new URLSearchParams(window.location.search);
@@ -216,22 +207,6 @@
                     clearInterval(fadeOutInterval);
                 }
             }, 50);
-
-            // index.html의 bgm0 페이드아웃
-            if (window.parent && window.parent.document) {
-                var parentBGM = window.parent.document.getElementById('bgm0');
-                if (parentBGM) {
-                    var parentFadeOutInterval = setInterval(function() {
-                        if (parentBGM.volume > 0.01) {
-                            parentBGM.volume -= 0.01;
-                        } else {
-                            parentBGM.pause();
-                            parentBGM.volume = 0.5;
-                            clearInterval(parentFadeOutInterval);
-                        }
-                    }, 50);
-                }
-            }
 
             // 페이드아웃 시작
             setTimeout(() => {
