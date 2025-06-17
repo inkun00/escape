@@ -159,31 +159,34 @@
             
             // people.mp3 페이드인
             var bgm = document.getElementById('bgm');
-            bgm.volume = 0;
-            bgm.play().catch(function(error) {
-                console.log("배경음악 재생 실패:", error);
-            });
+            if (bgm) {
+                bgm.volume = 0;
+                bgm.currentTime = 0;  // 처음부터 재생
+                bgm.play().catch(function(error) {
+                    console.log("배경음악 재생 실패:", error);
+                });
 
-            var fadeInInterval = setInterval(function() {
-                if (bgm.volume < 0.5) {
-                    bgm.volume += 0.01;
-                } else {
-                    clearInterval(fadeInInterval);
-                }
-            }, 50);
-
-            // 18초 후 배경음악 중지
-            setTimeout(() => {
-                var fadeOutInterval = setInterval(function() {
-                    if (bgm.volume > 0.01) {
-                        bgm.volume -= 0.01;
+                var fadeInInterval = setInterval(function() {
+                    if (bgm.volume < 0.5) {
+                        bgm.volume += 0.01;
                     } else {
-                        bgm.pause();
-                        bgm.volume = 0.5;
-                        clearInterval(fadeOutInterval);
+                        clearInterval(fadeInInterval);
                     }
                 }, 50);
-            }, 18000);
+
+                // 18초 후 배경음악 중지
+                setTimeout(() => {
+                    var fadeOutInterval = setInterval(function() {
+                        if (bgm.volume > 0.01) {
+                            bgm.volume -= 0.01;
+                        } else {
+                            bgm.pause();
+                            bgm.volume = 0.5;
+                            clearInterval(fadeOutInterval);
+                        }
+                    }, 50);
+                }, 18000);
+            }
         }
 
         function playClickSound() {
