@@ -152,41 +152,12 @@
             history.go(1);
         };
 
-        // 페이지 로드 시 배경음악 페이드인 시작
-        window.onload = function() {
-            var bgm = document.getElementById('bgm');
-            bgm.volume = 0;
-            bgm.play().catch(function(error) {
-                console.log("배경음악 재생 실패:", error);
-            });
-
-            // 배경음악 페이드인
-            var fadeInInterval = setInterval(function() {
-                if (bgm.volume < 0.5) {
-                    bgm.volume += 0.01;
-                } else {
-                    clearInterval(fadeInInterval);
-                }
-            }, 50);
-
-            // 18초 후 배경음악 중지
-            setTimeout(() => {
-                var fadeOutInterval = setInterval(function() {
-                    if (bgm.volume > 0.01) {
-                        bgm.volume -= 0.01;
-                    } else {
-                        bgm.pause();
-                        bgm.volume = 0.5;
-                        clearInterval(fadeOutInterval);
-                    }
-                }, 50);
-            }, 18000);
-
-            // 3초 후 텍스트 표시
-            setTimeout(() => {
-                document.getElementById('stage4Text').style.opacity = '1';
-            }, 3000);
-        };
+        // 페이지 로드 시 배경음악 페이드아웃
+        window.addEventListener('load', function() {
+            if (window.parent) {
+                window.parent.postMessage('fadeOutBGM', '*');
+            }
+        });
 
         function openEyes() {
             // 초기 버튼 숨기기
