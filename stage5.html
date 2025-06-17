@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>방탈출 게임 - 스테이지 4</title>
+    <title>방탈출 게임 - 스테이지 5</title>
     <style>
         body {
             margin: 0;
@@ -30,30 +30,27 @@
             justify-content: center;
             border: 2px solid #fff;
             border-radius: 15px;
-            background: #000; /* 검은 배경 유지 */
+            background: #000;
         }
         .game-image {
             max-width: 100%;
             max-height: 100%;
-            opacity: 0;
-            transition: opacity 2s;
         }
         .text-container {
             width: 100%;
-            height: 22.5vh;
-            max-height: 30vh;
-            min-height: 15vh;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
             background: rgba(0,0,0,0.8);
             border: 2px solid #fff;
             border-radius: 10px;
+            margin-top: 2vh;
             margin-bottom: 2vh;
             padding: 2vh 2vw;
             font-size: 1.1em;
             line-height: 1.6;
             overflow-y: auto;
             box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 2s;
         }
         .button-container {
             width: 100%;
@@ -99,30 +96,24 @@
             border: 1px solid #fff;
             border-radius: 3px;
         }
-        .back-btn { display: none !important; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="image-container">
-            <img src="image/stage5.png" class="game-image" alt="scene image">
+            <img src="./image/stage5.png" class="game-image" alt="scene image">
         </div>
-        <div id="textContainer" class="text-container">
-            <div id="stage4Text">"저, 누나, 여기가 어디에요? 사람들은 지금 뭐하고 있는거에요?"
-                                 "어머, 너처럼 어린 애가 여기 있으면 안되는데 왜 여기 있는거야? 여기는 위험해. 빨리 집에 가!"
-                                 
-                                 멀리서 헬멧을 쓰고 몽둥이를 들고 있는 경찰이 달려오고 있다
+        <div class="text-container">
+            <div>"저, 누나, 여기가 어디에요? 사람들은 지금 뭐하고 있는거에요?"
+                "어머, 너처럼 어린 애가 여기 있으면 안되는데 왜 여기 있는거야? 여기는 위험해. 빨리 집에 가!"
+                
+                멀리서 헬멧을 쓰고 몽둥이를 들고 있는 경찰이 달려오고 있다.
 
-                                 "일단 피해야겠다. 우리랑 같이 가자. 빨리 뛰어!"
-                                 
-                                 </div>
+                "일단 피해야겠다. 우리랑 같이 가자. 빨리 뛰어!"</div>
         </div>
-        <div id="initialButton" class="button-container">
-            <button onclick="openEyes()">같이 뛰어간다.</button>
-        </div>
-        <div id="actionButtons" class="button-container" style="display: none;">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage4-1.html', 300)">주변 사람에게 물어본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage4-2.html', 300)">골목으로 숨는다.</button>
+        <div class="button-container">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">누나와 함께 뛴다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">혼자 도망간다.</button>
         </div>
         <div class="item-container">
             <button class="item" onclick="showItemPopup(0)"></button>
@@ -143,48 +134,7 @@
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
-    <audio id="bgm" loop>
-        <source src="./sound/people.mp3" type="audio/mpeg">
-    </audio>
     <script>
-        // 주소창, 뒤로가기 방지
-        history.pushState(null, null, location.href);
-        window.onpopstate = () => history.go(1);
-
-        function openEyes() {
-            playClickSound();
-            document.getElementById('initialButton').style.display = 'none';
-
-            const bgm = document.getElementById('bgm');
-            if (bgm) {
-                bgm.volume = 0;
-                bgm.currentTime = 0;
-                bgm.play().catch(error => console.log("배경음악 재생 실패:", error));
-
-                const gameImage = document.querySelector('.game-image');
-                const textContainer = document.getElementById('textContainer');
-                const stage4Text = document.getElementById('stage4Text');
-
-                // 이미지 페이드인
-                gameImage.style.opacity = '1';
-                // 텍스트 페이드인
-                textContainer.style.opacity = '1';
-                stage4Text.style.opacity = '1';
-
-                const fadeInInterval = setInterval(() => {
-                    if (bgm.volume < 0.5) { bgm.volume += 0.01; }
-                    else { clearInterval(fadeInInterval); }
-                }, 50);
-
-                setTimeout(() => {
-                    const fadeOutInterval = setInterval(() => {
-                        if (bgm.volume > 0.01) { bgm.volume -= 0.01; }
-                        else { bgm.pause(); bgm.volume = 0.5; clearInterval(fadeOutInterval); }
-                    }, 50);
-                }, 18000);
-            }
-        }
-
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
