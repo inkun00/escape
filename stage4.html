@@ -40,12 +40,13 @@
         }
         .text-container {
             width: 100%;
-            height: 22.5vh;
-            max-height: 30vh;
-            min-height: 15vh;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
             background: rgba(0,0,0,0.8);
             border: 2px solid #fff;
             border-radius: 10px;
+            margin-top: 2vh;
             margin-bottom: 2vh;
             padding: 2vh 2vw;
             font-size: 1.1em;
@@ -108,11 +109,13 @@
             <img src="image/stage4.png" class="game-image" alt="scene image">
         </div>
         <div id="textContainer" class="text-container">
-            <div id="stage4Text">으음.. 무슨 소리지? 왜 이렇게 시끄러워. 뭐라고 하는 것 같은데... 독..재.. 타 도? 주변에 많은 사람들이 구호를 외치고 있다. 매운 냄새가 심하게 나서 숨이 막힐 지경이다. 
+            <div id="stage4Text">으음.. 무슨 소리지? 왜 이렇게 시끄러워. 뭐라고 하는 것 같은데... 독..재.. 타 도? 주변에 많은 사람들이 구호를 외치고 있다.
+                                  매운 냄새가 심하게 나서 숨이 막힐 지경이다. 
                                   멀리에는 경찰들도 있는 것 같다. 너무 무섭다. 어떻게 하다가 여기에 있는걸까. 나는 분명히 할아버지방에 있었는데...
                                  </div>
         </div>
-        
+        <div id="initialButton" class="button-container">
+            <button onclick="openEyes()">눈을 뜬다.</button>
         </div>
         <div id="actionButtons" class="button-container" style="display: none;">
             <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage5.html', 300)">주변 사람에게 물어본다.</button>
@@ -141,13 +144,10 @@
         <source src="./sound/people.mp3" type="audio/mpeg">
     </audio>
     <script>
-        // 주소창, 뒤로가기 방지
-        history.pushState(null, null, location.href);
-        window.onpopstate = () => history.go(1);
-
         function openEyes() {
             playClickSound();
             document.getElementById('initialButton').style.display = 'none';
+            document.getElementById('actionButtons').style.display = 'flex';
 
             const bgm = document.getElementById('bgm');
             if (bgm) {
