@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>방탈출 게임 - 스테이지 6</title>
+    <title>stage8</title>
     <style>
         body {
             margin: 0;
@@ -75,27 +75,6 @@
             box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
             filter: brightness(0.92);
         }
-        .item-container {
-            width: 100%;
-            height: 6vh;
-            background: rgba(40,40,40,0.9);
-            border: 2px solid #fff;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 1vw;
-            padding: 1vh 1vw;
-            margin-bottom: 2vh;
-            box-sizing: border-box;
-            justify-content: center;
-        }
-        .item {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid #fff;
-            border-radius: 3px;
-        }
     </style>
 </head>
 <body>
@@ -104,32 +83,11 @@
             <img src="./image/stage8.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>경찰을 피해 다른 골목으로 달렸다. 모퉁이를 도는 순간 경찰과 마주쳤다. 
-                "너! 이리와. 빨리!"
-                나는 어쩔 수 없이 경찰 아저씨 앞에 섰다.
-                "너는 아직 국민학생인 거 같은데 왜 여기에 있어? 수상하다. 아저씨랑 일단 경찰서로 가자!"
-            </div>
+            <div>아무리 생각해도 시위하는 사람들하고 같이 있다가는 나도 경찰에게 잡혀갈 것 같았다. 나는 골목길로 달려나갔지만 결국 경찰을 만났다.<br><br>"야! 거기 서! 빨리 안 서?"</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">순순히 따라간다.</button>
+            <button id="followBtn" onclick="followPolice()">순순히 따라간다.</button>
             <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">도망친다.</button>
-        </div>
-        <div class="item-container">
-            <button class="item" onclick="showItemPopup(0)"></button>
-            <button class="item" onclick="showItemPopup(1)"></button>
-            <button class="item" onclick="showItemPopup(2)"></button>
-            <button class="item" onclick="showItemPopup(3)"></button>
-            <button class="item" onclick="showItemPopup(4)"></button>
-            <button class="item" onclick="showItemPopup(5)"></button>
-            <button class="item" onclick="showItemPopup(6)"></button>
-            <button class="item" onclick="showItemPopup(7)"></button>
-            <button class="item" onclick="showItemPopup(8)"></button>
-        </div>
-    </div>
-    <div id="itemPopup" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
-        <div style="background:#222; color:#fff; padding:2em 2.5em; border-radius:12px; min-width:200px; max-width:80vw; text-align:center; position:relative;">
-            <span id="itemPopupText">아이템 설명 없음</span>
-            <button onclick="closeItemPopup()" style="position:absolute; top:10px; right:10px; background:#fff; color:#222; border:none; border-radius:6px; padding:0.3em 0.8em; cursor:pointer;">닫기</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -139,20 +97,24 @@
             snd.currentTime = 0;
             snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
-
-        const itemDescriptions = [
-            '아이템 설명 없음','아이템 설명 없음','아이템 설명 없음',
-            '아이템 설명 없음','아이템 설명 없음','아이템 설명 없음',
-            '아이템 설명 없음','아이템 설명 없음','아이템 설명 없음'
-        ];
-        function showItemPopup(idx) {
-            const popup = document.getElementById('itemPopup');
-            const popupText = document.getElementById('itemPopupText');
-            popupText.innerText = itemDescriptions[idx];
-            popup.style.display = 'flex';
-        }
-        function closeItemPopup() {
-            document.getElementById('itemPopup').style.display = 'none';
+        function followPolice() {
+            playClickSound();
+            // 텍스트 상자 내용 변경
+            document.querySelector('.text-container').innerHTML = `<div>나는 경찰서에 가서 조사를 받았다. 경찰 아저씨는 나에게 이름, 사는 곳, 부모님 전화번호를 물어봤다. 나는 2025년에서 왔다고 말했고, 부모님 핸드폰 번호가 무엇인지 알려줬다. 경찰 아저씨는 나를 전혀 믿지 않았다. 무엇인가 잘못 된 것 같다.<br>너무 무섭다...</div>`;
+            // 버튼 숨기기
+            document.querySelector('.button-container').style.display = 'none';
+            // 10초 후 페이드아웃 및 opener로 전환
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 2s';
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    if (window.parent) {
+                        window.parent.location.reload();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 2000);
+            }, 10000);
         }
     </script>
 </body>

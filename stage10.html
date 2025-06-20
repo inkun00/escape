@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage10</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage10.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>책상 위에 제목이 없는 공책이 놓여있다. 공책을 펼쳐서 읽어보니 전두환 정권이 했던 안좋은 일이 자세히 적혀있고 민주화를 위해 해야할 일이라는 제목으로 많은 내용이 적혀있었다.<br>"아, 그 공책은 내가 민주화운동을 하면서 적어놓은거야. 전두환 대통령이 독재정치를 통해 민주주의를 탄압한 내용이 자세히 적혀있지."<br>"이거 제가 가져가서 더 읽어보고 돌려드려도 될까요?"<br>"물론 괜찮은데, 이걸 갖고 있다가 경찰이 보기라도 하면 너 뿐만 아니라 부모님도 많이 곤란해지실텐데 괜찮겠어?"</div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); addBookItem(); playCrowdBGMAndGo();">괜찮아요. 가져갈게요.</button>
+            <button onclick="playClickSound(); playCrowdBGMAndGo();">아, 정말요? 그럼 여기서만 읽을게요.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        function addBookItem() {
+            if (window.parent && window.parent.addItemToInventory) {
+                window.parent.addItemToInventory('book');
+                // 아이템 설명 및 이미지도 index.html에서 처리하도록 함
+            } else if (window.parent) {
+                // 함수가 없으면 메시지로 전달
+                window.parent.postMessage({ type: 'addItem', item: 'book' }, '*');
+            }
+        }
+        function playCrowdBGMAndGo() {
+            if (window.parent) {
+                window.parent.postMessage('playCrowdBGM', '*');
+            }
+            setTimeout(() => window.location.href = './stage11.html', 300);
+        }
+    </script>
+</body>
+</html> 

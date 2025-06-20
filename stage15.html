@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage15</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage15.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>경찰을 피해 정신없이 달리다보니 늦은 밤이 되었다.<br>
+                 앞에 공원이 있었는데 낯익은 사람이 벤치에 앉아있었다.<br>
+                 그 사람은 박민주 아저씨였다.<br>
+                 "아저씨도 여기까지 도망온 거에요?"<br>
+                 "너구나. 맞아, 내가 잘못한 것도 없는데 도망가는게 너무 부끄러운데, 경찰에 잡히면 안되는 상황이거든."<br>
+                 "아저씨는 왜 시위를 하는거에요? 힘들기만 하고 경찰한테 잡히면 많이 맞고 감옥에 간다고 들었어요."<br>
+                 "지금 이 정부가 국민들에게 하는 짓을 생각하면 참을 수가 없어. 몇몇 권력에 욕심있는 사람들이 자신을 위해 민주주의를 탄압하고 있어. 수 많은 사람들이 희생당하고 있어."<br>
+                 "아저씨 같은 분들이 많이 계셔서 지금 우리가 민주주의를 누리고 살고 있는거군요."
+                 "부탁이 하나 있는데 들어줄래? 정말 중요한 부탁이야. 그리고 어렵고 위험한 부탁이야."
+                 </div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage16.html', 300)">네, 물론이죠.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage17.html', 300)">죄송해요. 못할 것 같아요.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+    </script>
+</body>
+</html> 

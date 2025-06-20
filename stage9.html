@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>stage7</title>
+    <title>stage9</title>
     <style>
         body {
             margin: 0;
@@ -80,19 +80,14 @@
 <body>
     <div class="container">
         <div class="image-container">
-            <img src="./image/stage7.png" class="game-image" alt="scene image">
+            <img src="./image/stage9.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>"꼬마야. 이쪽이야. 빨리 뛰어!"<br>
-어떤 아저씨가 나에게 소리 친다. 나는 힘들었지만 달렸다.<br>
-"얘야, 왜 아까는 도망갔어. 걱정했잖아."<br>
-아까 만났던 누나도 함께 있었다.<br>
-"우리 같이 가자. 안전한 곳을 알고 있어."<br>
-누나가 걱정스럽게 나를 쳐다보며 얘기한다.</div>
+            <div>아저씨와 누나를 따라서 좁은 골목길을 지나서 작은 집으로 들어갔다. 그 곳에는 많은 사람들이 있었다. 아까 시위할 때 본 형들과 누나들도 있었다. 우리가 오자 반겨주었다. <br>"민주형, 왔어요? 경찰한테 잡혀갈 뻔했다면서요."<br>"너는 누구니? 어떻게 하다가 거기에 있었던거야?"<br>걱정스러운 표정으로 나를 쳐다보며 나에게 말을 걸어주었다. </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage9.html', 300)">누나를 따라간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">혼자 다른 곳으로 가려고 한다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage10.html', 300)">주변을 둘러본다.</button>
+            <button onclick="talkToMinju();">박민주 아저씨와 대화를 한다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -101,6 +96,10 @@
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
             snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        function talkToMinju() {
+            playClickSound();
+            document.querySelector('.text-container').innerHTML = `<div>"지금이 몇년도 인가요? 사람들 옷차림이나 주변 모습이 다 옛날 느낌이라서요."<br>"지금은 1980년이야."<br>"네? 2025년이 아니구요?"<br>"아까 경찰에 쫓기다가보니까 정신이 없나보구나. 너 집이 어디니?"<br>"집 주소는... 어? 왜 기억이 안나지?"<br>당황스럽다. 왜 기억이 안나는지 나도 모르겠다...<br>"곧 기억이 날거야."<br>"그런데 왜 사람들이 경찰하고 싸우는거에요?"<br>"우리는 빼앗긴 우리의 권리를 찾기 위해 노력하는거야. 전두환 대통령은 광주 5.18 민주화 운동을 무력으로 진압하고 제대로 된 선거를 거치지 않고 대통령이 되었어. 그리고 언론을 통제하고, 민주화를 요구하는 시민들을 탄압했지. 이제 다음 대통령을 뽑아야 하는데 더 이상 참을 수가 없단다. 우리의 대통령은 우리 손으로 직선제로 뽑아야해. 직선제를 얻어낼 때 까지 전국민의 시위는 멈추지 않을거야."</div>`;
         }
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>방탈출 게임 - 스테이지 2</title>
+    <title>stage2</title>
     <style>
         body {
             margin: 0;
@@ -36,7 +36,6 @@
         .game-image {
             max-width: 100%;
             max-height: 100%;
-            border-radius: 10px;
         }
         .text-container {
             width: 100%;
@@ -78,27 +77,6 @@
             box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
             filter: brightness(0.92);
         }
-        .item-container {
-            width: 100%;
-            height: 6vh;
-            background: rgba(40,40,40,0.9);
-            border: 2px solid #fff;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 1vw;
-            padding: 1vh 1vw;
-            margin-bottom: 2vh;
-            box-sizing: border-box;
-            justify-content: center;
-        }
-        .item {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid #fff;
-            border-radius: 3px;
-        }
         .back-btn {
             display: none !important;
         }
@@ -115,23 +93,6 @@
         <div class="button-container">
             <button onclick="navigateToStage('stage3.html?from=stage2-1')">태극기를 가까이서 쳐다본다.</button>
             <button onclick="navigateToStage('stage3.html?from=stage2-2')">태극기 냄새를 맡는다.</button>
-        </div>
-        <div class="item-container">
-            <button class="item" onclick="showItemPopup(0)"></button>
-            <button class="item" onclick="showItemPopup(1)"></button>
-            <button class="item" onclick="showItemPopup(2)"></button>
-            <button class="item" onclick="showItemPopup(3)"></button>
-            <button class="item" onclick="showItemPopup(4)"></button>
-            <button class="item" onclick="showItemPopup(5)"></button>
-            <button class="item" onclick="showItemPopup(6)"></button>
-            <button class="item" onclick="showItemPopup(7)"></button>
-            <button class="item" onclick="showItemPopup(8)"></button>
-        </div>
-    </div>
-    <div id="itemPopup" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
-      <div style="background:#222; color:#fff; padding:2em 2.5em; border-radius:12px; min-width:200px; max-width:80vw; text-align:center; position:relative;">
-        <span id="itemPopupText">아이템 설명 없음</span>
-        <button onclick="closeItemPopup()" style="position:absolute; top:10px; right:10px; background:#fff; color:#222; border:none; border-radius:6px; padding:0.3em 0.8em; cursor:pointer;">닫기</button>
       </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
@@ -179,21 +140,6 @@
                 console.log("페이지 이동 실패:", error);
                 window.location.href = url;
             }
-        }
-
-        const itemDescriptions = [
-            '아이템 설명 없음', '아이템 설명 없음', '아이템 설명 없음',
-            '아이템 설명 없음', '아이템 설명 없음', '아이템 설명 없음',
-            '아이템 설명 없음', '아이템 설명 없음', '아이템 설명 없음'
-        ];
-
-        function showItemPopup(idx) {
-            document.getElementById('itemPopupText').innerText = itemDescriptions[idx];
-            document.getElementById('itemPopup').style.display = 'flex';
-        }
-
-        function closeItemPopup() {
-            document.getElementById('itemPopup').style.display = 'none';
         }
     </script>
 </body>
