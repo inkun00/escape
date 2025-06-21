@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 60vh;
+            height: 51vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,32 +91,31 @@
             <div id="stage2Text"></div>
         </div>
         <div class="button-container">
-            <button onclick="navigateToStage('stage3.html?from=stage2-1')">태극기를 가까이서 쳐다본다.</button>
-            <button onclick="navigateToStage('stage3.html?from=stage2-2')">태극기 냄새를 맡는다.</button>
+            <button onclick="navigateToStage('stage3.html?from=stage2-1')">?�극기�? 가까이??쳐다본다.</button>
+            <button onclick="navigateToStage('stage3.html?from=stage2-2')">?�극�??�새�?맡는??</button>
       </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
     <script>
-        // 주소창, 뒤로가기 방지
+        // 주소�? ?�로가�?방�?
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.go(1);
         };
 
-        // URL 파라미터에서 이전 선택 가져오기
-        const urlParams = new URLSearchParams(window.location.search);
+        // URL ?�라미터?�서 ?�전 ?�택 가?�오�?        const urlParams = new URLSearchParams(window.location.search);
         const previousChoice = urlParams.get('from');
 
-        // 이전 선택에 따른 텍스트 설정
+        // ?�전 ?�택???�른 ?�스???�정
         const stage2Text = document.getElementById('stage2Text');
         if (previousChoice === 'stage1-1-open') {
-            stage2Text.innerHTML = '조심스럽게 상자를 연다. 상자안에는 낡은 태극기가 하나 접혀있었다.';
+            stage2Text.innerHTML = '조심?�럽�??�자�??�다. ?�자?�에???��? ?�극기�? ?�나 ?��??�었??';
         } else if (previousChoice === 'stage1-1-close') {
-            stage2Text.innerHTML = '할아버지한테 허락을 받고 열어야 하지만 점점 열고 싶은 마음을 참을 수가 없다. 결국 나는 상자를 열었다. 상자 안에는 낡은 태극기가 접혀있었다.';
+            stage2Text.innerHTML = '?�아버�??�테 ?�락??받고 ?�어???��?�??�점 ?�고 ?��? 마음??참을 ?��? ?�다. 결국 ?�는 ?�자�??�었?? ?�자 ?�에???��? ?�극기�? ?��??�었??';
         } else if (previousChoice === 'stage1-2-open') {
-            stage2Text.innerHTML = '조심스럽게 상자를 연다. 상자안에는 낡은 태극기가 하나 접혀있었다.';
+            stage2Text.innerHTML = '조심?�럽�??�자�??�다. ?�자?�에???��? ?�극기�? ?�나 ?��??�었??';
         } else if (previousChoice === 'stage1-2-close') {
-            stage2Text.innerHTML = '할아버지한테 허락을 받고 열어야 하지만 점점 열고 싶은 마음을 참을 수가 없다. 결국 나는 상자를 열었다. 상자 안에는 낡은 태극기가 접혀있었다.';
+            stage2Text.innerHTML = '?�아버�??�테 ?�락??받고 ?�어???��?�??�점 ?�고 ?��? 마음??참을 ?��? ?�다. 결국 ?�는 ?�자�??�었?? ?�자 ?�에???��? ?�극기�? ?��??�었??';
         }
 
         function playClickSound() {
@@ -126,7 +125,7 @@
                 var playPromise = snd.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(function(error) {
-                        console.log("클릭음 재생 실패:", error);
+                        console.log("?�릭???�생 ?�패:", error);
                     });
                 }
             }
@@ -137,7 +136,7 @@
             try {
                 window.location.replace(url);
             } catch (error) {
-                console.log("페이지 이동 실패:", error);
+                console.log("?�이지 ?�동 ?�패:", error);
                 window.location.href = url;
             }
         }

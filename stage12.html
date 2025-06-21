@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,15 +22,15 @@
             <img src="./image/stage12.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>시위에 참여하고 있는 사람들이 많았다. 나는 그 중 하나였다. 박민주 아저씨가 무대 위에서 외치는 것을 듣고 나는 무언가 큰 것을 느꼈다.나는 민주화 운동에 참여하고 있었다.<br>
-                 날 구해줬던 주희 누나가 나에게 다가온다.<br>
-                 "아직 어린데 시위에도 적극적으로 참여하고 용감한걸!"<br>
-                 "이거 한 번 읽어보렴. 우리가 민주화 운동을 왜 해야하는지 알 수 있을거야."
+            <div>?�위??참여?�고 ?�는 ?�람?�이 많았?? ?�는 �?�??�나?�?? 박�?�??��??��? 무�? ?�에???�치??것을 ?�고 ?�는 무언가 ??것을 ?�꼈???�는 민주???�동??참여?�고 ?�었??<br>
+                 ??구해줬던 주희 ?�나가 ?�에�??��??�다.<br>
+                 "?�직 ?�린???�위?�도 ?�극?�으�?참여?�고 ?�감?�걸!"<br>
+                 "?�거 ??�??�어보렴. ?�리가 민주???�동?????�야?�는지 ?????�을거야."
             </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); addPaperItem(); setTimeout(() => window.location.href = './stage14.html', 300)">"누나, 고마워요. 잘 읽어볼게요."</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮아요. 안받아도 될 것 같아요."</button>
+            <button onclick="playClickSound(); addPaperItem(); setTimeout(() => window.location.href = './stage14.html', 300)">"?�나, 고마?�요. ???�어볼게??"</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮?�요. ?�받?�도 ??�?같아??"</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -38,7 +38,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
 
         function addPaperItem() {

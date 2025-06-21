@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,12 +22,12 @@
             <img src="./image/stage13.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>너가 아직 어리니까 민주화운동을 왜 해야되는지는 모를 수도 있어. 하지만 꼭 해야하는 거라는 건 알고 있었으면 좋겠어.<br>
-                 경찰이 오면 너도 무사하지 못할 수 있으니까 일단 여기서 떠나는 게 좋을 것 같아.</div>
+            <div>?��? ?�직 ?�리?�까 민주?�운?�을 ???�야?�는지??모�? ?�도 ?�어. ?��?�?�??�야?�는 거라??�??�고 ?�었?�면 좋겠??<br>
+                 경찰???�면 ?�도 무사?��? 못할 ???�으?�까 ?�단 ?�기???�나??�?좋을 �?같아.</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">네, 알겠습니다. 감사했습니다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage12.html', 300)">생각해보니 저도 시위에 참여해야할 것 같습니다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">?? ?�겠?�니?? 감사?�습?�다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage12.html', 300)">?�각?�보???�???�위??참여?�야??�?같습?�다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -35,7 +35,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>

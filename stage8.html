@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 60vh;
+            height: 51vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,11 +83,11 @@
             <img src="./image/stage8.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>아무리 생각해도 시위하는 사람들하고 같이 있다가는 나도 경찰에게 잡혀갈 것 같았다. 나는 골목길로 달려나갔지만 결국 경찰을 만났다.<br><br>"야! 거기 서! 빨리 안 서?"</div>
+            <div>?�무�??�각?�도 ?�위?�는 ?�람?�하�?같이 ?�다가???�도 경찰?�게 ?��?�?�?같았?? ?�는 골목길로 ?�려?�갔지�?결국 경찰??만났??<br><br>"?? 거기 ?? 빨리 ????"</div>
         </div>
         <div class="button-container">
-            <button id="followBtn" onclick="followPolice()">순순히 따라간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">도망친다.</button>
+            <button id="followBtn" onclick="followPolice()">?�순???�라간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">?�망친다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -95,15 +95,15 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
         function followPolice() {
             playClickSound();
-            // 텍스트 상자 내용 변경
-            document.querySelector('.text-container').innerHTML = `<div>나는 경찰서에 가서 조사를 받았다. 경찰 아저씨는 나에게 이름, 사는 곳, 부모님 전화번호를 물어봤다. 나는 2025년에서 왔다고 말했고, 부모님 핸드폰 번호가 무엇인지 알려줬다. 경찰 아저씨는 나를 전혀 믿지 않았다. 무엇인가 잘못 된 것 같다.<br>너무 무섭다...</div>`;
-            // 버튼 숨기기
+            // ?�스???�자 ?�용 변�?
+            document.querySelector('.text-container').innerHTML = `<div>?�는 경찰?�에 가??조사�?받았?? 경찰 ?��??�는 ?�에�??�름, ?�는 �? 부모님 ?�화번호�?물어봤다. ?�는 2025?�에???�다�?말했�? 부모님 ?�드??번호가 무엇?��? ?�려줬다. 경찰 ?��??�는 ?��? ?��? 믿�? ?�았?? 무엇?��? ?�못 ??�?같다.<br>?�무 무섭??..</div>`;
+            // 버튼 ?�기�?
             document.querySelector('.button-container').style.display = 'none';
-            // 10초 후 페이드아웃 및 opener로 전환
+            // 10�????�이?�아??�?opener�??�환
             setTimeout(() => {
                 document.body.style.transition = 'opacity 2s';
                 document.body.style.opacity = '0';

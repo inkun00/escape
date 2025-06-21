@@ -24,13 +24,13 @@
         }
         .image-container {
             width: 100%;
-            height: 60vh;
+            height: 51vh;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid #fff;
             border-radius: 15px;
-            background: #111;
+            background: #000;
             margin-bottom: 2vh;
         }
         .game-image {
@@ -88,17 +88,17 @@
             <img src="image/stage1.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>할아버지를 놀래켜드리고 싶었는데 아쉽게도 안계신다. 포기하고 그냥 들어간다. 익숙한 낡은 방이지만 처음보는 상자가 눈에 띈다. 굉장히 오래되보이는 나무상자다. 이 방에 자주 들어와봤는데도 할아버지가 한 번도 보여준 적이 없는 것이었다.</div>
-            <div style="margin-top:10px;">"이건 무슨 상자일까. 한 번 열어볼까?"</div>
+            <div>?�아버�?�??�?�켜?�리�??�었?�데 ?�쉽게도 ?�계?�다. ?�기?�고 그냥 ?�어간다. ?�숙???��? 방이지�?처음보는 ?�자가 ?�에 ?�다. 굉장???�래?�보?�는 ?�무?�자?? ??방에 ?�주 ?�어?�봤는?�도 ?�아버�?가 ??번도 보여준 ?�이 ?�는 것이?�다.</div>
+            <div style="margin-top:10px;">"?�건 무슨 ?�자?�까. ??�??�어볼까?"</div>
         </div>
         <div class="button-container">
-            <button onclick="navigateToStage('stage2.html?from=stage1-2-open')">상자를 연다.</button>
-            <button onclick="navigateToStage('stage2.html?from=stage1-2-close')">상자를 열지 않는다.</button>
+            <button onclick="navigateToStage('stage2.html?from=stage1-2-open')">?�자�??�다.</button>
+            <button onclick="navigateToStage('stage2.html?from=stage1-2-close')">?�자�??��? ?�는??</button>
         </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
     <script>
-        // 주소창, 뒤로가기 방지
+        // 주소�? ?�로가�?방�?
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.go(1);
@@ -111,7 +111,7 @@
                 var playPromise = snd.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(function(error) {
-                        console.log("클릭음 재생 실패:", error);
+                        console.log("?�릭???�생 ?�패:", error);
                     });
                 }
             }
@@ -121,7 +121,7 @@
             try {
                 window.location.replace(url);
             } catch (error) {
-                console.log("페이지 이동 실패:", error);
+                console.log("?�이지 ?�동 ?�패:", error);
                 window.location.href = url;
             }
         }

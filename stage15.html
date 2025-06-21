@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 60vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,20 +22,20 @@
             <img src="./image/stage15.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>경찰을 피해 정신없이 달리다보니 늦은 밤이 되었다.<br>
-                 앞에 공원이 있었는데 낯익은 사람이 벤치에 앉아있었다.<br>
-                 그 사람은 박민주 아저씨였다.<br>
-                 "아저씨도 여기까지 도망온 거에요?"<br>
-                 "너구나. 맞아, 내가 잘못한 것도 없는데 도망가는게 너무 부끄러운데, 경찰에 잡히면 안되는 상황이거든."<br>
-                 "아저씨는 왜 시위를 하는거에요? 힘들기만 하고 경찰한테 잡히면 많이 맞고 감옥에 간다고 들었어요."<br>
-                 "지금 이 정부가 국민들에게 하는 짓을 생각하면 참을 수가 없어. 몇몇 권력에 욕심있는 사람들이 자신을 위해 민주주의를 탄압하고 있어. 수 많은 사람들이 희생당하고 있어."<br>
-                 "아저씨 같은 분들이 많이 계셔서 지금 우리가 민주주의를 누리고 살고 있는거군요."
-                 "부탁이 하나 있는데 들어줄래? 정말 중요한 부탁이야. 그리고 어렵고 위험한 부탁이야."
+            <div>경찰???�해 ?�신?�이 ?�리?�보????? 밤이 ?�었??<br>
+                 ?�에 공원???�었?�데 ??��?� ?�람??벤치???�아?�었??<br>
+                 �??�람?� 박�?�??��??��???<br>
+                 "?��??�도 ?�기까�? ?�망??거에??"<br>
+                 "?�구?? 맞아, ?��? ?�못??것도 ?�는???�망가?�게 ?�무 부?�러?�데, 경찰???�히�??�되???�황?�거??"<br>
+                 "?��??�는 ???�위�??�는거에?? ?�들기만 ?�고 경찰?�테 ?�히�?많이 맞고 감옥??간다�??�었?�요."<br>
+                 "지�????��?가 �???�에�??�는 짓을 ?�각?�면 참을 ?��? ?�어. 몇몇 권력???�심?�는 ?�람?�이 ?�신???�해 민주주의�??�압?�고 ?�어. ??많�? ?�람?�이 ?�생?�하�??�어."<br>
+                 "?��???같�? 분들??많이 계셔??지�??�리가 민주주의�??�리�??�고 ?�는거군??"<br>
+                 "부?�이 ?�나 ?�는???�어줄래? ?�말 중요??부?�이?? 그리�??�렵�??�험??부?�이??"
                  </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage16.html', 300)">네, 물론이죠.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage17.html', 300)">죄송해요. 못할 것 같아요.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage16.html', 300)">?? 물론?�죠.</button>
+            <button onclick="declineRequest()">죄송?�요. 못할 �?같아??</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -43,7 +43,25 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+        }
+
+        function declineRequest() {
+            playClickSound();
+
+            const textContainer = document.querySelector('.text-container');
+            textContainer.innerHTML = `<div>"죄송?�요. 부?�을 못들?�드�?�?같아?? 지�??�무 무서?�요. ?�??지�??�기??빨리 벗어?�서 집으�?가�??�어??"<br>"그래. ???�직 ?�무 ?�리�? ?�른?�라�??�더?�도 민주?�운?�에 참여?�는 것이 ?�운 것�? ?�니지. 괜찮?? ?�른 ?�람?�테 부?�해볼게. ?? �?곳이 ?��?? ?�늘?� ?�단 ?�리집에???�고 ?�일 집을 찾아보자."</div>`;
+
+            document.querySelector('.button-container').style.display = 'none';
+
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 5s';
+                document.body.style.opacity = 0;
+
+                setTimeout(() => {
+                    window.location.href = './stage17.html';
+                }, 5000);
+            }, 10000);
         }
     </script>
 </body>
