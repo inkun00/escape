@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,15 +22,15 @@
             <img src="./image/stage12.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�위??참여?�고 ?�는 ?�람?�이 많았?? ?�는 �?�??�나?�?? 박�?�??��??��? 무�? ?�에???�치??것을 ?�고 ?�는 무언가 ??것을 ?�꼈???�는 민주???�동??참여?�고 ?�었??<br>
-                 ??구해줬던 주희 ?�나가 ?�에�??��??�다.<br>
-                 "?�직 ?�린???�위?�도 ?�극?�으�?참여?�고 ?�감?�걸!"<br>
-                 "?�거 ??�??�어보렴. ?�리가 민주???�동?????�야?�는지 ?????�을거야."
+            <div>사람들의 구호 소리를 따라서 나도 소리를 질렀다. 사람들의 외침을 들으니 나도 감정이 솟아올랐고, 함께 외치면서 마음이 하나가 되는 것 같았다. 민주주의는 쉽게 얻어낸 것이 아니라는 것을 느끼게 되었다.<br>
+                 어제 나를 구해주었던 주희누나가 나를 발견하고 말을 걸었다.<br>
+                 "아직 어린데 시위에 열심히 참여하는 걸 보니, 많이 대견한 걸"<br>
+                 "많은 사람들이 민주화를 원하고 있어. 이 사람들은 다칠 수도 있고 심하면 경찰서에 끌려가서 고문을 받을 수도 있어. 그걸 감수하고 시위를 하는거야. 이거 한 번 읽어볼래? 민주화 운동에 대해서 알 수 있어."
             </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); addPaperItem(); setTimeout(() => window.location.href = './stage14.html', 300)">"?�나, 고마?�요. ???�어볼게??"</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮?�요. ?�받?�도 ??�?같아??"</button>
+            <button onclick="playClickSound(); addPaperItem(); setTimeout(() => window.location.href = './stage14.html', 300)">"고마워요. 읽어볼게요."</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮아요. 아직 읽어도 이해를 못할 것 같아요."</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -38,7 +38,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
 
         function addPaperItem() {

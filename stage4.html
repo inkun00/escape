@@ -24,13 +24,13 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid #fff;
             border-radius: 15px;
-            background: #000; /* 검?� 배경 ?��? */
+            background: #000; /* 검은 배경 추가 */
         }
         .game-image {
             max-width: 100%;
@@ -88,17 +88,16 @@
             <img src="image/stage4.png" class="game-image" alt="scene image">
         </div>
         <div id="textContainer" class="text-container">
-            <div id="stage4Text">?�음.. 무슨 ?�리지? ???�렇�??�끄?�워. 뭐라�??�는 �?같�???.. ??.??. ?� ?? 주�???많�? ?�람?�이 구호�??�치�??�다.
-                                  매운 ?�새가 ?�하�??�서 ?�이 막힐 지경이?? 
-                                  멀리에??경찰?�도 ?�는 �?같다. ?�무 무섭?? ?�떻�??�다가 ?�기???�는걸까. ?�는 분명???�아버�?방에 ?�었?�데...
-                                 </div>
+            <div id="stage4Text">음.. 무슨 소리지? 뭔가 시끄러워. 뭐라는 것 같기도 하고... 주위에 많은 사람들이 구호를 외치고 있다.
+매운 냄새가 코를 찌를 지경이다.
+멀리서 경찰들도 보이는 것 같다. 너무 무섭다. 어떻게 하다가 여기까지 온걸까. 나는 분명히 할아버지 방에 있었는데...</div>
         </div>
         <div id="initialButton" class="button-container">
-            <button onclick="openEyes()">?�을 ?�다.</button>
+            <button onclick="openEyes()">눈을 뜬다.</button>
         </div>
         <div id="actionButtons" class="button-container" style="display: none;">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage5.html', 300)">주�? ?�람?�게 물어본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage6.html', 300)">골목?�로 ?�는??</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage5.html', 300)">주변 사람에게 물어본다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage6.html', 300)">골목으로 나간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -115,15 +114,15 @@
             if (bgm) {
                 bgm.volume = 0;
                 bgm.currentTime = 0;
-                bgm.play().catch(error => console.log("배경?�악 ?�생 ?�패:", error));
+                bgm.play().catch(error => console.log("배경음악 재생 실패:", error));
 
                 const gameImage = document.querySelector('.game-image');
                 const textContainer = document.getElementById('textContainer');
                 const stage4Text = document.getElementById('stage4Text');
 
-                // ?��?지 ?�이?�인
+                // 게임 이미지 보이기
                 gameImage.style.opacity = '1';
-                // ?�스???�이?�인
+                // 텍스트 컨테이너 보이기
                 textContainer.style.opacity = '1';
                 stage4Text.style.opacity = '1';
 
@@ -144,7 +143,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
     </script>
 </body>

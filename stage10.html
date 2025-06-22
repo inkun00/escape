@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,11 +22,13 @@
             <img src="./image/stage10.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>책상 ?�에 ?�목???�는 공책???�여?�다. 공책???�쳐???�어보니 ?�두???�권???�던 ?�좋?� ?�이 ?�세???��??�고 민주?��? ?�해 ?�야???�이?�는 ?�목?�로 많�? ?�용???��??�었??<br>"?? �?공책?� ?��? 민주?�운?�을 ?�면???�어?��?거야. ?�두???�?�령???�재?�치�??�해 민주주의�??�압???�용???�세???��??��?."<br>"?�거 ?��? 가?��??????�어보고 ?�려?�려???�까??"<br>"물론 괜찮?�?? ?�걸 갖고 ?�다가 경찰??보기?�도 ?�면 ??뿐만 ?�니??부모님??많이 곤�??��??�텐??괜찮겠어?"</div>
+            <div>책상을 살펴보니 제목이 없는 공책이 한 권 있었다. 공책을 펼쳐서 읽어보니 전두환 대통령과 정부가 국민들에게 했던 일들이 자세하게 적혀있었다. 5.18 민주화 운동을 진압한 일, 대통령 선거를 간접선거로 하여 선출된 일, 신문과 방송을 탄압한 일 등이 자세히 적혀있었고, 민주화를 위해 해야할 일 등이 적혀있었다.<br>
+                 "아저씨, 저 이 공책 갖고있다가 계속 봐도 되나요? 민주화운동에 대해서 궁금해요."<br>
+                 "그래? 그거 복사한 게 더 있으니까 가지고 가서 읽어도 되. 그런데 갖고있다가 경찰이 보게 되면 너 뿐만 아니라 부모님까지도 곤란해질 수 있는데 괜찮겠어?"</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); addBookItem(); playCrowdBGMAndGo();">괜찮?�요. 가?�갈게요.</button>
-            <button onclick="playClickSound(); playCrowdBGMAndGo();">?? ?�말?? 그럼 ?�기?�만 ?�을게요.</button>
+            <button onclick="playClickSound(); addBookItem(); playCrowdBGMAndGo();">괜찮아요. 잘 간직하면서 읽을게요.</button>
+            <button onclick="playClickSound(); playCrowdBGMAndGo();">아, 정말요? 그럼 그냥 여기서만 읽을게요.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -34,14 +36,14 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
         function addBookItem() {
             if (window.parent && window.parent.addItemToInventory) {
                 window.parent.addItemToInventory('book');
-                // ?�이???�명 �??��?지??index.html?�서 처리?�도�???
+                // ?�이???�명 �??��?지??index.html?�서 처리?�도�???
             } else if (window.parent) {
-                // ?�수가 ?�으�?메시지�??�달
+                // ?�수가 ?�으�?메시지�??�달
                 window.parent.postMessage({ type: 'addItem', item: 'book' }, '*');
             }
         }

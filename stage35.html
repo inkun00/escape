@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,19 +22,41 @@
             <img src="./image/stage35.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div id="sceneText"></div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage36.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage36.html', 300)">버튼2</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage37.html', 300)">태극기를 잘 접어서 상자에 넣는다.</button>
+            
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sceneText = document.getElementById('sceneText');
+            const hasTape = window.parent.inventory && window.parent.inventory.includes('tape');
+
+            const baseText = '할아버지가 놀란 표정으로 묻는다.<br>' +
+                '"아니, 그 이름을 어떻게 알았어?"<br>' +
+                '"제가 그 아저씨를 꿈 속에서 도와줬어요." 나는 기억나는 일들을 전부 할아버지께 말씀드렸다.<br>' +
+                '할아버지는 눈물을 흘리면서 얘기하셨다.<br>' +
+                '"내가 중학교 때, 문구점에 가다가 대학생들 시위하는게 궁금해서 갔다가 경찰한테 잡혀갈 뻔 한거를 아저씨가 구해주셨단다. 그런데 나는 아저씨를 못구했어. 내가 그 때 이 태극기하고 테이프만 갖고 있었더라면..."<br>';
+
+            if (hasTape) {
+                sceneText.innerHTML = baseText +
+                    '"할아버지, 제가 민주 아저씨 구해드렸어요. 무대 위에서 연설도 엄청 멋있게 하셨어요. 사람들이 환호하고 난리였어요."<br>' +
+                    '"고맙다, 얘야. 너가 내 평생 한을 풀어주었구나."<br>' +
+                    '할아버지는 태극기를 부여잡고 계속 눈물을 흘리셨다.';
+            } else {
+                sceneText.innerHTML = baseText +
+                    '"할아버지, 저도 민주 아저씨를 만났어요. 무대 위에서 연설도 엄청 멋있게 하셨어요. 저도 아저씨가 경찰에 잡혀갔을 때 신문사에도 가고 성당에도 가서 알렸는데, 결국 구하지는 못했어요..."<br>' +
+                    '"고맙다, 얘야. 너도 많이 노력했구나. 아저씨를 위해 노력해줘서 고맙다. 정말 고마워..." 할아버지는 태극기를 부여잡고 계속 눈물을 흘리셨다.';
+            }
+        });
+
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
         }
     </script>
 </body>

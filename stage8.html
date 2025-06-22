@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,11 +83,12 @@
             <img src="./image/stage8.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�무�??�각?�도 ?�위?�는 ?�람?�하�?같이 ?�다가???�도 경찰?�게 ?��?�?�?같았?? ?�는 골목길로 ?�려?�갔지�?결국 경찰??만났??<br><br>"?? 거기 ?? 빨리 ????"</div>
+            <div>사람들이 없는 골목길로 도망쳤다. 이제 좀 안전한가 생각했는데 모퉁이에서 갑자기 경찰이 나타났다.<br>
+                 "너, 이리와. 빨리! 지금 안오면 경찰서로 잡아간다."</div>
         </div>
         <div class="button-container">
-            <button id="followBtn" onclick="followPolice()">?�순???�라간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">?�망친다.</button>
+            <button id="followBtn" onclick="followPolice()">순순히 따라간다.</button>
+            <button onclick="escapeAndNavigate()">도망친다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -95,15 +96,28 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
+
+        function escapeAndNavigate() {
+            playClickSound();
+            
+            // localStorage에 텍스트 변경 플래그 저장
+            localStorage.setItem('stage7TextChanged', 'true');
+            
+            // stage7로 이동
+            setTimeout(() => {
+                window.location.href = './stage7.html';
+            }, 300);
+        }
+
         function followPolice() {
             playClickSound();
-            // ?�스???�자 ?�용 변�?
-            document.querySelector('.text-container').innerHTML = `<div>?�는 경찰?�에 가??조사�?받았?? 경찰 ?��??�는 ?�에�??�름, ?�는 �? 부모님 ?�화번호�?물어봤다. ?�는 2025?�에???�다�?말했�? 부모님 ?�드??번호가 무엇?��? ?�려줬다. 경찰 ?��??�는 ?��? ?��? 믿�? ?�았?? 무엇?��? ?�못 ??�?같다.<br>?�무 무섭??..</div>`;
-            // 버튼 ?�기�?
+            // 스테이지 내용 변경
+            document.querySelector('.text-container').innerHTML = `<div>경찰서로 끌려간 나에게 경찰은 이것저것 물어봤다. <br> 이름, 나이, 사는 곳, 부모님 전화번호 등을 물어봤는데 어떻게 된 일인지 하나도 기억이 나지 않는다.<br> 너무 무섭다... 어지럽고 눈이 감긴다...</div>`;
+            // 버튼 숨기기
             document.querySelector('.button-container').style.display = 'none';
-            // 10�????�이?�아??�?opener�??�환
+            // 10초 후에 페이지 복원
             setTimeout(() => {
                 document.body.style.transition = 'opacity 2s';
                 document.body.style.opacity = '0';

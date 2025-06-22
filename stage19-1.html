@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -15,7 +15,7 @@
         .button-container button:hover { background: #eee; }
         .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
         
-        /* ?�업 ?��???*/
+        /* ?�업 ?��???*/
         .popup-overlay {
             display: none;
             position: fixed;
@@ -67,32 +67,32 @@
             <img src="./image/stage19-1.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�른 곳�? ???�트?�져?�는??책장???�는 책들??그나�?건드리�? ?��? 부분이 ?�다. ?�화??보면 ?�런 ??뭔�? ?�겨?�있?�데<br>
-                 조심?�럽�?책을 치워본다. ?�편?�는 ?�겨?�있??금고같�? 것이 ?�었?? 좌물?�로 ?�겨?�고 비�?번호 4?�리�??�력?�야 ?�다.<br>
-                 빨리 ??금고�??�어??뭐라??찾아???�문?�에 ?�울?�게 ?��?�??�연???�달?�야 ?�다.</div>
+            <div>다른 곳은 모두 흐트러져있는데 책장 일부 책들이 반듯이 놓여져있다. 경찰이 이 곳은 안건드린 것 같다.<br>
+                 조심스럽게 책을 치워본다. 책 뒤에는 금고 같은 것이 벽에 박혀있었다. 비밀번호는 4자리이다.<br>
+                 빨리 비밀번호를 알아내서 금고를 열어야 하는데 비밀번호가 뭘까 아저씨 생일인가?</div>
         </div>
         <div class="button-container">
-            <button onclick="openLockPopup()">?�물?��? ?�어본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">비�?번호�?모르겠다. 그냥 ?�문?�로 간다.</button>
+            <button onclick="openLockPopup()">자물쇠 비밀번호를 입력한다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">비밀번호를 모르겠다. 그냥 신문사로 간다.</button>
         </div>
     </div>
     
-    <!-- ?�업�?-->
+    <!-- ?�업�?-->
     <div id="lockPopup" class="popup-overlay">
         <div class="popup-content">
-            <div>4?�리 번호�??�력?�는 ?�물?�이?? ?��? ?��??�는 ?�짜??�?같다.</div>
+            <div>4자리 숫자를 입력해야 열리는 자물쇠이다.</div>
             <input type="text" id="lockInput" placeholder="0000" maxlength="4" onkeypress="handleKeyPress(event)">
             <br>
-            <button onclick="checkLock()">?�력</button>
+            <button onclick="checkLock()">입력</button>
             <button onclick="closeLockPopup()">취소</button>
         </div>
     </div>
     
-    <!-- ?�공 ?�업�?-->
+    <!-- ?�공 ?�업�?-->
     <div id="successPopup" class="popup-overlay">
         <div class="popup-content">
-            <div>철컥, ?�물?��? ?�렸??</div>
-            <button onclick="closeSuccessPopup()">?�인</button>
+            <div>철컥, 자물쇠가 열렸다.</div>
+            <button onclick="closeSuccessPopup()">확인</button>
         </div>
     </div>
     
@@ -101,7 +101,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
         
         function openLockPopup() {
@@ -121,7 +121,7 @@
                 closeLockPopup();
                 document.getElementById('successPopup').style.display = 'flex';
             } else {
-                alert('?�?�습?�다. ?�시 ?�도?�주?�요.');
+                alert('비밀번호가 아닌 것 같다. 안열린다. 민주화운동과 관련된 번호일 텐데...');
                 document.getElementById('lockInput').value = '';
                 document.getElementById('lockInput').focus();
             }

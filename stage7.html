@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,25 +83,56 @@
             <img src="./image/stage7.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>"꼬마?? ?�쪽?�야. 빨리 ?�어!"<br>
-?�떤 ?��??��? ?�에�??�리 친다. ?�는 ?�들?��?�??�렸??<br>
-"?�야, ???�까???�망갔어. 걱정?�잖??"<br>
-?�까 만났???�나???�께 ?�었??<br>
-"?�리 같이 가?? ?�전??곳을 ?�고 ?�어."<br>
-?�나가 걱정?�럽�??��? 쳐다보며 ?�기?�다.</div>
+            <div id="stage7Text"></div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage9.html', 300)">?�나�??�라간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">?�자 ?�른 곳으�?가?�고 ?�다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage9.html', 300)">"네, 알겠어요." 아저씨를 따라간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">낯선 사람을 따라가지 말라고 했다. 혼자 도망간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
     <script>
+        const originalText = `앞쪽 담 위에서서 어떤 아저씨가 손짓을 한다. <br>
+                "얘들아, 이쪽으로 빨리 와!"<br>
+                 누나와 함께 아저씨의 손을 잡고 담을 넘어간다.
+                 "민주 아저씨, 고마워요. 아저씨 아니었으면 얘와 함께 경찰에 잡힐 뻔했어요."<br>
+                 "얘야, 너는 어린 녀석이 왜 여기에 있는거야? 일단 여기는 위험하니, 안전한 곳으로 가자." <br>`;
+
+        const escapeText = `다시, 아까 누나와 아저씨가 있는 곳으로 달려갔다. 그 곳에는 아직 아저씨가 담 위에서 누구를 기다리는 것 같았다.<br>
+                "꼬마야, 어디갔다와. 위험하게 혼자 도망가면 어떡해? 빨리 내 손 잡아!"<br>
+                나는 허둥지둥 아저씨의 손을 잡았다.<br>
+                "혼자 도망갔다가 경찰아저씨를 만났어요."<br>
+                "지금 여기서 경찰을 만나면 어떻게 될지 몰라. 너 뿐만 아니라 부모님도 곤란해질 수 있어. 일단 안전한 곳으로 피하자."`;
+
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
+
+        // stage8에서 호출할 함수
+        function changeToEscapeText() {
+            const textElement = document.getElementById('stage7Text');
+            textElement.innerHTML = escapeText;
+        }
+
+        // 페이지 로드 시 텍스트 설정
+        window.addEventListener('load', function() {
+            const textElement = document.getElementById('stage7Text');
+            
+            // localStorage에서 텍스트 변경 플래그 확인
+            const textChanged = localStorage.getItem('stage7TextChanged');
+            
+            if (textChanged === 'true') {
+                // 도망친 후 텍스트로 변경
+                textElement.innerHTML = escapeText;
+                // 플래그 제거
+                localStorage.removeItem('stage7TextChanged');
+            } else {
+                // 원래 텍스트로 설정
+                textElement.innerHTML = originalText;
+            }
+        });
     </script>
 </body>
 </html>

@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,14 +83,16 @@
             <img src="./image/stage6.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�에 ?�는 골목?�로 ?�어?�다. ?�람?��? ?��?�??�끄?�운 ?�리???�전?�다. ?�기?�기에??뭐�? ?��????�리, ?�어가???�리, 고함 ?�리가 ?�다.
-                                 멀리서 경찰???��? 보고 쫒아?�다.
-                                 
-                "???? 거기?? 빨리 ?�서?"</div>
+            <div>앞에 있는 사람에게 다가가서 물어본다.<br>
+                "지금 무슨 일이 일어난거에요? 왜 이렇게 사람들이 많아요?"<br>
+                "어? 어린 아이가 여기 있으면 위험해. 크게 다칠 수도 있어."<br>
+                앞에서 경찰들이 몽둥이를 들고 사람들을 때리고 있다.<br>
+                "얘야. 일단 여기에서 피해야겠다. 나하고 같이 가자."
+                </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">?�시 ?�나가 ?�는 쪽으�??�망간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">경찰???�해 ?�자 ?�망친다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">누나와 함께 도망간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">혼자 골목쪽으로 도망간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -98,7 +100,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>

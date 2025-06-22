@@ -22,11 +22,14 @@
             <img src="./image/stage27.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div>많은 사람들의 시위와 탄원에도 민주아저씨는 풀려나지 않았다. 그리고 다음날, 경찰에서 발표가 있었다.<br>
+                 "어제 밤, 치안본부에서 간첩 혐의로 조사를 받던 박민주씨가 사망하였습니다. 박민주씨는 조사 과정에서 조사관이 책상을 '탁' 치면서 죄를 묻자, 놀라며 '억'하는 소리와 함께 쓰러졌고 병원에 옮겼으나 사망하였습니다. 사망요인은 심정지였습니다."<br>
+                 갑작스러운 소식에 나는 숨을 쉴 수가 없었다. 민주아저씨를 구하지 못했다는 사실에 절망하였다. 눈물이 쏟아지는 것을 참을 수가 없었다.
+                </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage28.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage28.html', 300)">버튼2</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage30.html', 300)">장례식장으로 간다.</button>
+            
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -34,7 +37,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>

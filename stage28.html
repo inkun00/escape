@@ -22,11 +22,15 @@
             <img src="./image/stage28.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div>민주아저씨가 많이 지친 내색을 보이며 천천히 걸어나왔다. 사람들은 아저씨를 보고 눈물을 흘리면서도 기뻐하였다. 나도 민주아저씨를 보는 순간 눈물이 왈칵 쏟아졌다.<br>
+                 "아저씨, 정말 다행이에요. 어떻게 될까봐 진짜 걱정했어요."<br>
+                 "신부님한테 이야기 들었어. 너가 많이 애써줬다면서... 정말 고맙다."<br>
+                 "아니에요. 아저씨는 억울하게 잡혀있었던거잖아요. 제가 아니어도 당연히 풀려났어야해요. 아저씨 덕분에 민주주의가 얼마나 소중한지 알게 됐어요. 어떻게 죄 없는 사람을 잡아다가 고문을 할 수 있어요!"<br>
+                 "그래, 정말 말도 안되는 거지. 더 이상 참으면 안되. 전국민이 일어나야되. 우리 같이 가자."</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage29.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage29.html', 300)">버튼2</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage31.html', 300)">아저씨와 함께 시위 현장으로 간다.</button>
+        
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -34,7 +38,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>

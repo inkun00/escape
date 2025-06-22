@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,20 +22,20 @@
             <img src="./image/stage15.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>경찰???�해 ?�신?�이 ?�리?�보????? 밤이 ?�었??<br>
-                 ?�에 공원???�었?�데 ??��?� ?�람??벤치???�아?�었??<br>
-                 �??�람?� 박�?�??��??��???<br>
-                 "?��??�도 ?�기까�? ?�망??거에??"<br>
-                 "?�구?? 맞아, ?��? ?�못??것도 ?�는???�망가?�게 ?�무 부?�러?�데, 경찰???�히�??�되???�황?�거??"<br>
-                 "?��??�는 ???�위�??�는거에?? ?�들기만 ?�고 경찰?�테 ?�히�?많이 맞고 감옥??간다�??�었?�요."<br>
-                 "지�????��?가 �???�에�??�는 짓을 ?�각?�면 참을 ?��? ?�어. 몇몇 권력???�심?�는 ?�람?�이 ?�신???�해 민주주의�??�압?�고 ?�어. ??많�? ?�람?�이 ?�생?�하�??�어."<br>
-                 "?��???같�? 분들??많이 계셔??지�??�리가 민주주의�??�리�??�고 ?�는거군??"<br>
-                 "부?�이 ?�나 ?�는???�어줄래? ?�말 중요??부?�이?? 그리�??�렵�??�험??부?�이??"
+            <div>경찰을 피해 정신없이 도망쳤다. 정신을 차리고 보니 밤이었다.<br>
+                 근처에 공원이 있어서 나는 쉬기 위해 공원 벤치로 갔다.<br>
+                 벤치치에는 낯익은 사람이 앉아있었다.<br>
+                 "아저씨도 여기까지 도망쳐서 온거에요?"<br>
+                 "너구나, 맞아, 나도 경찰이 사람들을 때리면서 달려들 때 아무것도 하지 못하고 도망쳐왔어."<br>
+                 "경찰들이 시위하는 사람들을 왜 때리는 거에요? 무슨 잘못을 한 건가요?"<br>
+                 "경찰들도 사실 다 알고 있단다. 우리가 죄가 없다는 걸. 하지만 위에서 잡으라고 시키니까 하는거야. 우리는 전두환 정권의 독재와 민주주의 탄압에 맞서는거야. 이건 당연히 해야할 일이야."<br>
+                 "민주주의를 지키기 위해 많은 사람들이 자신을 희생하고 있군요. 저도 아까 시위에 참여하면서 느꼈어요. 민주주의는 우리의 권리인데 탄압하고 있다는 것을요."<br>
+                 "그래, 맞아. 잘 이해하고 있구나. 아, 부탁이 하나 있는데 들어줄 수 있니? 강요하는 건 아니야. 너가 위험해질 수 있는 부탁이야. 어쩌면 집에 돌아갈 수 없을지도 몰라."
                  </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage16.html', 300)">?? 물론?�죠.</button>
-            <button onclick="declineRequest()">죄송?�요. 못할 �?같아??</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage16.html', 300)">물론이죠.</button>
+            <button onclick="declineRequest()">죄송해요. 못할 것 같아요.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -43,14 +43,16 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
 
         function declineRequest() {
             playClickSound();
 
             const textContainer = document.querySelector('.text-container');
-            textContainer.innerHTML = `<div>"죄송?�요. 부?�을 못들?�드�?�?같아?? 지�??�무 무서?�요. ?�??지�??�기??빨리 벗어?�서 집으�?가�??�어??"<br>"그래. ???�직 ?�무 ?�리�? ?�른?�라�??�더?�도 민주?�운?�에 참여?�는 것이 ?�운 것�? ?�니지. 괜찮?? ?�른 ?�람?�테 부?�해볼게. ?? �?곳이 ?��?? ?�늘?� ?�단 ?�리집에???�고 ?�일 집을 찾아보자."</div>`;
+            textContainer.innerHTML = `<div>"죄송해요. 못할 것 같아요. 집에 못돌아갈 수도 있다고 생각하니 너무 무서워요"<br>
+                                            "괜찮아. 쉬운 일이 아니니까. 아직 집이 어디인지 기억이 안나지? 일단 오늘은 우리집에 들어가서 자자. 아저씨가 맛있는 라면 끓여줄게."
+                                            `;
 
             document.querySelector('.button-container').style.display = 'none';
 

@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,15 +22,15 @@
             <img src="./image/stage16.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>"????곳이 ?��?? 기억???�까지 ?�단 ?�리집에??같이 ?�자. 그리�?6??10?�에 ?�규모 ?�위�????�정?�야. ?�때???�?�생??뿐만 ?�니??많�? ?��??�이 참여?�여 직선??개헌???�해 ?�께 ?�거?? ???�극기는 �????�용??건데 ?�면?�는 ?�설문이 ?��??�어."<br>
-                 "?�걸 ?��? 갖고 ?�으�??�나??"
-                 "맞아, ?��? ?�시?�도 ?��? 경찰???��?�??�도 ?�거?? 그럼 ???�설문이 ?�상???�오지�?못할거야. ?��? 갖고 ?�다가 ?��? ?��?가�??�른 ?�람?�게 �??�달?�줘."<br>
+            <div>"이 태극기는 곧 있을 6월 10일 대규모 집회에서 사용할 태극기야. 뒷면에는 시위하는 사람들을 대표해서 낭독할 연설문이 적혀있단다. 전두환 정권이 장기집권을 위해 직선제 개헌을 거부하는 것을 비판하고 민주화를 요구하는 내용이란다."<br>
+                 "제가 이걸 갖고 있으면 될까요?"
+                 "맞아, 내가 갖고 있다가 경찰에 잡히게 되면 이 태극기를 사용할 수가 없거든. 너라면 의심을 받지 않을 것 같아. 잘 간직해주렴."<br>
         
             </div>
         </div>
         <div class="button-container">
-            <button onclick="acceptFlag()">?�극기�? 받는??</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage17.html', 300)">?�극기�? 받�? ?�는??</button>
+            <button onclick="acceptFlag()">"네, 제가 잘 가지고 있을게요." 태극기를 받는다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage17.html', 300)">"아니요, 괜찮습니다." 거절한다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -38,16 +38,17 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
 
         function acceptFlag() {
             playClickSound();
-            // 부�?창에 ?�극�??�이??추�? 메시지 ?�송
-            if (window.parent && window.parent !== window) {
-                window.parent.postMessage('addFlag', '*');
+            if (window.parent && window.parent.addItemToInventory) {
+                window.parent.addItemToInventory('flag');
             }
-            setTimeout(() => window.location.href = './stage17.html', 300);
+            setTimeout(() => {
+                window.location.href = './stage17.html';
+            }, 300);
         }
     </script>
 </body>

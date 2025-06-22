@@ -7,13 +7,18 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
         .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
         .button-container button:hover { background: #eee; }
         .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 5s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -22,19 +27,37 @@
             <img src="./image/stage33.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div id="sceneText">민주주의가 승리한 기쁨의 현장에서 민주아저씨는 나에게 태극기를 주었다.<br>
+                 "고마워, 너 덕분에 나도 살았고, 대한민국도 살았어."<br>
+                 "아니에요. 민주주의가 무엇인지, 얼마나 소중한 건지도 모르고 살았었는데 아저씨 덕분에 느낄 수 있었어요."<br>
+                 "이 태극기는 너에게 줄게. 잘 간직해줬으면 좋겠어. 그리고 우리집에도 자주 놀러와. 아저씨가 또 라면 끓여줄게."<br>
+
+            </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage34.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage34.html', 300)">버튼2</button>
+            <button id="takeFlagButton">태극기를 받는다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
     <script>
+        document.getElementById('takeFlagButton').addEventListener('click', function() {
+            playClickSound();
+            
+            const sceneText = document.getElementById('sceneText');
+            sceneText.innerHTML = '아저씨가 주는 태극기를 받는 순간, 귀가 먹먹해지고 소리가 울린다. 시야가 점점 흐려진다.';
+            
+            this.style.display = 'none'; // 버튼 숨기기
+
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = './stage34.html';
+            }, 10000);
+        });
+
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
         }
     </script>
 </body>

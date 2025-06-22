@@ -7,34 +7,72 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
         .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
         .button-container button:hover { background: #eee; }
         .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    
+        .hidden {
+            opacity: 0;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 3s ease-in;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="image-container">
+        <div class="image-container hidden">
             <img src="./image/stage32.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div id="sceneText">그 이후 전국적인 민주화 운동이 전개된다. 전국민이 곳곳에서 직선제 개헌, 민주화를 외치고 독재 정권의 퇴진을 요구하였다.<br>
+                 그리고 6월 29일, 유력한 대통령 선거 후보가 기자회견을 하게 된다.</div>
         </div>
-        <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage33.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage33.html', 300)">버튼2</button>
+        <div class="button-container hidden">
+            <button id="actionButton">거리로 나간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageContainer = document.querySelector('.image-container');
+            const buttonContainer = document.querySelector('.button-container');
+            const sceneText = document.getElementById('sceneText');
+            const actionButton = document.getElementById('actionButton');
+
+            const hasTape = window.parent.inventory && window.parent.inventory.includes('tape');
+
+            if (hasTape) {
+                actionButton.innerText = "거리로 나간다.";
+                actionButton.onclick = function() {
+                    playClickSound();
+                    window.location.href = './stage33.html';
+                };
+            } else {
+                actionButton.innerText = "텔레비전을 끈다.";
+                actionButton.onclick = function() {
+                    playClickSound();
+                    window.location.href = './stage34.html';
+                };
+            }
+
+            setTimeout(() => {
+                imageContainer.classList.add('fade-in');
+                buttonContainer.classList.add('fade-in');
+                sceneText.innerHTML = '"저는 여당의 대통령 후보로써 중요한 발표를 하려고 합니다. 지금 혼란한 사회와 국민의 화합을 위해 대통령 직선제를 받아들이겠습니다. 지금 대통령께서 저의 뜻을 받아들이지 않는다면 대통령 후보에서 사퇴하겠습니다."<br>사람들은 환호했고, 사람들은 태극기를 흔들며 기쁨을 만끽하였다. 손님들에게 무료로 커피를 제공하는 커피숍도 있었다.';
+            }, 10000); // 10초 후에 실행
+        });
+
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
         }
     </script>
 </body>

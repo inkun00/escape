@@ -22,11 +22,15 @@
             <img src="./image/stage24.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�기???�용???�으?�요</div>
+            <div>신부님은 사람들을 모아 민주 아저씨가 잡혀있는 치안본부로 향했다.<br>
+                 "박민주를 풀어줘라!"<br>
+                 "죄 없는 사람을 석방하라!"<br>
+                 많은 사람들이 외쳤다. 신부님이 대표 연설을 시작했다.
+                </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage25.html', 300)">버튼1</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage25.html', 300)">버튼2</button>
+            <button id="listenButton">연설을 듣는다.</button>
+            
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -34,8 +38,23 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
         }
+
+        document.getElementById('listenButton').addEventListener('click', function() {
+            playClickSound();
+            
+            // 부모 창의 인벤토리에 'tape' 아이템이 있는지 확인
+            const hasTape = window.parent.inventory && window.parent.inventory.includes('tape');
+
+            setTimeout(() => {
+                if (hasTape) {
+                    window.location.href = './stage25.html';
+                } else {
+                    window.location.href = './stage27.html';
+                }
+            }, 300);
+        });
     </script>
 </body>
 </html> 

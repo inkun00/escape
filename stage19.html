@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,12 +22,12 @@
             <img src="./image/stage19.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>방이 많이 ?��??��????�다. ?�마??경찰??집안???��? ?�진 �?같다.<br>
-                 ?�기 ?��?찾아봤�?�?뭔�? 민주 ?��??��? ?��?�????�는 ?�료 같�? �??�는 �?같다.</div>
+            <div>방이 많이 어지렵혀져 있다. 경찰이 무언가를 찾으려고 뒤진 것 같다.<br>
+                 혹시 내가 갖고 있는 태극기였을까. 아니면 또 다른 무언가가 있는 걸까?</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage19-1.html', 300)">좀 ??찾아본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">?�간??급하???�문?��? 찾아간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage19-1.html', 300)">좀 더 찾아본다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">시간이 급하니 신문사를 찾아간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -35,7 +35,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>

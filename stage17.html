@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
         .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
-        .image-container { width: 100%; height: 51vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
         .game-image { max-width: 100%; max-height: 100%; }
         .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
         .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
@@ -22,14 +22,14 @@
             <img src="./image/stage17.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�음???�침, 민주?��??�는 갑작?�럽�??�이?�친 경찰?�에 ?�해???��?갔다.<br>
-                 ?�제 ?�에�??�극기�? 맡아?�라�??�신�??�신??�??��?�?거라??�??�감?�신 걸까? ?�행??경찰?�이 ??몸까지 ?�색?��????�아???�극기는 무사?�다.<br>
-                 ?�상?�인 ?�람???��?�?반�??�는 ?�위�??�는 �?만으�?경찰?�게 ?��?가??것�? 지�??�?��?�?�� 민주주의�??가 ?�니?�는 것이??<br>
-                 그럼 ?�제부???�는 ?�떡?�야?�까.</div>
+            <div>다음날 아침, 민주아저씨는 경찰에 잡혀간다. 다행이 내가 화장실에 있을 때 경찰이 들이닥쳤고 경찰은 내가 있다는 걸 몰랐던 것 같다.<br>
+                 민주아저씨는 경찰에 잡혀갈 걸 예상하고 계셨을까. 잡혀갈 때 멀리서 보이는 뒷모습이 쓸쓸해보이고, 아무것도 하지 못한 나한테 화가 났다.<br>
+                 좋은 사람들이 경찰에 잡혀가는 것을 보면서 민주주의는 반드시 지켜야한다는 생각이 들었고 이 분들 덕분에 내가 편안하게 민주주의를 누리고 있다는 것을 느꼈다.<br>
+                 민주아저씨를 구하고 싶다.</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage18.html', 300)">민주 ?��???집에 ?�시 가본다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">민주 ?��??��? 구하�??�해 ?�문?�로 간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage18.html', 300)">민주아저씨 집에 다시 가본다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">민주아저씨의 억울한 일을 알리기 위해 신문사로 간다.</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -37,7 +37,7 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
         }
     </script>
 </body>
