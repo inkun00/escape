@@ -40,7 +40,13 @@
         document.getElementById('endButton').addEventListener('click', function() {
             playClickSound();
             
+            // 현재 창(iframe) 페이드아웃
             document.body.classList.add('fade-out');
+            
+            // 부모 창(index.html) 페이드아웃
+            if (window.parent) {
+                window.parent.document.body.classList.add('fade-out');
+            }
             
             setTimeout(() => {
                 window.parent.location.href = 'https://padlet.com/inkun02/6-xosmg5e1zudym8vm';
