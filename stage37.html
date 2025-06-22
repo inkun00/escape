@@ -43,18 +43,7 @@
             document.body.classList.add('fade-out');
             
             setTimeout(() => {
-                // 스크립트로 열린 창이 아닐 경우를 대비하여, 
-                // 먼저 부모 창을 닫고, 실패 시 현재 창을 닫도록 시도합니다.
-                if (window.parent && typeof window.parent.close === 'function') {
-                    try {
-                        window.parent.close();
-                    } catch (e) {
-                        // 부모 창 닫기 실패 시 현재 창 닫기
-                        window.close();
-                    }
-                } else {
-                    window.close();
-                }
+                window.parent.location.href = 'https://padlet.com/inkun02/6-xosmg5e1zudym8vm';
             }, 20000); // 20초 후 실행
 
             this.style.display = 'none'; // 버튼 숨기기
