@@ -24,13 +24,13 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid #fff;
             border-radius: 15px;
-            background: #111;
+            background: #000;
             margin-bottom: 2vh;
         }
         .game-image {
@@ -39,12 +39,13 @@
         }
         .text-container {
             width: 100%;
-            height: 22.5vh;
-            max-height: 30vh;
-            min-height: 15vh;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
             background: rgba(0,0,0,0.8);
             border: 2px solid #fff;
             border-radius: 10px;
+            margin-top: 2vh;
             margin-bottom: 2vh;
             padding: 2vh 2vw;
             font-size: 1.1em;
@@ -107,17 +108,17 @@
             <img src="image/opening.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�랜만에 ?�아버�?집에 ?�다. 벨을 ?�러??문도 ?�열?�주?�고, ?�아버�?????방에 ?�?�박?� 계셔??못들?�다�??�시겠�?. �??�날 방이 뭐�? 좋다�??�십??�?벽�? ?�나 ?�바꾸셨?�나... ?�어??비�?번호 0629�??�러 ?�숙?�게 문을 ?�다. ?�아버�?방으�?가�??�해 ?�걱거리??계단???�른?? ?�아버�? �?문이 보인??</div>
-            <div style="margin-top:10px;">"?�아버�?, ?�기 계세?? ?��??�상?�네, ?�소보다 ??조용?�네. ?�아버�? �?고는 ?�리???�들리고"</div>
+            <div>오랜만에 할아버지집에 왔다. 벨을 눌러도 문도 알열어주시고, 할아버지는 또 방에 틀어박혀 계셔서 못들었다고 하시겠지. 그 옛날 방이 뭐가 좋다고 수십년 째 벽지 하나 안바꾸셨다나... 도어락 비밀번호 0629를 눌러 익숙하게 문을 연다. 할아버지방으로 가기 위해 삐걱거리는 계단을 오른다. 할아버지 방 문이 보인다.</div>
+            <div style="margin-top:10px;">"할아버지, 여기 계세요? 어… 이상하네, 평소보다 더 조용하네. 할아버지 코 고는 소리도 안들리고"</div>
         </div>
         <div class="button-container">
-            <button onclick="startGame()">?�아버�? 방으�??�어간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage1-2.html', 300)">조용??문틈?�로 방안???��???</button>
-      </div>
+            <button onclick="startGame()">할아버지 방으로 들어간다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = 'stage1-2.html', 300)">조용히 문틈으로 방안을 엿본다.</button>
+        </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
     <script>
-        // 주소�? ?�로가�?방�?
+        // 주소창 뒤로가기 방지
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.go(1);
@@ -130,10 +131,11 @@
                 var playPromise = snd.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(function(error) {
-                        console.log("?�릭???�생 ?�패:", error);
-                        // ?�시??                        setTimeout(function() {
+                        console.log("클릭음 재생 실패:", error);
+                        // 재시도
+                        setTimeout(function() {
                             snd.play().catch(function(e) {
-                                console.log("?�릭???�생 ?�시???�패:", e);
+                                console.log("클릭음 재생 재시도 실패:", e);
                             });
                         }, 100);
                     });
@@ -155,7 +157,7 @@
             document.removeEventListener('click', sendPlayBgm0);
             document.removeEventListener('touchstart', sendPlayBgm0);
         }
-        // 주요 ?�자???�벤??리스??추�?
+        // 주요 요소들에 이벤트 리스너 추가
         window.addEventListener('DOMContentLoaded', function() {
             var img = document.querySelector('.game-image');
             var text = document.querySelector('.text-container');
@@ -166,13 +168,13 @@
                     el.addEventListener('touchstart', sendPlayBgm0);
                 }
             });
-            // ?�시 모�? ?�체 ?�벤?�도 ??번만
+            // 최초 모든 요소 이벤트도 한번만
             document.addEventListener('click', sendPlayBgm0);
             document.addEventListener('touchstart', sendPlayBgm0);
         });
         function startGame() {
             playClickSound();
-            // bgm0 ?�생 ?�청
+            // bgm0 재생 요청
             if (window.parent) {
                 window.parent.postMessage('playBgm0', '*');
             }

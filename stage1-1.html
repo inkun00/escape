@@ -24,7 +24,7 @@
         }
         .image-container {
             width: 100%;
-            height: 51vh;
+            height: 45vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -39,12 +39,13 @@
         }
         .text-container {
             width: 100%;
-            height: 22.5vh;
-            max-height: 30vh;
-            min-height: 15vh;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
             background: rgba(0,0,0,0.8);
             border: 2px solid #fff;
             border-radius: 10px;
+            margin-top: 2vh;
             margin-bottom: 2vh;
             padding: 2vh 2vw;
             font-size: 1.1em;
@@ -88,17 +89,17 @@
             <img src="image/stage1.png" class="game-image" alt="scene image">
         </div>
         <div class="text-container">
-            <div>?�아버�???방에 ?�계?�다. ?�숙???��? 방이지�?처음보는 ?�자가 ?�에 ?�다. 굉장???�래?�보?�는 ?�무?�자?? ??방에 ?�주 ?�어?�봤는?�도 ?�아버�?가 ??번도 보여준 ?�이 ?�는 것이?�다.</div>
-            <div style="margin-top:10px;">"?�건 무슨 ?�자?�까. ??�??�어볼까?"</div>
+            <div>할아버지는 방에 안계신다. 익숙한 낡은 방이지만 처음보는 상자가 눈에 띈다. 굉장히 오래되보이는 나무상자다. 이 방에 자주 들어와봤는데도 할아버지가 한 번도 보여준 적이 없는 것이었다.</div>
+            <div style="margin-top:10px;">"이건 무슨 상자일까. 한 번 열어볼까?"</div>
         </div>
         <div class="button-container">
-            <button onclick="navigateToStage('stage2.html?from=stage1-1-open')">?�자�??�다.</button>
-            <button onclick="navigateToStage('stage2.html?from=stage1-1-close')">?�자�??��? ?�는??</button>
-      </div>
+            <button onclick="navigateToStage('stage2.html?from=stage1-1-open')">상자를 연다.</button>
+            <button onclick="navigateToStage('stage2.html?from=stage1-1-close')">상자를 열지 않는다.</button>
+        </div>
     </div>
     <audio id="clickSound" src="sound/click.mp3" preload="auto"></audio>
     <script>
-        // 주소�? ?�로가�?방�?
+        // 주소창 뒤로가기 방지
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.go(1);
@@ -111,7 +112,7 @@
                 var playPromise = snd.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(function(error) {
-                        console.log("?�릭???�생 ?�패:", error);
+                        console.log("클릭음 재생 실패:", error);
                     });
                 }
             }
@@ -122,7 +123,7 @@
             try {
                 window.location.replace(url);
             } catch (error) {
-                console.log("?�이지 ?�동 ?�패:", error);
+                console.log("페이지 이동 실패:", error);
                 window.location.href = url;
             }
         }
