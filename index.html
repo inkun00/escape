@@ -375,8 +375,11 @@
 
     // iframe에서 메시지 수신 시 bgm0 재생 또는 페이드아웃
     window.addEventListener('message', function(event) {
-        if (event.data === 'fadeOutBGM') {
-            fadeOutBGM();
+        if (event.data.type === 'addItem') {
+            const item = event.data.item;
+            if (item) {
+                addItem(item.name, item.description, item.image);
+            }
         } else if (event.data === 'playBgm0') {
             var bgm0 = document.getElementById('bgm0');
             if (bgm0) {
@@ -387,8 +390,10 @@
             }
         } else if (event.data === 'playCrowdBGM') {
             playCrowdBGM();
+        } else if (event.data === 'addFlag') {
+            addItem('태극기', '태극기가 접혀있다. 뒷면에는 연설문이 적혀있다.', 'image/flag.png');
         }
-    });
+    }, false);
 
     function fadeOutBGM() {
         const bgm = document.getElementById('bgm0');
@@ -502,6 +507,20 @@
                 img.style.width = '100%';
                 img.style.height = '100%';
                 btn.appendChild(img);
+            } else if(item === 'flag') {
+                const img = document.createElement('img');
+                img.src = 'image/flag.png';
+                img.alt = '태극기';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else if(item === 'tape') {
+                const img = document.createElement('img');
+                img.src = 'image/tape.png';
+                img.alt = '처음보는 물체';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
             } else {
                 btn.innerText = item;
             }
@@ -543,6 +562,10 @@
             popupText.innerText = '공책\n박민주 아저씨가 직접 적은 공책이다. 전두환 정권의 민주화 탄압, 부정부패, 민주화 운동을 위해 해야할 일 등이 자세하게 적혀있다.';
         } else if(window.inventory[idx] === 'paper') {
             popupText.innerText = '전단지\n민주화를 위해 이뤄야 할 것, 첫째, 대통령 직선제, 둘째, 지방자치제, 셋째, 언론의 자유 보장';
+        } else if(window.inventory[idx] === 'flag') {
+            popupText.innerText = '태극기가 접혀있다. 뒷면에는 연설문이 적혀있다.';
+        } else if(window.inventory[idx] === 'tape') {
+            popupText.innerText = '처음보는 물체다. 안에 필름 같은 것이 있고 구멍에 손가락을 넣고 돌릴 수 있다. 달그락 거린다.';
         } else {
             popupText.innerText = '아이템 설명 없음';
         }
