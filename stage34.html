@@ -16,7 +16,7 @@
         .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
     </style>
 </head>
-<body>
+<body style="opacity:0; transition:opacity 5s;">
     <div class="container">
         <div class="image-container">
             <img src="./image/stage34.png" class="game-image" alt="scene image">
@@ -34,12 +34,35 @@
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="endingBGM" src="./sound/ending.mp3" preload="auto"></audio>
     <script>
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
+        // 5초간 body 페이드인
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.body.style.opacity = 1;
+            }, 50);
+            // 배경음악 페이드인
+            const endingBGM = document.getElementById('endingBGM');
+            if (endingBGM) {
+                endingBGM.volume = 0;
+                endingBGM.play().catch(()=>{});
+                const duration = 5000;
+                const step = 50;
+                const increment = 1 / (duration / step);
+                const fade = setInterval(() => {
+                    if (endingBGM.volume < 1) {
+                        endingBGM.volume = Math.min(1, endingBGM.volume + increment);
+                    } else {
+                        clearInterval(fade);
+                    }
+                }, step);
+            }
+        });
     </script>
 </body>
 </html> 

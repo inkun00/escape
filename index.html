@@ -397,17 +397,20 @@
             playCrowdBGM();
         } else if (event.data === 'addFlag') {
             addItem('태극기', '태극기가 접혀있다. 뒷면에는 연설문이 적혀있다.', 'image/flag.png');
+        } else if (event.data === 'fadeOutBGM') {
+            fadeOutBGM();
         }
     }, false);
 
     function fadeOutBGM() {
-        const bgm = document.getElementById('bgm0');
+        const bgm = document.getElementById('bgm');
         if (bgm) {
             const fadeOutInterval = setInterval(() => {
                 if (bgm.volume > 0.01) {
                     bgm.volume -= 0.01;
                 } else {
                     bgm.volume = 0;
+                    bgm.pause();
                     clearInterval(fadeOutInterval);
                 }
             }, 50);  // 50ms 간격으로 0.01씩 감소 = 5초 동안 페이드아웃

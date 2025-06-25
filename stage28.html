@@ -34,12 +34,23 @@
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="camera1" src="./sound/camera1.mp3" preload="auto"></audio>
+    <audio id="camera2" src="./sound/camera2.mp3" preload="auto"></audio>
+    <audio id="camera3" src="./sound/camera3.mp3" preload="auto"></audio>
     <script>
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
+        window.addEventListener('DOMContentLoaded', function() {
+            const cam1 = document.getElementById('camera1');
+            const cam2 = document.getElementById('camera2');
+            const cam3 = document.getElementById('camera3');
+            if (cam1) { cam1.currentTime = 0; cam1.volume = 1; cam1.play().catch(()=>{}); }
+            if (cam2) { cam2.currentTime = 0; cam2.volume = 1; cam2.play().catch(()=>{}); }
+            if (cam3) { cam3.currentTime = 0; cam3.volume = 1; cam3.play().catch(()=>{}); }
+        });
     </script>
 </body>
 </html> 
