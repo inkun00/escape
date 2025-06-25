@@ -34,7 +34,6 @@
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
-    <audio id="endingBGM" src="./sound/ending.mp3" preload="auto"></audio>
     <script>
         function playClickSound() {
             const snd = document.getElementById('clickSound');
@@ -46,21 +45,9 @@
             setTimeout(function() {
                 document.body.style.opacity = 1;
             }, 50);
-            // 배경음악 페이드인
-            const endingBGM = document.getElementById('endingBGM');
-            if (endingBGM) {
-                endingBGM.volume = 0;
-                endingBGM.play().catch(()=>{});
-                const duration = 5000;
-                const step = 50;
-                const increment = 1 / (duration / step);
-                const fade = setInterval(() => {
-                    if (endingBGM.volume < 1) {
-                        endingBGM.volume = Math.min(1, endingBGM.volume + increment);
-                    } else {
-                        clearInterval(fade);
-                    }
-                }, step);
+            // 부모창에 endingBGM 재생 요청
+            if (window.parent) {
+                window.parent.postMessage('playEndingBGM', '*');
             }
         });
     </script>
