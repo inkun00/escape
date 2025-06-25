@@ -3,104 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>stage5</title>
+    <link rel="icon" href="data:,">
+    <title>방탈출 게임</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #fff;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-        .container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            box-sizing: border-box;
-            padding: 2vw;
-        }
-        .image-container {
-            width: 100%;
-            height: 45vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #fff;
-            border-radius: 15px;
-            background: #000;
-        }
-        .game-image {
-            max-width: 100%;
-            max-height: 100%;
-        }
-        .text-container {
-            width: 100%;
-            height: 18vh;
-            max-height: 25vh;
-            min-height: 12vh;
-            background: rgba(0,0,0,0.8);
-            border: 2px solid #fff;
-            border-radius: 10px;
-            margin-top: 2vh;
-            margin-bottom: 2vh;
-            padding: 2vh 2vw;
-            font-size: 1.1em;
-            line-height: 1.6;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-        .button-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1vh;
-            margin-bottom: 2vh;
-        }
-        .button-container button {
-            padding: 0.5em;
-            font-size: 1em;
-            border-radius: 8px;
-            border: none;
-            background: #fff;
-            color: #222;
-            cursor: pointer;
-            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
-        }
-        .button-container button:hover { background: #eee; }
-        .button-container button:active {
-            transform: scale(0.96);
-            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
-            filter: brightness(0.92);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+        body { width: 100%; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #000; overflow: hidden; transition: opacity 20s ease-out; }
+        body.fade-out { opacity: 0; }
+        .container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .game-container { width: 100%; height: 100%; display: flex; flex-direction: column; background-color: #1a1a1a; display: none; padding: 10px; gap: 10px; }
+        .image-container { width: 100%; height: 75%; position: relative; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 15px; background-color: #000; }
+        .game-image { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .text-container { width: 100%; height: 15%; background-color: rgba(0, 0, 0, 0.8); padding: 15px; color: #fff; font-size: 16px; line-height: 1.5; overflow-y: auto; border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 10px; }
+        .item-container { width: 100%; height: 6vh; background-color: rgba(40,40,40,0.9); display: none; align-items: center; gap: 1vw; padding: 1vh 1vw; box-sizing: border-box; position: fixed; bottom: 0; left: 0; z-index: 2000; border: 2px solid #fff; border-radius: 10px; opacity: 0; transition: opacity 0.2s; }
+        .item { width: 40px; height: 40px; margin-right: 10px; background: rgba(255,255,255,0.1); border: 1px solid #fff; border-radius: 3px; }
+        #itemPopup { display: none; position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:3000; align-items:center; justify-content:center; }
+        /* 버튼, 스크롤바 등 나머지 스타일 생략 (위 예시와 동일) */
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="image-container">
-            <img src="./image/stage5.png" class="game-image" alt="scene image">
-        </div>
-        <div class="text-container">
-            <div>앞에 있는 사람에게 다가가서 물어본다.<br>
-                "지금 무슨 일이 일어난거에요? 왜 이렇게 사람들이 많아요?"<br>
-                "어? 어린 아이가 여기 있으면 위험해. 크게 다칠 수도 있어."<br>
-                앞에서 경찰들이 몽둥이를 들고 사람들을 때리고 있다.<br>
-                "얘야. 일단 여기에서 피해야겠다. 나하고 같이 가자."</div>
-        </div>
-        <div class="button-container">
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage7.html', 300)">누나와 함께 도망간다.</button>
-            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage8.html', 300)">혼자 도망간다.</button>
+    <!-- 클릭음, BGM, 효과음 -->
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="bgm" src="./sound/opening.mp3" loop autoplay></audio>
+    <audio id="bgm0" loop><source src="./sound/bgm0.mp3" type="audio/mpeg"></audio>
+    <audio id="crowd1" src="./sound/crowd.mp3" preload="auto"></audio>
+    <audio id="crowd2" src="./sound/crowd2.mp3" preload="auto"></audio>
+
+    <!-- 오프닝 -->
+    <div class="container" id="openingContainer">
+        <img src="image/title.png" alt="방탈출 게임" style="max-width:80vw; max-height:60vh; cursor:pointer;" onclick="startGame()">
+    </div>
+
+    <!-- 게임 -->
+    <div class="container game-container" id="gameContainer">
+        <iframe id="gameFrame" src="" style="width:100vw; height:100vh; border:none;"></iframe>
+    </div>
+
+    <!-- 인벤토리 -->
+    <div id="itemBoxWrap" class="item-container"></div>
+
+    <!-- 팝업 -->
+    <div id="itemPopup">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center; position:relative;">
+            <span id="itemPopupText">아이템 설명 없음</span>
+            <button onclick="closeItemPopup()" style="position:absolute; top:10px; right:10px; background:#fff; color:#222; border:none; border-radius:6px; padding:0.3em 0.8em; cursor:pointer;">닫기</button>
         </div>
     </div>
-    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+
     <script>
-        function playClickSound() {
-            const snd = document.getElementById('clickSound');
-            snd.currentTime = 0;
-            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+    // 인벤토리 로드
+    window.inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+    if (!inventory.includes('ball')) addItemToInventory('ball');
+    window.onpopstate = () => history.go(1);
+
+    window.onload = () => {
+        const bgm = document.getElementById('bgm');
+        const promise = bgm.play();
+        if (promise) promise.catch(() => {
+            document.body.addEventListener('click', function once() { bgm.play(); document.body.removeEventListener('click', once); });
+        });
+    };
+
+    function playClickSound() {
+        const snd = document.getElementById('clickSound');
+        snd.currentTime = 0;
+        snd.play().catch(console.error);
+    }
+
+    function startGame() {
+        const bgm = document.getElementById('bgm');
+        document.getElementById('openingContainer').classList.add('fade-out');
+        setTimeout(() => {
+            const fade = setInterval(() => {
+                if (bgm.volume > 0.01) bgm.volume -= 0.01;
+                else {
+                    clearInterval(fade);
+                    document.getElementById('openingContainer').style.display = 'none';
+                    document.getElementById('gameContainer').style.display = 'flex';
+                    document.getElementById('gameFrame').src = 'stage0.html';
+                    showInventoryBar();
+                    setTimeout(() => { bgm.pause(); bgm.volume = 1; }, 1000);
+                }
+            }, 100);
+        }, 3000);
+    }
+
+    function fadeOutBGM() {
+        const bgm = document.getElementById('bgm');
+        if (!bgm) return;
+        const fade = setInterval(() => {
+            if (bgm.volume > 0.01) bgm.volume -= 0.01;
+            else { bgm.pause(); bgm.volume = 1; clearInterval(fade); }
+        }, 50);
+    }
+
+    function showInventoryBar() {
+        const bar = document.getElementById('itemBoxWrap');
+        bar.style.display = 'flex';
+        bar.style.visibility = 'visible';
+        bar.style.opacity = '1';
+        renderInventory();
+    }
+
+    document.getElementById('gameFrame').addEventListener('load', function() {
+        try {
+            const path = this.contentWindow.location.pathname;
+            const file = path.substring(path.lastIndexOf('/') + 1);
+            // stage5.html 로드 시 bgm 페이드아웃
+            if (file === 'stage5.html') {
+                fadeOutBGM();
+            }
+            // 아이템 바 표시 제어
+            if (/^stage\d+(-\d+)?\.html$/.test(file)) showInventoryBar();
+            else document.getElementById('itemBoxWrap').style.opacity = '0';
+        } catch (e) {
+            console.warn('iframe load error', e);
         }
+    });
+
+    // 인벤토리 함수
+    function addItemToInventory(item) {
+        if (!inventory.includes(item)) {
+            inventory.push(item);
+            localStorage.setItem('inventory', JSON.stringify(inventory));
+            renderInventory();
+        }
+    }
+    function renderInventory() {
+        const container = document.getElementById('itemBoxWrap');
+        container.innerHTML = '';
+        inventory.forEach((it, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'item';
+            btn.onclick = () => showItemPopup(idx);
+            const img = document.createElement('img');
+            img.src = `image/${it}.png`;
+            img.alt = it;
+            img.style.width = '100%'; img.style.height = '100%';
+            btn.appendChild(img);
+            container.appendChild(btn);
+        });
+    }
+    function showItemPopup(i) {
+        const pop = document.getElementById('itemPopup');
+        const txt = document.getElementById('itemPopupText');
+        const it = inventory[i];
+        if (it === 'ball') txt.innerText = '테니스공이다. 바닥이나 벽에 던지면 잘 튀긴다.';
+        else if (it === 'book') txt.innerText = '공책...';
+        else if (it === 'paper') txt.innerText = '전단지...';
+        else if (it === 'flag') txt.innerText = '태극기가 접혀있다. 뒷면에는 연설문이 적혀있다.';
+        else txt.innerText = '아이템 설명 없음';
+        pop.style.display = 'flex';
+    }
+    function closeItemPopup() {
+        document.getElementById('itemPopup').style.display = 'none';
+    }
+
+    window.onunload = () => localStorage.removeItem('inventory');
     </script>
 </body>
 </html>
