@@ -29,8 +29,18 @@
             </div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); addPaperItem(); setTimeout(() => window.location.href = './stage14.html', 300)">"고마워요. 읽어볼게요."</button>
+            <button onclick="showQuiz()">"고마워요. 읽어볼게요."</button>
             <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮아요. 아직 읽어도 이해를 못할 것 같아요."</button>
+        </div>
+    </div>
+    <div id="quizContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center;">
+            <h3>문제</h3>
+            <p>전두환 정부에 대한 시민의 분노가 커진 사건은 민주화 운동에 참여했던 "000"이 1987년 1월 경찰에 끌려가 고문으로 사망한 사건 때문입니다. 이 사람은 누구인가요?</p>
+            <input type="text" id="answerInput" placeholder="정답을 입력하세요" style="width:200px; padding:0.5em; margin:1em; border:none; border-radius:6px; background:#fff; color:#222;">
+            <br>
+            <button onclick="checkAnswer()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#fff; color:#222; cursor:pointer;">정답 확인</button>
+            <button onclick="closeQuiz()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#666; color:#fff; cursor:pointer;">취소</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -38,9 +48,35 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
-
+        function showQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'flex';
+            document.getElementById('answerInput').focus();
+        }
+        function closeQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+        }
+        function checkAnswer() {
+            playClickSound();
+            const answer = document.getElementById('answerInput').value.trim();
+            if (answer === '박종철') {
+                // 정답일 때 아이템 획득
+                addPaperItem();
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+                setTimeout(() => window.location.href = './stage14.html', 300);
+            } else {
+                // 오답일 때 아이템 없이 넘어가기
+                alert('틀렸습니다. 아이템을 획득하지 못했습니다.');
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+                setTimeout(() => window.location.href = './stage14.html', 300);
+            }
+        }
         function addPaperItem() {
             if (window.parent && window.parent.addItemToInventory) {
                 window.parent.addItemToInventory('paper');
@@ -48,6 +84,12 @@
                 window.parent.postMessage({ type: 'addItem', item: 'paper' }, '*');
             }
         }
+        // Enter 키로 정답 제출
+        document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
     </script>
 </body>
 </html> 

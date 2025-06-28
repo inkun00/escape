@@ -25,8 +25,18 @@
             <div>금고 안쪽에는 처음보는 물건이 테이프로 붙어있었다.</div>
         </div>
         <div class="button-container">
-            <button onclick="takeItem()">가져간다.</button>
+            <button onclick="showQuiz()">가져간다.</button>
             <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage21.html', 300)">가져가지 않는다.</button>
+        </div>
+    </div>
+    <div id="quizContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center;">
+            <h3>문제</h3>
+            <p>6월 민주 항쟁이 확대되자 당시 여당 대표였던 노태우가 6.29 선언을 통해 직선제, 지방자치제, 00의 자유 보장을 선언하였습니다. 빈칸에는 무엇이 들어갈까요?</p>
+            <input type="text" id="answerInput" placeholder="정답을 입력하세요" style="width:200px; padding:0.5em; margin:1em; border:none; border-radius:6px; background:#fff; color:#222;">
+            <br>
+            <button onclick="checkAnswer()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#fff; color:#222; cursor:pointer;">정답 확인</button>
+            <button onclick="closeQuiz()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#666; color:#fff; cursor:pointer;">취소</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -36,9 +46,35 @@
             snd.currentTime = 0;
             snd.play().catch(error => console.error('클릭음 재생 실패:', error));
         }
-
-        function takeItem() {
+        function showQuiz() {
             playClickSound();
+            document.getElementById('quizContainer').style.display = 'flex';
+            document.getElementById('answerInput').focus();
+        }
+        function closeQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+        }
+        function checkAnswer() {
+            playClickSound();
+            const answer = document.getElementById('answerInput').value.trim();
+            if (answer === '언론') {
+                // 정답일 때 아이템 획득
+                takeItem();
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+            } else {
+                // 오답일 때 아이템 없이 넘어가기
+                alert('틀렸습니다. 아이템을 획득하지 못했습니다.');
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+                setTimeout(() => {
+                    window.location.href = './stage21.html';
+                }, 300);
+            }
+        }
+        function takeItem() {
             if (window.parent && window.parent.addItemToInventory) {
                 window.parent.addItemToInventory('tape');
             }
@@ -46,6 +82,12 @@
                 window.location.href = './stage21.html';
             }, 300);
         }
+        // Enter 키로 정답 제출
+        document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
     </script>
 </body>
 </html> 

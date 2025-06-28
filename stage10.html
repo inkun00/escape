@@ -27,8 +27,19 @@
                  "그래? 그거 복사한 게 더 있으니까 가지고 가서 읽어도 되. 그런데 갖고있다가 경찰이 보게 되면 너 뿐만 아니라 부모님까지도 곤란해질 수 있는데 괜찮겠어?"</div>
         </div>
         <div class="button-container">
-            <button onclick="playClickSound(); addBookItem(); playCrowdBGMAndGo();">괜찮아요. 잘 간직하면서 읽을게요.</button>
+            <button onclick="showQuiz()">괜찮아요. 잘 간직하면서 읽을게요.</button>
             <button onclick="playClickSound(); playCrowdBGMAndGo();">아, 정말요? 그럼 그냥 여기서만 읽을게요.</button>
+        </div>
+    </div>
+    <div id="quizContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center;">
+            <h3>문제</h3>
+            <p>5.18 민주화운동을 폭력으로 진압한 전두환이 대통령에 선출된 방식은 무엇인가요?</p>
+            <p style="color:#aaa; font-size:0.9em;">힌트: ㄱ ㅅ ㅈ</p>
+            <input type="text" id="answerInput" placeholder="정답을 입력하세요" style="width:200px; padding:0.5em; margin:1em; border:none; border-radius:6px; background:#fff; color:#222;">
+            <br>
+            <button onclick="checkAnswer()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#fff; color:#222; cursor:pointer;">정답 확인</button>
+            <button onclick="closeQuiz()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#666; color:#fff; cursor:pointer;">취소</button>
         </div>
     </div>
     <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
@@ -36,14 +47,39 @@
         function playClickSound() {
             const snd = document.getElementById('clickSound');
             snd.currentTime = 0;
-            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        function showQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'flex';
+            document.getElementById('answerInput').focus();
+        }
+        function closeQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+        }
+        function checkAnswer() {
+            playClickSound();
+            const answer = document.getElementById('answerInput').value.trim();
+            if (answer === '간선제') {
+                // 정답일 때 아이템 획득
+                addBookItem();
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+                playCrowdBGMAndGo();
+            } else {
+                // 오답일 때 아이템 없이 넘어가기
+                alert('틀렸습니다. 아이템을 획득하지 못했습니다.');
+                document.getElementById('quizContainer').style.display = 'none';
+                document.getElementById('answerInput').value = '';
+                playCrowdBGMAndGo();
+            }
         }
         function addBookItem() {
             if (window.parent && window.parent.addItemToInventory) {
                 window.parent.addItemToInventory('book');
-                // ?�이???�명 �??��?지??index.html?�서 처리?�도�???
             } else if (window.parent) {
-                // ?�수가 ?�으�?메시지�??�달
                 window.parent.postMessage({ type: 'addItem', item: 'book' }, '*');
             }
         }
@@ -53,6 +89,12 @@
             }
             setTimeout(() => window.location.href = './stage11.html', 300);
         }
+        // Enter 키로 정답 제출
+        document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
     </script>
 </body>
 </html> 
