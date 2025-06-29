@@ -114,20 +114,27 @@
         function followPolice() {
             playClickSound();
             // 스테이지 내용 변경
-            document.querySelector('.text-container').innerHTML = `<div>경찰서로 끌려간 나에게 경찰은 이것저것 물어봤다. <br> 이름, 나이, 사는 곳, 부모님 전화번호 등을 물어봤는데 어떻게 된 일인지 하나도 기억이 나지 않는다.<br> 너무 무섭다... 어지럽고 눈이 감긴다...</div>`;
+            document.querySelector('.text-container').innerHTML = '<div>경찰서로 끌려간 나에게 경찰은 이것저것 물어봤다. <br> 이름, 나이, 사는 곳, 부모님 전화번호 등을 물어봤는데 어떻게 된 일인지 하나도 기억이 나지 않는다.<br> 너무 무섭다... 어지럽고 눈이 감긴다...</div>';
             // 버튼 숨기기
             document.querySelector('.button-container').style.display = 'none';
-            // 10초 후에 페이지 복원
+            // 10초 후에 메시지 표시
             setTimeout(() => {
-                document.body.style.transition = 'opacity 2s';
-                document.body.style.opacity = '0';
+                // 전체 화면을 검은색으로 덮고 메시지 표시
+                document.body.innerHTML = '<div style="width:100vw; height:100vh; background:#000; display:flex; align-items:center; justify-content:center; color:#fff; font-family:Noto Sans KR, sans-serif; font-size:1.2em; line-height:1.6; text-align:center; padding:2em;">참여하지 않으면 민주주의를 지켜낼 수 없습니다. 부당한 권력에 피하지 말고 이번에는 용기를 내어서 다시 시작해봐요.</div>';
+                // 5초 후에 6월 항쟁 페이지로 이동
                 setTimeout(() => {
-                    if (window.parent) {
-                        window.parent.location.reload();
-                    } else {
-                        window.location.href = 'index.html';
-                    }
-                }, 2000);
+                    // 새 창에서 6월 항쟁 페이지 열기
+                    window.open('https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i500500&code=kc_age_50', '_blank');
+                    
+                    // 현재 창도 index.html로 이동
+                    setTimeout(() => {
+                        if (window.parent) {
+                            window.parent.location.href = 'index.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 120000); // 2분 = 120초 = 120000ms
+                }, 5000);
             }, 10000);
         }
     </script>
