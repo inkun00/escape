@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>테니스공 테스트</title>
+  <style>
+    .item { width: 40px; height: 40px; border: 1px solid #000; }
+  </style>
+</head>
+<body>
+  <div class="item-container">
+    <button class="item"></button>
+    <button class="item"></button>
+    <button class="item"></button>
+  </div>
+  <div id="itemPopup" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#222;color:#fff;padding:2em 2.5em;border-radius:12px;min-width:200px;max-width:80vw;text-align:center;position:relative;">
+      <span id="itemPopupText">아이템 설명 없음</span>
+      <button onclick="document.getElementById('itemPopup').style.display='none'" style="position:absolute;top:10px;right:10px;">닫기</button>
+    </div>
+  </div>
+  <script>
+    // 인벤토리 관련 코드 전체 삭제
+  </script>
+</body>
+</html>

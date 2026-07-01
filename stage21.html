@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage21</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage21.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container" id="text-container">
+            <div>"여긴 어린 학생이 올 곳이 아닌데, 무슨 일로 왔니?"</div>
+        </div>
+        <div class="button-container">
+            <button type="button" onclick="reportArrest()">"제가 아는 형이 경찰에 잡혀갔어요."</button>
+            <button type="button" onclick="reportContent()">"제보할 것이 있습니다."</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+
+        function reportArrest() {
+            playClickSound();
+            const textContainer = document.getElementById('text-container');
+            textContainer.innerHTML = `<div>"제가 아는 아저씨가 민주화 운동을 하다가 경찰에 끌려갔어요. 아저씨는 시위만 했어요. 신문에서 억울함을 알려주세요."<br>"경찰이 잡아간거면 이유가 있겠지. 신문사에서는 해결해줄 수 없단다."</div>`;
+            showFollowUpButton('그래도 제보할 것이 있습니다', reportContent);
+        }
+
+        function reportContent() {
+            playClickSound();
+            const textContainer = document.getElementById('text-container');
+            const hasTape = hasInventoryItem('tape');
+
+            if (hasTape) {
+                textContainer.innerHTML = `<div>민주 아저씨 집에서 찾은 정체모를 물건을 직원에게 건네준다.<br>
+                    "이게 무엇인지 모르지만 중요한 것 같아요. 신문사에서 기사로 내주세요."<br>
+                    직원이 카세트 테이프를 카세트에 넣고 재생시켜 본다.<br>
+                    "아니, 이 내용은... 얘야. 이거 어디서 구했니? 누가 준거야?"<br>
+                    "박민주 아저씨 집에서 가져왔어요."<br>
+                    "이거는 우리 신문사에서 기사로 낼 수가 없단다. 우리 말고도 어떤 신문사에서도 기사로 내기는 어려울거야. 그랬다가는 정부에서 신문사를 문닫게 할거고 경찰에 잡혀갈 사람들도 생기거든. 성당으로 가보렴. 거기에서는 가능할지도 몰라."</div>`;
+            } else {
+                textContainer.innerHTML = `<div>"제보? 어떤 내용인데?"<br>
+                    "박민주라는 아저씨가 있는데 오늘 아침에 경찰에 잡혀갔어요. 아무 죄도 없는 사람이에요."<br>
+                    "경찰이 죄가 없는 사람을 왜 잡아가는데? 그 아저씨는 무슨 일 하는 사람인데?"<br>
+                    "민주화 시위해요. 대통령 직접 뽑자고 주장하고 시위한 거 밖에 없어요."<br>
+                    "안타깝지만... 죄가 없다는 거 우리도 알아. 하지만, 신문사에서는 그 내용을 기사로 낼 수가 없단다. 그렇게 되면 정부에서 신문사 문을 닫게 할거야. 도와주지 못해서 미안하다. 성당에 가서 한 번 얘기해보렴. 도와줄 수도 있을거야."</div>`;
+            }
+
+            showFollowUpButton('성당으로 간다', () => {
+                playClickSound();
+                window.location.href = './stage22.html';
+            });
+        }
+
+        function hasInventoryItem(itemId) {
+            try {
+                if (window.parent && Array.isArray(window.parent.inventory)) {
+                    return window.parent.inventory.includes(itemId);
+                }
+            } catch (error) {
+                // file:// iframe 등 부모 접근이 제한된 환경에서는 localStorage를 사용한다.
+            }
+
+            try {
+                const inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+                return Array.isArray(inventory) && inventory.includes(itemId);
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function showFollowUpButton(label, action) {
+            const buttonContainer = document.querySelector('.button-container');
+            buttonContainer.replaceChildren();
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = label;
+            button.addEventListener('click', action);
+            buttonContainer.appendChild(button);
+        }
+    </script>
+</body>
+</html> 

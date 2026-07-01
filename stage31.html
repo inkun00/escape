@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage31</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage31.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div id="sceneText">거리에는 수많은 사람들이 모여서 민주화를 외치고 있다. 사람들의 분노와 결의에 찬 목소리가 온 천지에 울려퍼지고 있다. 모든 거리는 사람들로 인해 꽉 차 있었다.</div>
+        </div>
+        <div class="button-container">
+            <button id="actionButton"></button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasTape = hasInventoryItem('tape');
+            const actionButton = document.getElementById('actionButton');
+            
+            if (hasTape) {
+                // 테이프가 있을 경우, 기존 'flag' 아이템 분기 로직 실행
+                const hasFlag = hasInventoryItem('flag');
+                const sceneText = document.getElementById('sceneText');
+
+                if (hasFlag) {
+                    actionButton.innerText = "아저씨에게 태극기를 건네준다.";
+                } else {
+                    actionButton.innerText = "아저씨와 포옹한다.";
+                }
+
+                actionButton.onclick = function() {
+                    playClickSound();
+                    if (hasFlag) {
+                        sceneText.innerHTML = '"아저씨, 지난 번에 맡기신 태극기에요."<br>"잘 갖고 있었구나. 정말 고마워."<br>아저씨는 태극기를 가지고 무대 위로 올라갔다. 태극기를 흔드는 순간, 수 많은 사람들이 아저씨의 이름을 외쳤다. 그리고 아저씨의 연설이 시작되었다.';
+                    } else {
+                        sceneText.innerHTML = '"아저씨, 지난 번에 태극기를 제가 갖고있었으면 지금 드렸을텐데, 너무 죄송해요. 제가 용기가 부족했어요."<br>"괜찮아. 그런 마음을 갖는게 당연한거야. 하지만, 너의 용기 덕분에 내가 지금 이 자리에 오를 수 있었던거야."<br>아저씨는 무대 위로 올라갔다. 태극기를 흔드는 순간, 수 많은 사람들이 아저씨의 이름을 외쳤다. 그리고 아저씨의 연설이 시작되었다.';
+                    }
+
+                    actionButton.innerText = "연설을 지켜본다.";
+                    actionButton.onclick = function() {
+                        playClickSound();
+                        document.body.classList.add('fade-out');
+                        setTimeout(() => {
+                            window.location.href = './stage32.html';
+                        }, 5000);
+                    };
+                };
+            } else {
+                // 테이프가 없을 경우, 요청하신 새 로직 실행
+                actionButton.innerText = "시위에 참여하여 같이 외친다.";
+                actionButton.onclick = function() {
+                    playClickSound();
+                    window.location.href = './stage32.html';
+                };
+            }
+        });
+
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
+        }
+
+        function hasInventoryItem(itemId) {
+            try {
+                if (window.parent && Array.isArray(window.parent.inventory)) {
+                    return window.parent.inventory.includes(itemId);
+                }
+            } catch (error) {}
+            try {
+                const inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+                return Array.isArray(inventory) && inventory.includes(itemId);
+            } catch (error) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html> 

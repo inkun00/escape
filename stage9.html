@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage9</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            padding: 2vw;
+        }
+        .image-container {
+            width: 100%;
+            height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            background: #000;
+        }
+        .game-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .text-container {
+            width: 100%;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #fff;
+            border-radius: 10px;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+            padding: 2vh 2vw;
+            font-size: 1.1em;
+            line-height: 1.6;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            margin-bottom: 2vh;
+        }
+        .button-container button {
+            padding: 0.5em;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #222;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
+        }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage9.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>아저씨를 따라 여러 골목길을 지나 어느 집으로 들어갔다. 작은 집에는 이미 많은 사람들이 있었다. 사람들이 우리를 반겨주면서도 나를 놀랍고 걱정스러운 표정으로 쳐다봤다.<br>
+                 "아저씨 안잡혀서 다행이에요. 저 아이는 누구에요?" <br>
+                 "응, 시위하는 중에 주희가 데리고 왔어. 나도 처음보는 아이야. 집이 기억나지 않는다고 해서 데리고 왔어."<br>
+                 나는 아저씨가 주시는 물 한잔을 마시고 구석에 앉아 쉬었다. 이 사람들은 대학생들인 것 같았다.<br>
+                 </div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage10.html', 300)">주위를 둘러본다.</button>
+            <button onclick="talkToMinju();">아저씨한테 물어본다.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+        }
+        function talkToMinju() {
+            playClickSound();
+            document.querySelector('.text-container').innerHTML = `<div>"지금이 몇 년인가요? 옷차림이나 건물 모양 같은게 되게 오래된 것 같아요. 예전 드라마에서 본 것 같은데"<br>
+                "1980년이잖아. 너 많이 놀랐구나. 날짜도 모르고. 너 어디 살아? 이제는 기억이 좀 나려나? 몇살이야? 중학생은 되보이는 것 같은데"<br>
+                "저요?어, 그러니까... 응? 왜 하나도 기억이 안나지? 잘 모르겠어요"<br>
+                "그래. 이런 일을 당하면 놀라서 그럴 수도 있고 아니면 우리를 만나기 전에 머리를 어디에 부딪혔을 지도 모르지. 기억이 날 때 까지 우리집에서 머무르렴."
+                </div>`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>할아버지의 상자 — 새 엔진 미리보기</title>
+  <link rel="stylesheet" href="v2.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <section id="splash" class="splash" aria-labelledby="game-title">
+      <img src="image/title.png" alt="나무 상자와 책이 놓인 할아버지의 방">
+      <div class="splash__shade"></div>
+      <div class="splash__content">
+        <p class="eyebrow">기억을 따라가는 반응형 소설</p>
+        <h1 id="game-title">할아버지의 상자</h1>
+        <button id="start-button" class="primary-button" type="button">상자를 열어본다</button>
+      </div>
+    </section>
+
+    <main id="game" class="game" hidden>
+      <header class="scene-header">
+        <div>
+          <p id="scene-date" class="scene-date"></p>
+          <h2 id="scene-location" class="scene-location"></h2>
+        </div>
+        <button id="sound-button" class="icon-button" type="button" aria-pressed="false">소리 켜짐</button>
+      </header>
+
+      <section class="scene-visual" aria-label="현재 장면">
+        <img id="scene-image" src="" alt="">
+        <div class="scene-visual__vignette"></div>
+      </section>
+
+      <section class="story-panel" aria-live="polite">
+        <p id="scene-kicker" class="story-kicker"></p>
+        <div id="scene-text" class="story-text"></div>
+      </section>
+
+      <nav id="choices" class="choices" aria-label="행동 선택"></nav>
+
+      <footer class="inventory" aria-label="기억의 물건">
+        <span class="inventory__label">기억의 물건</span>
+        <div id="inventory-items" class="inventory__items"></div>
+      </footer>
+    </main>
+
+    <section id="error-panel" class="error-panel" hidden role="alert">
+      <h2>이야기를 불러오지 못했습니다</h2>
+      <p id="error-message"></p>
+      <button type="button" onclick="location.reload()">다시 시도</button>
+    </section>
+  </div>
+
+  <audio id="opening-audio" src="sound/opening.mp3" loop preload="auto"></audio>
+  <audio id="memory-audio" src="sound/bgm0.mp3" loop preload="auto"></audio>
+  <audio id="crowd-audio" src="sound/crowd.mp3" loop preload="auto"></audio>
+  <audio id="click-audio" src="sound/click.mp3" preload="auto"></audio>
+  <script src="scenario-v2.js"></script>
+  <script src="v2.js" defer></script>
+</body>
+</html>

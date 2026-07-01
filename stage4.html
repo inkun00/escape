@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage4</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            padding: 2vw;
+        }
+        .image-container {
+            width: 100%;
+            height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            background: #000; /* 검은 배경 추가 */
+        }
+        .game-image {
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        .text-container {
+            width: 100%;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #fff;
+            border-radius: 10px;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+            padding: 2vh 2vw;
+            font-size: 1.1em;
+            line-height: 1.6;
+            overflow-y: auto;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        .button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            margin-bottom: 2vh;
+        }
+        .button-container button {
+            padding: 0.5em;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #222;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
+        }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+        .back-btn { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="image/stage4.png" class="game-image" alt="scene image">
+        </div>
+        <div id="textContainer" class="text-container">
+            <div id="stage4Text">음.. 무슨 소리지? 뭔가 시끄러워. 뭐라는 것 같기도 하고... 주위에 많은 사람들이 구호를 외치고 있다.
+매운 냄새가 코를 찌를 지경이다.
+멀리서 경찰들도 보이는 것 같다. 너무 무섭다. 어떻게 하다가 여기까지 온걸까. 나는 분명히 할아버지 방에 있었는데...</div>
+        </div>
+        <div id="initialButton" class="button-container">
+            <button onclick="openEyes()">눈을 뜬다.</button>
+        </div>
+        <div id="actionButtons" class="button-container" style="display: none;">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage5.html', 300)">주변 사람에게 물어본다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage6.html', 300)">골목으로 나간다.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="bgm" loop>
+        <source src="./sound/people.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        function openEyes() {
+            playClickSound();
+            document.getElementById('initialButton').style.display = 'none';
+            document.getElementById('actionButtons').style.display = 'flex';
+
+            const bgm = document.getElementById('bgm');
+            if (bgm) {
+                bgm.volume = 0;
+                bgm.currentTime = 0;
+                bgm.play().catch(error => console.log("배경음악 재생 실패:", error));
+
+                const gameImage = document.querySelector('.game-image');
+                const textContainer = document.getElementById('textContainer');
+                const stage4Text = document.getElementById('stage4Text');
+
+                // 게임 이미지 보이기
+                gameImage.style.opacity = '1';
+                // 텍스트 컨테이너 보이기
+                textContainer.style.opacity = '1';
+                stage4Text.style.opacity = '1';
+
+                const fadeInInterval = setInterval(() => {
+                    if (bgm.volume < 0.5) { bgm.volume += 0.01; }
+                    else { clearInterval(fadeInInterval); }
+                }, 50);
+
+                setTimeout(() => {
+                    const fadeOutInterval = setInterval(() => {
+                        if (bgm.volume > 0.01) { bgm.volume -= 0.01; }
+                        else { bgm.pause(); bgm.volume = 0.5; clearInterval(fadeOutInterval); }
+                    }, 50);
+                }, 18000);
+            }
+        }
+
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+    </script>
+</body>
+</html>

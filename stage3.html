@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage3</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            padding: 2vw;
+        }
+        .image-container {
+            width: 100%;
+            height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            background: #000;
+            margin-bottom: 2vh;
+        }
+        .game-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .text-container {
+            width: 100%;
+            height: 18vh;
+            max-height: 25vh;
+            min-height: 12vh;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #fff;
+            border-radius: 10px;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+            padding: 2vh 2vw;
+            font-size: 1.1em;
+            line-height: 1.6;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            margin-bottom: 2vh;
+        }
+        .button-container button {
+            padding: 0.5em;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #222;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
+        }
+        .button-container button:hover {
+            background: #eee;
+        }
+        .button-container button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+        .back-btn {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="image/stage3.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div id="stage3Text"></div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); fadeOutAndRedirect('stage4.html?from=stage3-1')">눈이 감긴다.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            history.go(1);
+        };
+        const urlParams = new URLSearchParams(window.location.search);
+        const previousChoice = urlParams.get('from');
+        const stage3Text = document.getElementById('stage3Text');
+        if (previousChoice === 'stage2-1') {
+            stage3Text.innerHTML = '태극기를 가까이서 보니 먼지가 많이 묻어 있고 색깔도 많이 바랬다. 갑자기 머리가 어지럽다.';
+        } else if (previousChoice === 'stage2-2') {
+            stage3Text.innerHTML = '태극기에서 묵은 냄새가 난다. 약간 매운 냄새 같기도 하고, 이상한 냄새를 맡아서 그런지 머리가 어지럽다.';
+        }
+        function playClickSound() {
+            var snd = document.getElementById('clickSound');
+            if (snd) {
+                snd.currentTime = 0;
+                var playPromise = snd.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log("클릭음 재생 실패:", error);
+                    });
+                }
+            }
+        }
+        function fadeOutAndRedirect(url) {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'black';
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 10s';
+            overlay.style.zIndex = '9999';
+            document.body.appendChild(overlay);
+            if (window.parent) {
+                window.parent.postMessage('fadeOutBGM', '*');
+            }
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+            }, 100);
+            setTimeout(() => {
+                window.location.href = url;
+            }, 5000);
+        }
+        function navigateToStage(url) {
+            playClickSound();
+            try {
+                window.location.replace(url);
+            } catch (error) {
+                console.log("페이지 이동 실패:", error);
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+</html> 

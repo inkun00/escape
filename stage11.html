@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage11</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage11.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>얼마간의 휴식 후, 모두 밖으러 나가서 또 다시 시위를 시작하였다. 이미 밖에는 많은 사람들이 모여있었다.<br>
+                "더 이상의 간선제를 거부한다. 우리는 직선제를 원한다!"<br>
+                "우리 손으로 대통령을 뽑고 싶다!"<br>
+                "직선제로 민주주의를 쟁취하자!"
+                "독재정권 물러가라."<br>
+                많은 사람들의 구호가 뒤섞여서 거대한 울림이 되었다.</div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage12.html', 300)">시위에 참여한다.</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage13.html', 300)">시위에 참여하지 않는다.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('?�릭???�생 ?�패:', error));
+        }
+    </script>
+</body>
+</html> 

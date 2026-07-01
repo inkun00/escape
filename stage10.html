@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage10</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage10.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>책상을 살펴보니 제목이 없는 공책이 한 권 있었다. 공책을 펼쳐서 읽어보니 전두환 대통령과 정부가 국민들에게 했던 일들이 자세하게 적혀있었다. 5.18 민주화 운동을 진압한 일, 대통령 선거를 간접선거로 하여 선출된 일, 신문과 방송을 탄압한 일 등이 자세히 적혀있었고, 민주화를 위해 해야할 일 등이 적혀있었다.<br>
+                 "아저씨, 저 이 공책 갖고있다가 계속 봐도 되나요? 민주화운동에 대해서 궁금해요."<br>
+                 "그래? 그거 복사한 게 더 있으니까 가지고 가서 읽어도 되. 그런데 갖고있다가 경찰이 보게 되면 너 뿐만 아니라 부모님까지도 곤란해질 수 있는데 괜찮겠어?"</div>
+        </div>
+        <div class="button-container">
+            <button onclick="showQuiz()">괜찮아요. 잘 간직하면서 읽을게요.</button>
+            <button onclick="playClickSound(); playCrowdBGMAndGo();">아, 정말요? 그럼 그냥 여기서만 읽을게요.</button>
+        </div>
+    </div>
+    <div id="quizContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center;">
+            <h3>문제</h3>
+            <p>5.18 민주화운동을 폭력으로 진압한 전두환이 대통령에 선출된 방식은 무엇인가요?</p>
+            <p style="color:#aaa; font-size:0.9em;">힌트: ㄱ ㅅ ㅈ</p>
+            <form id="quizForm">
+                <input type="text" id="answerInput" autocomplete="off" placeholder="정답을 입력하세요" style="width:200px; padding:0.5em; margin:1em; border:none; border-radius:6px; background:#fff; color:#222;">
+                <p id="quizFeedback" aria-live="assertive" style="min-height:1.4em; margin:0; color:#ffd27a;"></p>
+                <button type="submit" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#fff; color:#222; cursor:pointer;">정답 확인</button>
+                <button type="button" onclick="closeQuiz()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#666; color:#fff; cursor:pointer;">취소</button>
+            </form>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        function showQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'flex';
+            document.getElementById('answerInput').focus();
+        }
+        function closeQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+        }
+        let quizSubmitting = false;
+        function checkAnswer(event) {
+            if (event) event.preventDefault();
+            if (quizSubmitting) return;
+            quizSubmitting = true;
+            playClickSound();
+            const answer = document.getElementById('answerInput').value.replace(/\s+/g, '');
+            const feedback = document.getElementById('quizFeedback');
+            if (answer === '간선제') {
+                addBookItem();
+                feedback.textContent = '정답입니다. 공책을 획득했습니다.';
+            } else {
+                feedback.textContent = '정답은 ‘간선제’입니다. 다음 장면으로 이동합니다.';
+            }
+            setTimeout(playCrowdBGMAndGo, 700);
+        }
+        function addBookItem() {
+            try {
+                window.parent.postMessage({ type: 'addItem', item: 'book' }, '*');
+            } catch (error) {
+                console.warn('공책 아이템 전달 실패:', error);
+            }
+        }
+        function playCrowdBGMAndGo() {
+            requestCrowdBGM(1);
+            window.location.replace('./stage11.html');
+        }
+        function requestCrowdBGM(variant) {
+            try {
+                if (window.parent && typeof window.parent.prepareCrowdBGM === 'function') {
+                    window.parent.prepareCrowdBGM(variant);
+                    return;
+                }
+            } catch (error) {}
+            if (window.parent) window.parent.postMessage('prepareCrowdBGM', '*');
+        }
+        document.getElementById('quizForm').addEventListener('submit', checkAnswer);
+    </script>
+</body>
+</html> 

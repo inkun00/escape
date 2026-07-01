@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage30</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img id="sceneImage" src="" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div id="sceneText"></div>
+        </div>
+        <div class="button-container">
+            <button onclick="goToProtest()">시위 현장으로 간다.</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasFlag = hasInventoryItem('flag');
+            const sceneImage = document.getElementById('sceneImage');
+            const sceneText = document.getElementById('sceneText');
+
+            if (hasFlag) {
+                sceneImage.src = './image/stage30.png';
+                sceneText.innerHTML = "민주 아저씨, 제가 너무 늦었어요. 죄송해요. 지난 번에 맡기셨던 태극기입니다. 이거 덮어드릴게요. 하늘에서 꼭 연설해주세요. 구해드리지 못해서 죄송해요.";
+            } else {
+                // 사용자가 제공한 파일 이름에 맞춰 stage30-1.png가 없는 경우를 대비하여 stage30.png를 그대로 사용하거나,
+                // 만약 stage30-1.png 파일이 실제로 존재한다면 그 파일을 사용하도록 설정할 수 있습니다.
+                // 여기서는 사용자의 요청대로 stage30-1.png를 시도합니다.
+                sceneImage.src = './image/stage30-1.png'; 
+                sceneText.innerHTML = "민주 아저씨, 제가 너무 늦었어요. 죄송해요. 아저씨가 많은 사람들 앞에서 민주화를 위해 연설하는 모습을 또 보고 싶었는데, 이제는 볼 수가 없네요. 제가 조금 더 노력했더라면... 구해드리지 못해서 죄송해요.";
+                
+                // 만약 stage30-1.png 파일이 없다면 아래 주석을 해제하고 위 라인을 주석 처리하세요.
+                // sceneImage.src = './image/stage30.png'; 
+            }
+        });
+
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭 소리 재생 실패:', error));
+        }
+
+
+        function goToProtest() {
+            playClickSound();
+            requestCrowdBGM();
+            setTimeout(() => window.location.href = './stage31.html', 300);
+        }
+
+        function requestCrowdBGM() {
+            try {
+                if (window.parent && typeof window.parent.prepareCrowdBGM === 'function') {
+                    window.parent.prepareCrowdBGM(2);
+                    return;
+                }
+            } catch (error) {}
+            if (window.parent) window.parent.postMessage('prepareCrowdBGM2', '*');
+        }
+
+        function hasInventoryItem(itemId) {
+            try {
+                if (window.parent && Array.isArray(window.parent.inventory)) {
+                    return window.parent.inventory.includes(itemId);
+                }
+            } catch (error) {}
+            try {
+                const inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+                return Array.isArray(inventory) && inventory.includes(itemId);
+            } catch (error) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html> 

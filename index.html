@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="data:,">
+    <title>방탈출 게임</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            overflow: hidden;
+            transition: opacity 20s ease-out;
+        }
+
+        body.fade-out {
+            opacity: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #1a1a1a;
+            display: none;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 75%;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            background-color: #000;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .text-container {
+            width: 100%;
+            height: 15%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+        .text-container::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+        .text-container::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        .text-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        .text-container::-webkit-scrollbar-button {
+            display: none;
+            background: transparent;
+        }
+
+        .item-container {
+            width: 100%;
+            height: 10%;
+            background-color: rgba(40, 40, 40, 0.9);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            /* 스크롤바 숨김 */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .item-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .item {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .start-button {
+            position: absolute;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s, box-shadow 0.4s, opacity 0.4s;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 500%);
+            min-width: 200px;
+            width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button:hover {
+            background-color: #fff;
+            transform: translate(-50%, 500%) scale(1.05);
+        }
+
+        .start-button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+
+        .start-button.fade-click {
+            animation: buttonFade 0.5s;
+        }
+
+        @keyframes buttonFade {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+            100% { box-shadow: 0 0 0 24px rgba(255,255,255,0); }
+        }
+
+        #openingContainer {
+            transition: opacity 10s ease;
+        }
+
+        #openingContainer.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (orientation: landscape) {
+            .title-image {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .button-container button {
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .button-container button:hover {
+            background-color: #fff;
+            transform: scale(1.02);
+        }
+
+        .button-container button:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10);
+            filter: brightness(0.92);
+        }
+
+        .subjective-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .subjective-container input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .subjective-container button {
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subjective-container button:hover {
+            background-color: #fff;
+            transform: scale(1.05);
+        }
+
+        .fade-out {
+            animation: fadeOut 10s forwards;
+        }
+        .fade-out img {
+            animation: fadeOut 15s forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="bgm" src="./sound/opening.mp3" loop autoplay></audio>
+    <audio id="bgm0" loop>
+        <source src="./sound/bgm0.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="crowd1" src="./sound/crowd.mp3" preload="auto" loop></audio>
+    <audio id="crowd2" src="./sound/crowd2.mp3" preload="auto" loop></audio>
+    <audio id="endingBGM" src="./sound/ending.mp3" preload="auto" loop></audio>
+    <audio id="epicBGM" src="./sound/epic.mp3" preload="auto" loop></audio>
+    <audio id="calmBGM" src="./sound/calm.mp3" preload="auto" loop></audio>
+    <audio id="warmBGM" src="./sound/ending_warm.mp3" preload="auto" loop></audio>
+    <audio id="hopeBGM" src="./sound/hope.mp3" preload="auto" loop></audio>
+    <audio id="lockOpenSound" src="./sound/lock_open.mp3" preload="auto"></audio>
+
+    <div class="container" id="openingContainer" style="width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#000;flex-direction:column;">
+        <img src="image/title.png" alt="방탈출 게임" style="max-width:80vw;max-height:60vh;cursor:pointer;" onclick="startGame()">
+    </div>
+    <div class="container" id="gameContainer" style="width:100vw;height:100vh;display:none;align-items:center;justify-content:center;background:#000;">
+        <iframe id="gameFrame" src="" style="width:100vw;height:100vh;border:none;"></iframe>
+    </div>
+    <div id="itemBoxWrap" class="item-container" style="display:none;visibility:hidden;opacity:0;transition:opacity 0.2s;width:100vw;height:6vh;background:rgba(40,40,40,0.9);border:2px solid #fff;border-radius:10px;align-items:center;gap:1vw;padding:1vh 1vw;box-sizing:border-box;justify-content:center;position:fixed;bottom:0;left:0;z-index:2000;">
+        <button class="item" onclick="showItemPopup(0)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"><img src="image/ball.png" alt="테니스공" style="width:100%;height:100%"></button>
+        <button class="item" onclick="showItemPopup(1)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(2)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(3)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(4)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(5)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(6)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(7)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+        <button class="item" onclick="showItemPopup(8)" style="width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid #fff;border-radius:3px;"></button>
+    </div>
+    <div id="itemPopup" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:3000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em 2.5em; border-radius:12px; min-width:200px; max-width:80vw; text-align:center; position:relative;">
+            <span id="itemPopupText">아이템 설명 없음</span>
+            <button onclick="closeItemPopup()" style="position:absolute; top:10px; right:10px; background:#fff; color:#222; border:none; border-radius:6px; padding:0.3em 0.8em; cursor:pointer;">닫기</button>
+        </div>
+    </div>
+    <script>
+    // 1. 인벤토리 초기화
+    window.inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
+    let introBgmAllowed = true;
+
+    // 2. 아이템 추가
+    if (!window.inventory.includes('ball')) {
+        addItemToInventory('ball');
+    }
+    // 주소창, 뒤로가기 방지
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+        history.go(1);
+    };
+    // 배경음악 자동재생 시도 및 크롬 제한 우회
+    window.onload = function() {
+        var bgm = document.getElementById('bgm');
+        const requestedStage = new URLSearchParams(window.location.search).get('stage');
+
+        // v2 엔진에서 기존 스테이지로 이어질 때도 반드시 index의 음향·인벤토리
+        // 관리자 안에서 실행되도록 한다.
+        if (requestedStage && /^stage\d+(?:-\d+)?\.html$/.test(requestedStage)) {
+            document.getElementById('openingContainer').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'flex';
+            document.getElementById('gameFrame').src = requestedStage;
+            document.getElementById('itemBoxWrap').style.display = 'flex';
+            document.getElementById('itemBoxWrap').style.visibility = 'visible';
+            document.getElementById('itemBoxWrap').style.opacity = '1';
+            bgm.pause();
+            return;
+        }
+
+        var played = false;
+        function tryPlayBGM() {
+            if (!played) {
+                played = true;
+                bgm.volume = 1;
+                var playPromise = bgm.play();
+                if (playPromise) {
+                    playPromise.catch(function() {
+                        document.body.addEventListener('click', function onceClick() {
+                            bgm.play();
+                            document.body.removeEventListener('click', onceClick);
+                        });
+                    });
+                }
+            }
+        }
+        tryPlayBGM();
+    };
+
+    function playClickSound() {
+        var snd = document.getElementById('clickSound');
+        if (snd) {
+            snd.currentTime = 0;
+            var playPromise = snd.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(function(error) {
+                    console.log("클릭음 재생 실패:", error);
+                });
+            }
+        }
+    }
+
+    function startGame() {
+        var bgm = document.getElementById('bgm');
+        var openingContainer = document.getElementById('openingContainer');
+        introBgmAllowed = true;
+        unlockSoundscapeAudio();
+        // 페이지와 이미지 페이드아웃 시작
+        openingContainer.classList.add('fade-out');
+        // 3초 동안 배경음악 재생
+        setTimeout(function() {
+            // 10초 동안 배경음악 페이드아웃
+            var fadeOutInterval = setInterval(function() {
+                if (bgm.volume > 0.01) {
+                    bgm.volume -= 0.01;
+                } else {
+                    clearInterval(fadeOutInterval);
+                    // stage0.html 로드
+                    openingContainer.style.display = 'none';
+                    document.getElementById('gameContainer').style.display = 'flex';
+                    document.getElementById('gameFrame').src = 'stage0.html';
+                    // 아이템 상자도 이때 보이게!
+                    document.getElementById('itemBoxWrap').style.display = 'flex';
+                    document.getElementById('itemBoxWrap').style.visibility = 'visible';
+                    document.getElementById('itemBoxWrap').style.opacity = '1';
+                    // stage0.html 로드 후 배경음악 중단
+                    setTimeout(function() {
+                        bgm.pause();
+                        bgm.volume = 1;
+                    }, 1000);
+                }
+            }, 100);
+        }, 3000);
+    }
+
+    // 첫 사용자 입력 안에서 군중음을 한 번 활성화해 이후 iframe 장면 전환에서도
+    // 브라우저의 자동재생 제한에 막히지 않도록 한다.
+    function unlockSoundscapeAudio() {
+        ['crowd1', 'crowd2', 'endingBGM', 'epicBGM', 'calmBGM', 'warmBGM', 'hopeBGM', 'lockOpenSound'].forEach((id) => {
+            const audio = document.getElementById(id);
+            if (!audio || audio.dataset.unlocked === 'true') return;
+            audio.dataset.unlocked = 'true';
+            audio.muted = false;
+            audio.loop = true;
+            audio.volume = 0;
+            const promise = audio.play();
+            if (promise) {
+                promise.then(() => {
+                    // 무음 상태로 계속 재생해 이후 장면에서 자동재생 차단 없이
+                    // 볼륨만 올릴 수 있게 한다.
+                    audio.dataset.primed = 'true';
+                }).catch(() => {
+                    audio.dataset.unlocked = 'false';
+                });
+            }
+        });
+    }
+
+    // iframe에서 메시지 수신 시 bgm0 재생 또는 페이드아웃
+    window.addEventListener('message', function(event) {
+        const message = event.data;
+        if (message && typeof message === 'object' && message.type === 'addItem') {
+            const item = message.item;
+            if (item) {
+                // 새/기존 스테이지 모두 문자열 아이템 ID로 통일한다.
+                addItemToInventory(typeof item === 'string' ? item : item.name);
+            }
+        } else if (message === 'playBgm0') {
+            var bgm0 = document.getElementById('bgm0');
+            if (bgm0 && introBgmAllowed) {
+                bgm0.dataset.storyTrack = 'intro';
+                bgm0.volume = 0.5;
+                bgm0.play().catch(function(error) {
+                    console.log("bgm0 재생 실패:", error);
+                });
+            }
+        } else if (message === 'playCrowdBGM') {
+            syncSoundscapeForCurrentFrame();
+        } else if (message === 'prepareCrowdBGM') {
+            // 사용자의 클릭 이벤트 안에서 재생을 시작해 자동재생 제한을 피한다.
+            prepareCrowdBGM(1);
+        } else if (message === 'prepareCrowdBGM2') {
+            prepareCrowdBGM(2);
+        } else if (message === 'prepareSadBGM') {
+            // stage33에서 슬픈 BGM 재생 요청이 올 때 따뜻한 엔딩 BGM으로 우회 재생한다.
+            playWarmBGM();
+        } else if (message === 'addFlag') {
+            addItemToInventory('flag');
+        } else if (message === 'fadeOutBGM') {
+            fadeOutBGM();
+        } else if (message === 'playEndingBGM') {
+            playWarmBGM();
+        } else if (message === 'fadeOutEndingBGM') {
+            stopWarmBGM(15000); // Padlet 전환 연출에 싱크되도록 15초간 초장기 페이드아웃 적용
+        } else if (message === 'playLockOpenSound') {
+            const lockSnd = document.getElementById('lockOpenSound');
+            if (lockSnd) {
+                lockSnd.currentTime = 0;
+                lockSnd.play().catch(e => console.log('자물쇠 효과음 재생 실패:', e));
+            }
+        }
+    }, false);
+
+    function fadeOutBGM() {
+        introBgmAllowed = false;
+        // 시간 이동 직전에는 오프닝곡뿐 아니라 초반 서사곡도 함께 종료해야 한다.
+        fadeOutAndPause(document.getElementById('bgm'), 1800, 1);
+        fadeOutAndPause(document.getElementById('bgm0'), 1800, 0.5);
+    }
+
+    // 초반 시위와 후반 대규모 집회에 서로 다른 군중음 트랙을 사용한다.
+    // stage4는 자체 people.mp3를 사용한다.
+    const CROWD_STAGES_1 = new Set([5, 6, 7, 11, 12, 13, 14]);
+    const CROWD_STAGES_2 = new Set([24, 25]);
+    const HOPE_STAGES = new Set([28]);
+    const EPIC_STAGES = new Set([32]);
+    const SAD_STAGES = new Set([17, 27, 29, 30]);
+    const WARM_STAGES = new Set([33, 34, 35, 37]);
+    const CALM_STAGES = new Set([15, 16]);
+    let crowdRequestId = 0;
+    let crowdPreparationTimer = null;
+    let sadRequestId = 0;
+    let sadPreparationTimer = null;
+
+    function prepareCrowdBGM(variant = 1) {
+        playCrowdBGM(variant);
+    }
+
+    function prepareSadBGM() {
+        playSadBGM();
+    }
+
+    function playCrowdBGM(variant = 1) {
+        var bgm = document.getElementById('bgm');
+        var bgm0 = document.getElementById('bgm0');
+        var crowd1 = document.getElementById('crowd1');
+        var crowd2 = document.getElementById('crowd2');
+        // 시위 장면으로 넘어갈 때 기존 음악을 끊지 않고 군중음과 교차 페이드한다.
+        fadeOutAndPause(bgm, 1800, 1);
+        if (variant === 1) fadeOutAndPause(bgm0, 1800, 0.5);
+        stopSadBGM();
+        stopEpicBGM();
+        stopCalmBGM();
+        stopWarmBGM();
+        stopHopeBGM();
+        
+        const activeCrowd = variant === 2 ? crowd2 : crowd1;
+        const inactiveCrowd = variant === 2 ? crowd1 : crowd2;
+        if (!activeCrowd || activeCrowd.dataset.playing === 'true') return;
+        const requestId = ++crowdRequestId;
+        silenceAudio(inactiveCrowd, 500);
+        activeCrowd.dataset.playing = 'true';
+        activeCrowd.loop = true;
+        activeCrowd.volume = 0;
+
+        const beginFade = () => {
+            if (requestId !== crowdRequestId) {
+                silenceAudio(activeCrowd, 0);
+                return;
+            }
+            fadeInAudio(activeCrowd, 1200, variant === 2 ? 0.68 : 0.62);
+        };
+
+        if (activeCrowd.paused) {
+            activeCrowd.play().then(beginFade).catch((error) => {
+                activeCrowd.dataset.playing = 'false';
+                console.log('군중 함성 재생 실패:', error);
+            });
+        } else {
+            beginFade();
+        }
+    }
+
+    function fadeOutAndPause(audio, duration, restoreVolume) {
+        if (!audio || audio.paused) return;
+        fadeOutAudio(audio, duration, 0, () => {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.volume = restoreVolume;
+        });
+    }
+
+    function playHugeCrowdBGM() {
+        var bgm = document.getElementById('bgm');
+        var crowd1 = document.getElementById('crowd1');
+        var crowd2 = document.getElementById('crowd2');
+        
+        fadeOutAndPause(bgm, 1800, 1);
+        stopSadBGM();
+        stopEpicBGM();
+        stopCalmBGM();
+
+        crowdRequestId += 1;
+        silenceAudio(crowd2, 0); // crowd2는 즉각 중지
+
+        const audio = crowd1;
+        if (!audio) return;
+        if (audio.dataset.playing === 'true') {
+            fadeInAudio(audio, 1200, 0.85);
+            return;
+        }
+        audio.dataset.playing = 'true';
+        audio.loop = true;
+        audio.volume = 0;
+        audio.play()
+            .then(() => fadeInAudio(audio, 1200, 0.85))
+            .catch((error) => {
+                audio.dataset.playing = 'false';
+                console.log('거대 함성 재생 실패:', error);
+            });
+    }
+
+    function stopCrowdBGM(duration = 0) {
+        const crowd1 = document.getElementById('crowd1');
+        const crowd2 = document.getElementById('crowd2');
+        crowdRequestId += 1;
+        silenceAudio(crowd1, duration); // 그 다음 장면부터 군중음이 아예 안 겹치도록 즉시 전면 소거 (stage32 진입 시에는 3초 페이드아웃)
+        silenceAudio(crowd2, duration);
+    }
+
+    function silenceAudio(audio, duration = 700) {
+        if (!audio) return;
+        clearInterval(audio._fadeTimer);
+        audio.dataset.playing = 'false';
+        const finish = () => {
+            audio.volume = 0;
+            audio.pause(); // primed 여부와 상관없이 소리를 칼같이 강제 정지한다.
+            audio.currentTime = 0;
+        };
+        if (audio.paused || duration === 0 || audio.volume === 0) {
+            finish();
+        } else {
+            fadeOutAudio(audio, duration, 0, finish);
+        }
+    }
+
+    function syncSoundscapeForCurrentFrame() {
+        const frame = document.getElementById('gameFrame');
+        let src = '';
+        try {
+            src = frame.contentWindow.location.pathname || frame.contentWindow.location.href;
+        } catch (error) {
+            src = frame.getAttribute('src') || '';
+        }
+        syncSoundscape(src);
+    }
+
+    function syncSoundscape(src) {
+        // 스테이지 전환 동기화 진입 시 모든 과도기 타이머를 즉시 해제하여 경쟁 상태를 막는다.
+        clearTimeout(crowdPreparationTimer);
+        clearTimeout(sadPreparationTimer);
+
+        const stageMatch = String(src || '').match(/stage(\d+)(?:-\d+)?\.html(?:[?#].*)?$/);
+        const stageNumber = stageMatch ? Number(stageMatch[1]) : null;
+
+        // stage3의 메시지가 누락되더라도 첫 시위 장면(stage4) 진입 자체가
+        // 초반 배경음악의 확실한 종료 조건이 된다.
+        if (stageNumber !== null && stageNumber >= 4) {
+            fadeOutBGM();
+        }
+
+        if (stageNumber !== null && CROWD_STAGES_1.has(stageNumber)) {
+            stopSadBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+            playCrowdBGM(1);
+        } else if (stageNumber !== null && CROWD_STAGES_2.has(stageNumber)) {
+            stopSadBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+        } else if (stageNumber === 31) {
+            stopSadBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+            playHugeCrowdBGM();
+        } else if (stageNumber !== null && HOPE_STAGES.has(stageNumber)) {
+            stopCrowdBGM();
+            stopSadBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            playHopeBGM();
+        } else if (stageNumber !== null && EPIC_STAGES.has(stageNumber)) {
+            // 단, 이미 따뜻한 BGM이 재생되고 있는 엔딩 시퀀스 상태라면 BGM을 틀지 않는다.
+            const warmBGM = document.getElementById('warmBGM');
+            if (warmBGM && warmBGM.dataset.playing === 'true') {
+                return;
+            }
+            // stage32(직선제 발표 씬) 진입 시에는 직전의 시위 함성이 3초에 걸쳐 서서히 페이드아웃되도록 연출한다.
+            if (stageNumber === 32) {
+                stopCrowdBGM(3000);
+            } else {
+                stopCrowdBGM(0);
+            }
+            stopSadBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+            playEpicBGM();
+        } else if (stageNumber !== null && SAD_STAGES.has(stageNumber)) {
+            stopCrowdBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+            playSadBGM();
+        } else if (stageNumber !== null && WARM_STAGES.has(stageNumber)) {
+            stopCrowdBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopSadBGM();
+            stopHopeBGM();
+            playWarmBGM();
+        } else if (stageNumber !== null && CALM_STAGES.has(stageNumber)) {
+            stopCrowdBGM();
+            stopSadBGM();
+            stopEpicBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+            playCalmBGM();
+        } else {
+            // 일반 장면뿐 아니라 index.html·외부 페이지 등 비-stage 화면에서도 반드시 정지한다.
+            stopCrowdBGM();
+            stopSadBGM();
+            stopEpicBGM();
+            stopCalmBGM();
+            stopWarmBGM();
+            stopHopeBGM();
+        }
+    }
+
+    function playSadBGM() {
+        const bgm = document.getElementById('bgm');
+        const endingBGM = document.getElementById('endingBGM');
+        if (!endingBGM || endingBGM.dataset.playing === 'true') return;
+        sadRequestId += 1;
+        if (bgm) bgm.pause();
+        stopCrowdBGM();
+        stopEpicBGM();
+        stopCalmBGM();
+        stopWarmBGM();
+        stopHopeBGM();
+        
+        endingBGM.dataset.playing = 'true';
+        endingBGM.volume = 0;
+        endingBGM.currentTime = 0.8; // 앞쪽 무음 구간을 스킵해 즉각적인 반응성을 유도한다.
+        endingBGM.play()
+            .then(() => fadeInAudio(endingBGM, 1800, 0.5)) // 원래의 빠른 페이드인 복원
+            .catch((error) => {
+                endingBGM.dataset.playing = 'false';
+                console.log('슬픈 BGM 재생 실패:', error);
+            });
+    }
+
+    function stopSadBGM() {
+        const endingBGM = document.getElementById('endingBGM');
+        if (!endingBGM || endingBGM.dataset.playing !== 'true') return;
+        sadRequestId += 1;
+        endingBGM.dataset.playing = 'false';
+        if (endingBGM.paused || endingBGM.volume === 0) {
+            endingBGM.pause();
+            endingBGM.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(endingBGM, 900, 0, () => {
+            endingBGM.pause();
+            endingBGM.currentTime = 0;
+        });
+    }
+
+    function playWarmBGM() {
+        const bgm = document.getElementById('bgm');
+        const warmBGM = document.getElementById('warmBGM');
+        if (!warmBGM || warmBGM.dataset.playing === 'true') return;
+        sadRequestId += 1;
+        if (bgm) bgm.pause();
+        stopCrowdBGM();
+        stopEpicBGM(9000); // 웅장한 집회 BGM 9초 서서히 페이드아웃 적용
+        stopCalmBGM();
+        stopSadBGM();
+        stopHopeBGM();
+        
+        warmBGM.dataset.playing = 'true';
+        warmBGM.volume = 0;
+        warmBGM.play()
+            .then(() => fadeInAudio(warmBGM, 6000, 0.55)) // 따뜻한 감동 BGM 6초 페이드인 적용
+            .catch((error) => {
+                warmBGM.dataset.playing = 'false';
+                console.log('따뜻한 BGM 재생 실패:', error);
+            });
+    }
+
+    function stopWarmBGM(duration = 1200) {
+        const warmBGM = document.getElementById('warmBGM');
+        if (!warmBGM || warmBGM.dataset.playing !== 'true') return;
+        warmBGM.dataset.playing = 'false';
+        if (warmBGM.paused || warmBGM.volume === 0) {
+            warmBGM.pause();
+            warmBGM.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(warmBGM, duration, 0, () => {
+            warmBGM.pause();
+            warmBGM.currentTime = 0;
+        });
+    }
+
+    function playEpicBGM() {
+        const bgm = document.getElementById('bgm');
+        const epicBGM = document.getElementById('epicBGM');
+        if (!epicBGM || epicBGM.dataset.playing === 'true') return;
+        if (bgm) bgm.pause();
+        stopCrowdBGM();
+        stopSadBGM();
+        stopCalmBGM();
+        stopWarmBGM();
+        stopHopeBGM();
+        
+        epicBGM.dataset.playing = 'true';
+        epicBGM.volume = 0;
+        epicBGM.currentTime = 2.0; // 앞쪽 무음 및 느린 인트로 부분을 잘라 즉시 재생되도록 연출한다.
+        epicBGM.play()
+            .then(() => fadeInAudio(epicBGM, 800, 0.7))
+            .catch((error) => {
+                epicBGM.dataset.playing = 'false';
+                console.log('웅장한 BGM 재생 실패:', error);
+            });
+    }
+
+    function stopEpicBGM(duration = 1200) {
+        const epicBGM = document.getElementById('epicBGM');
+        if (!epicBGM || epicBGM.dataset.playing !== 'true') return;
+        epicBGM.dataset.playing = 'false';
+        if (epicBGM.paused || epicBGM.volume === 0) {
+            epicBGM.pause();
+            epicBGM.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(epicBGM, duration, 0, () => {
+            epicBGM.pause();
+            epicBGM.currentTime = 0;
+        });
+    }
+
+    function playCalmBGM() {
+        const bgm = document.getElementById('bgm');
+        const calmBGM = document.getElementById('calmBGM');
+        if (!calmBGM || calmBGM.dataset.playing === 'true') return;
+        if (bgm) bgm.pause();
+        stopCrowdBGM();
+        stopSadBGM();
+        stopEpicBGM();
+        stopWarmBGM();
+        stopHopeBGM();
+        
+        calmBGM.dataset.playing = 'true';
+        calmBGM.volume = 0;
+        calmBGM.play()
+            .then(() => fadeInAudio(calmBGM, 1800, 0.6))
+            .catch((error) => {
+                calmBGM.dataset.playing = 'false';
+                console.log('잔잔한 BGM 재생 실패:', error);
+            });
+    }
+
+    function stopCalmBGM() {
+        const calmBGM = document.getElementById('calmBGM');
+        if (!calmBGM || calmBGM.dataset.playing !== 'true') return;
+        calmBGM.dataset.playing = 'false';
+        if (calmBGM.paused || calmBGM.volume === 0) {
+            calmBGM.pause();
+            calmBGM.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(calmBGM, 1200, 0, () => {
+            calmBGM.pause();
+            calmBGM.currentTime = 0;
+        });
+    }
+
+    function playHopeBGM() {
+        const bgm = document.getElementById('bgm');
+        const hopeBGM = document.getElementById('hopeBGM');
+        if (!hopeBGM || hopeBGM.dataset.playing === 'true') return;
+        if (bgm) bgm.pause();
+        stopCrowdBGM();
+        stopSadBGM();
+        stopEpicBGM();
+        stopCalmBGM();
+        stopWarmBGM();
+        
+        hopeBGM.dataset.playing = 'true';
+        hopeBGM.volume = 0;
+        hopeBGM.play()
+            .then(() => fadeInAudio(hopeBGM, 1500, 0.65))
+            .catch((error) => {
+                hopeBGM.dataset.playing = 'false';
+                console.log('희망 BGM 재생 실패:', error);
+            });
+    }
+
+    function stopHopeBGM() {
+        const hopeBGM = document.getElementById('hopeBGM');
+        if (!hopeBGM || hopeBGM.dataset.playing !== 'true') return;
+        hopeBGM.dataset.playing = 'false';
+        if (hopeBGM.paused || hopeBGM.volume === 0) {
+            hopeBGM.pause();
+            hopeBGM.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(hopeBGM, 900, 0, () => {
+            hopeBGM.pause();
+            hopeBGM.currentTime = 0;
+        });
+    }
+
+    function playStoryTrack(src, trackName, targetVolume, fadeDuration) {
+        const audio = document.getElementById('bgm0');
+        if (!audio) return;
+        clearInterval(audio._fadeTimer);
+        if (audio.dataset.storyTrack !== trackName) {
+            audio.pause();
+            audio.src = src;
+            audio.load();
+        }
+        audio.dataset.storyTrack = trackName;
+        audio.dataset.playing = 'true';
+        audio.loop = true;
+        audio.volume = 0;
+        audio.play()
+            .then(() => fadeInAudio(audio, fadeDuration, targetVolume))
+            .catch((error) => {
+                audio.dataset.playing = 'false';
+                console.log(trackName + ' 재생 실패:', error);
+            });
+    }
+
+    function stopStoryTrack(trackName, duration) {
+        const audio = document.getElementById('bgm0');
+        if (!audio || audio.dataset.storyTrack !== trackName) return;
+        audio.dataset.playing = 'false';
+        if (audio.paused || audio.volume === 0) {
+            audio.pause();
+            audio.currentTime = 0;
+            return;
+        }
+        fadeOutAudio(audio, duration, 0, () => {
+            audio.pause();
+            audio.currentTime = 0;
+        });
+    }
+    function fadeInAudio(audio, duration, targetVolume, callback) {
+        clearInterval(audio._fadeTimer);
+        audio.volume = 0;
+        const step = 50;
+        const totalSteps = Math.max(1, Math.round(duration / step));
+        let currentStep = 0;
+        audio._fadeTimer = setInterval(() => {
+            currentStep++;
+            if (currentStep <= totalSteps) {
+                const progress = currentStep / totalSteps;
+                audio.volume = progress * targetVolume;
+            } else {
+                clearInterval(audio._fadeTimer);
+                audio.volume = targetVolume;
+                if (callback) callback();
+            }
+        }, step);
+    }
+    function fadeOutAudio(audio, duration, targetVolume, callback) {
+        clearInterval(audio._fadeTimer);
+        const startVolume = audio.volume;
+        const volumeDiff = startVolume - targetVolume;
+        const step = 50;
+        const totalSteps = Math.max(1, Math.round(duration / step));
+        let currentStep = 0;
+        audio._fadeTimer = setInterval(() => {
+            currentStep++;
+            if (currentStep <= totalSteps) {
+                const progress = currentStep / totalSteps;
+                audio.volume = Math.max(0, startVolume - (progress * volumeDiff));
+            } else {
+                clearInterval(audio._fadeTimer);
+                audio.volume = targetVolume;
+                if (callback) callback();
+            }
+        }, step);
+    }
+
+    // 인벤토리(아이템) 관리
+    function addItemToInventory(item) {
+        if (!window.inventory.includes(item)) {
+            window.inventory.push(item);
+            localStorage.setItem('inventory', JSON.stringify(window.inventory));
+            renderInventory();
+        }
+    }
+
+    function renderInventory() {
+        const itemContainer = document.querySelector('.item-container');
+        if (!itemContainer) return;
+        itemContainer.innerHTML = '';
+        window.inventory.forEach((item, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'item';
+            btn.onclick = () => showItemPopup(idx);
+            btn.title = item;
+            if(item === 'ball') {
+                const img = document.createElement('img');
+                img.src = 'image/ball.png';
+                img.alt = '테니스공';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else if(item === 'book') {
+                const img = document.createElement('img');
+                img.src = 'image/book.png';
+                img.alt = '공책';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else if(item === 'paper') {
+                const img = document.createElement('img');
+                img.src = 'image/paper.png';
+                img.alt = '전단지';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else if(item === 'flag') {
+                const img = document.createElement('img');
+                img.src = 'image/flag.png';
+                img.alt = '태극기';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else if(item === 'tape') {
+                const img = document.createElement('img');
+                img.src = 'image/tape.png';
+                img.alt = '처음보는 물체';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                btn.appendChild(img);
+            } else {
+                btn.innerText = item;
+            }
+            itemContainer.appendChild(btn);
+        });
+        for (let i = window.inventory.length; i < 9; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'item';
+            btn.onclick = () => showItemPopup(i);
+            itemContainer.appendChild(btn);
+        }
+    }
+
+    // iframe에 stage0~stageN이 로드될 때만 아이템 상자 보이기
+    document.getElementById('gameFrame').addEventListener('load', function() {
+        let src = this.getAttribute('src') || '';
+        try {
+            src = this.contentWindow.location.pathname || this.contentWindow.location.href || src;
+        } catch(e) {
+            // 외부 페이지는 주소를 읽을 수 없으므로 iframe의 src 속성을 사용한다.
+        }
+
+        if (/stage\d+(-\d+)?\.html(?:[?#].*)?$/.test(src)) {
+            document.getElementById('itemBoxWrap').style.display = 'flex';
+            document.getElementById('itemBoxWrap').style.visibility = 'visible';
+            document.getElementById('itemBoxWrap').style.opacity = '1';
+        } else {
+            document.getElementById('itemBoxWrap').style.display = 'none';
+            document.getElementById('itemBoxWrap').style.visibility = 'hidden';
+            document.getElementById('itemBoxWrap').style.opacity = '0';
+        }
+
+        // 주소 접근 성공 여부와 관계없이 모든 로드에서 음향 상태를 다시 결정한다.
+        syncSoundscape(src);
+    });
+
+    function showItemPopup(idx) {
+        const popup = document.getElementById('itemPopup');
+        const popupText = document.getElementById('itemPopupText');
+        if(idx === 0) {
+            popupText.innerText = '테니스공이다. 바닥이나 벽에 던지면 잘 튀긴다.';
+        } else if(window.inventory[idx] === 'book') {
+            popupText.innerText = '공책\n박민주 아저씨가 직접 적은 공책이다. 전두환 정권의 민주화 탄압, 부정부패, 민주화 운동을 위해 해야할 일 등이 자세하게 적혀있다.';
+        } else if(window.inventory[idx] === 'paper') {
+            popupText.innerText = '전단지\n민주화를 위해 이뤄야 할 것, 첫째, 대통령 직선제, 둘째, 지방자치제, 셋째, 언론의 자유 보장';
+        } else if(window.inventory[idx] === 'flag') {
+            popupText.innerText = '태극기가 접혀있다. 뒷면에는 연설문이 적혀있다.';
+        } else if(window.inventory[idx] === 'tape') {
+            popupText.innerText = '처음보는 물체다. 안에 필름 같은 것이 있고 구멍에 손가락을 넣고 돌릴 수 있다. 달그락 거린다.';
+        } else {
+            popupText.innerText = '아이템 설명 없음';
+        }
+        popup.style.display = 'flex';
+    }
+    function closeItemPopup() {
+        document.getElementById('itemPopup').style.display = 'none';
+    }
+    window.addEventListener('DOMContentLoaded', renderInventory);
+    window.onunload = function() {
+        localStorage.removeItem('inventory');
+    };
+
+    function playEndingBGM() {
+        playSadBGM();
+    }
+    </script>
+</body>
+</html>

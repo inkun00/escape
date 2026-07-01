@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage12</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage12.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>사람들의 구호 소리를 따라서 나도 소리를 질렀다. 사람들의 외침을 들으니 나도 감정이 솟아올랐고, 함께 외치면서 마음이 하나가 되는 것 같았다. 민주주의는 쉽게 얻어낸 것이 아니라는 것을 느끼게 되었다.<br>
+                 어제 나를 구해주었던 주희누나가 나를 발견하고 말을 걸었다.<br>
+                 "아직 어린데 시위에 열심히 참여하는 걸 보니, 많이 대견한 걸"<br>
+                 "많은 사람들이 민주화를 원하고 있어. 이 사람들은 다칠 수도 있고 심하면 경찰서에 끌려가서 고문을 받을 수도 있어. 그걸 감수하고 시위를 하는거야. 이거 한 번 읽어볼래? 민주화 운동에 대해서 알 수 있어."
+            </div>
+        </div>
+        <div class="button-container">
+            <button onclick="showQuiz()">"고마워요. 읽어볼게요."</button>
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage14.html', 300)">"괜찮아요. 아직 읽어도 이해를 못할 것 같아요."</button>
+        </div>
+    </div>
+    <div id="quizContainer" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#222; color:#fff; padding:2em; border-radius:12px; max-width:80vw; text-align:center;">
+            <h3>문제</h3>
+            <p>전두환 정부에 대한 시민의 분노가 커진 사건은 민주화 운동에 참여했던 "000"이 1987년 1월 경찰에 끌려가 고문으로 사망한 사건 때문입니다. 이 사람은 누구인가요?</p>
+            <form id="quizForm">
+                <input type="text" id="answerInput" autocomplete="off" placeholder="정답을 입력하세요" style="width:200px; padding:0.5em; margin:1em; border:none; border-radius:6px; background:#fff; color:#222;">
+                <p id="quizFeedback" aria-live="assertive" style="min-height:1.4em; margin:0; color:#ffd27a;"></p>
+                <button type="submit" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#fff; color:#222; cursor:pointer;">정답 확인</button>
+                <button type="button" onclick="closeQuiz()" style="padding:0.5em 1em; margin:0.5em; border:none; border-radius:6px; background:#666; color:#fff; cursor:pointer;">취소</button>
+            </form>
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        function showQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'flex';
+            document.getElementById('answerInput').focus();
+        }
+        function closeQuiz() {
+            playClickSound();
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+        }
+        let quizSubmitting = false;
+        function checkAnswer(event) {
+            if (event) event.preventDefault();
+            if (quizSubmitting) return;
+            quizSubmitting = true;
+            playClickSound();
+            const answer = document.getElementById('answerInput').value.replace(/\s+/g, '');
+            const feedback = document.getElementById('quizFeedback');
+            if (answer === '박종철') {
+                addPaperItem();
+                feedback.textContent = '정답입니다. 전단지를 획득했습니다.';
+            } else {
+                feedback.textContent = '정답은 ‘박종철’입니다. 다음 장면으로 이동합니다.';
+            }
+            setTimeout(() => window.location.replace('./stage14.html'), 700);
+        }
+        function addPaperItem() {
+            try {
+                window.parent.postMessage({ type: 'addItem', item: 'paper' }, '*');
+            } catch (error) {
+                console.warn('전단지 아이템 전달 실패:', error);
+            }
+        }
+        document.getElementById('quizForm').addEventListener('submit', checkAnswer);
+    </script>
+</body>
+</html> 

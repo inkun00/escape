@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>stage26</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: 'Noto Sans KR', sans-serif; }
+        .container { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-sizing: border-box; padding: 2vw; }
+        .image-container { width: 100%; height: 45vh; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 15px; background: #000; }
+        .game-image { max-width: 100%; max-height: 100%; }
+        .text-container { width: 100%; height: 18vh; max-height: 25vh; min-height: 12vh; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 10px; margin-top: 2vh; margin-bottom: 2vh; padding: 2vh 2vw; font-size: 1.1em; line-height: 1.6; overflow-y: auto; box-sizing: border-box; }
+        .button-container { width: 100%; display: flex; flex-direction: column; gap: 1vh; margin-bottom: 2vh; }
+        .button-container button { padding: 0.5em; font-size: 1em; border-radius: 8px; border: none; background: #fff; color: #222; cursor: pointer; transition: transform 0.12s cubic-bezier(.4,0,.2,1), box-shadow 0.12s cubic-bezier(.4,0,.2,1), background 0.2s; }
+        .button-container button:hover { background: #eee; }
+        .button-container button:active { transform: scale(0.96); box-shadow: 0 1px 4px 0 rgba(80,80,80,0.10); filter: brightness(0.92); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="./image/stage26.png" class="game-image" alt="scene image">
+        </div>
+        <div class="text-container">
+            <div>다음 날, 경찰청에서 기자회견이 있었다.<br>
+                 "어제 시위 현장에서 공개된 녹음 내용은 대다수의 경찰이 아닌 극히 소수의 조사관이 수사 욕심이 과해 진행했던 일입니다. 우리 경찰은 억울한 사람을 잡아서 고문한 적이 없으며, 앞으로도 그럴 일은 없습니다. 현재 시위로 인해 수감된 대학생 및 시민들은 모두 석방하겠습니다."<br>
+                 민주 아저씨를 구하기 위해 모였던 사람들은 환호하였고, 모두들 민주 아저씨가 나오기를 기다렸다.
+
+            </div>
+        </div>
+        <div class="button-container">
+            <button onclick="playClickSound(); setTimeout(() => window.location.href = './stage28.html', 300)">정문으로 이동한다.</button>
+
+        </div>
+    </div>
+    <audio id="clickSound" src="./sound/click.mp3" preload="auto"></audio>
+    <audio id="camera1" src="./sound/camera1.mp3" preload="auto"></audio>
+    <audio id="camera2" src="./sound/camera2.mp3" preload="auto"></audio>
+    <audio id="camera3" src="./sound/camera3.mp3" preload="auto"></audio>
+    <script>
+        function playClickSound() {
+            const snd = document.getElementById('clickSound');
+            snd.currentTime = 0;
+            snd.play().catch(error => console.error('클릭음 재생 실패:', error));
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            const cam1 = document.getElementById('camera1');
+            const cam2 = document.getElementById('camera2');
+            const cam3 = document.getElementById('camera3');
+            if (cam1) { cam1.currentTime = 0; cam1.volume = 1; cam1.play().catch(()=>{}); }
+            setTimeout(() => {
+                if (cam2) { cam2.currentTime = 0; cam2.volume = 1; cam2.play().catch(()=>{}); }
+            }, 120);
+            setTimeout(() => {
+                if (cam3) { cam3.currentTime = 0; cam3.volume = 1; cam3.play().catch(()=>{}); }
+            }, 280);
+        });
+    </script>
+</body>
+</html>
