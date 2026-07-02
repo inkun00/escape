@@ -61,6 +61,9 @@
                     actionButton.innerText = "연설을 지켜본다.";
                     actionButton.onclick = function() {
                         playClickSound();
+                        if (window.parent) {
+                            window.parent.postMessage('fadeOutCrowdBGM', '*');
+                        }
                         document.body.classList.add('fade-out');
                         setTimeout(() => {
                             window.location.href = './stage32.html';
