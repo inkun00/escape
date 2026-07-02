@@ -53,7 +53,9 @@
     <script>
         document.getElementById('takeFlagButton').addEventListener('click', function() {
             playClickSound();
-            requestSadBGM();
+            if (window.parent) {
+                window.parent.postMessage('fadeOutHopeBGM', '*');
+            }
             
             const sceneText = document.getElementById('sceneText');
             sceneText.innerHTML = '아저씨가 주는 태극기를 받는 순간, 귀가 먹먹해지고 소리가 울린다. 시야가 점점 흐려진다.';
